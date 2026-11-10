@@ -9,5 +9,8 @@
     <record id="group_nodus_soporte" model="res.groups">
         <field name="name">Soporte Nodus</field>
         <field name="comment">Acceso de soporte de Nodus: ve todas las aplicaciones de Odoo.</field>
+        <!-- El administrador y OdooBot son de soporte (base.user_admin no se puede editar desde aquí: es noupdate) -->
+        <field name="user_ids" eval="[(4, ref('base.user_admin')), (4, ref('base.user_root'))]"/>
     </record>
+
 </odoo>

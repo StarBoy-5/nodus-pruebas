@@ -22,10 +22,12 @@
             "nodus_interfaz/static/src/scss/nodus_fuentes.scss",
             "nodus_interfaz/static/src/scss/nodus_shell.scss",
             "nodus_interfaz/static/src/scss/nodus_boveda.scss",
+            "nodus_interfaz/static/src/scss/nodus_vistas.scss",
             "nodus_interfaz/static/src/js/nodus_modulos.js",
             "nodus_interfaz/static/src/js/nodus_shell.js",
             "nodus_interfaz/static/src/js/nodus_menu_principal.js",
             "nodus_interfaz/static/src/js/nodus_titulo.js",
+            "nodus_interfaz/static/src/js/nodus_marca.js",
             "nodus_interfaz/static/src/xml/nodus_shell.xml",
         ],
         "web.assets_frontend": [

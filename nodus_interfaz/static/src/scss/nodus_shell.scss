@@ -18,53 +18,142 @@ $nodus-suave: cubic-bezier(.4, 0, .2, 1);
     }
 }
 
+// ---------- Marco: una sola tarjeta clara sobre el degradado, como las páginas de hadeon_ui.
+// La barra de Odoo pasa a ser el encabezado de la tarjeta: título grande en azul y las
+// secciones del módulo como píldoras. ----------
 body.o_web_client.o_nodus {
     background: $nodus-degradado;
-    font-family: 'Inter', 'Poppins', system-ui, sans-serif;
 
+    .o_navbar {
+        background: $nodus-fondo-contenido;
+        border-radius: 33px 33px 0 0;
+    }
     .o_main_navbar {
-        background: transparent;
-        border-bottom: 0;
-        box-shadow: none;
+        height: auto;
+        min-height: 92px;
+        padding: 26px 40px 10px;
+        gap: 6px;
+        align-items: center;
+        flex-wrap: wrap;
+        background: transparent !important;
+        border-bottom: 0 !important;
+        box-shadow: none !important;
+        color: #1A1A24;
 
         .o_menu_brand {
+            margin-right: 18px;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            font-size: 30px;
+            font-weight: 600;
+            line-height: 1.2;
+            color: #0047AB !important;
+            background: transparent !important;
+        }
+        // Secciones del módulo: píldoras como las pestañas de Contabilidad/Contactos
+        .o_menu_sections {
+            gap: 8px;
+            align-items: center;
+
+            .o_nav_entry,
+            .dropdown-toggle {
+                height: 40px;
+                margin: 0;
+                padding: 0 18px;
+                display: inline-flex;
+                align-items: center;
+                border-radius: 999px;
+                background: #E7E8F1 !important;
+                color: #1A1A24 !important;
+                font-family: 'Poppins', sans-serif;
+                font-size: 14px;
+                font-weight: 500;
+                transition: background .2s ease, color .2s ease;
+
+                &:hover,
+                &:focus-visible,
+                &.show {
+                    background: #DADCEA !important;
+                    color: #0047AB !important;
+                }
+            }
+        }
+        .o_menu_systray {
+            color: #434653;
+
+            .o_nav_entry,
+            .dropdown-toggle,
+            > div > button {
+                color: #434653 !important;
+                background: transparent !important;
+                border-radius: 10px;
+
+                &:hover {
+                    background: rgba(0, 71, 171, .08) !important;
+                    color: #0047AB !important;
+                }
+            }
+        }
+        .o_menu_toggle {
+            color: #0047AB !important;
+        }
+        // En teléfono Odoo pone ahí el título de la pantalla (migas de pan), en blanco
+        .o_navbar_breadcrumbs,
+        .o_navbar_breadcrumbs *,
+        .o_breadcrumb,
+        .o_breadcrumb * {
+            color: #0047AB !important;
             font-family: 'Poppins', sans-serif;
             font-weight: 600;
         }
     }
+    .o_action_manager {
+        background-color: $nodus-fondo-contenido;
+        border-radius: 0 0 33px 33px;
+        overflow: hidden;
+    }
 }
 
-// ---------- Marco: el contenido va en una tarjeta clara de esquinas redondeadas ----------
 @include nodus-pc {
     body.o_web_client.o_nodus {
-        padding-left: 260px;
+        padding: 16px 16px 16px 260px;
         transition: padding-left .3s $nodus-suave;
 
         &.o_nodus_colapsado {
             padding-left: 72px;
         }
+        .o_navbar {
+            box-shadow: 0 -2px 6px rgba(0, 0, 0, .04);
+        }
         .o_main_navbar .o_navbar_apps_menu {
             display: none;
         }
         .o_action_manager {
-            margin: 0 16px 16px 0;
-            border-radius: 33px;
-            background-color: $nodus-fondo-contenido;
             box-shadow: 0 4px 6px rgba(0, 0, 0, .1);
-            overflow: hidden;
         }
     }
 }
 
 @include nodus-telefono {
     body.o_web_client.o_nodus {
+        padding: 12px 12px 0;
+
         .o_nodus_lateral {
             display: none;
         }
+        .o_navbar {
+            border-radius: 28px 28px 0 0;
+        }
+        .o_main_navbar {
+            min-height: 64px;
+            padding: 16px 20px 6px;
+
+            .o_menu_brand {
+                font-size: 22px;
+            }
+        }
         .o_action_manager {
-            border-radius: 22px 22px 0 0;
-            background-color: $nodus-fondo-contenido;
-            overflow: hidden;
+            border-radius: 0;
         }
         // espacio para que la bóveda no tape el final de las listas
         &:not(.o_nodus_inicio) .o_action_manager .o_content {
