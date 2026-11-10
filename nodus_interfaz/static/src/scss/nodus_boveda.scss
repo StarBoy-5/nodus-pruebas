@@ -1,0 +1,308 @@
+// Bóveda de vidrio: copia exacta del CSS de hadeon_ui (preview_inventario.html).
+
+    /* ===================================================
+       0. LAS MATEMÁTICAS RESPONSIVAS (Blindadas)
+       =================================================== */
+    :root {
+        --vault-gap: 12px;
+        --item-size: calc((min(100vw, 512px) - 112px) / 5);
+    }
+
+    @media (min-width: 512px) {
+        :root { --item-size: 80px; }
+    }
+
+    /* ===================================================
+       1. LA CÁPSULA PRINCIPAL
+       =================================================== */
+    .hadeon-vault-container {
+        position: fixed !important;
+        bottom: 12px !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        z-index: 1040 !important;
+
+        width: calc(100% - 32px) !important;
+        max-width: 480px !important;
+        height: calc(var(--item-size) + 32px) !important;
+
+        background: rgba(25, 27, 34, 0.45) !important;
+        backdrop-filter: blur(24px) saturate(180%) !important;
+        -webkit-backdrop-filter: blur(24px) saturate(180%) !important;
+        border: 1px solid rgba(255, 255, 255, 0.12) !important;
+        border-radius: 40px !important;
+        box-shadow: 0 24px 48px rgba(0, 0, 0, 0.25), inset 0 2px 10px rgba(255, 255, 255, 0.03) !important;
+
+        padding: 0 0 0 16px !important;
+        box-sizing: border-box !important;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+        overflow: hidden !important;
+    }
+
+    /* 👉 CÁPSULA EXPANDIDA: además de la fila de íconos, ahora cada
+       fila necesita espacio extra debajo para el nombre del módulo. */
+    .hadeon-vault-container.vault-open {
+        display: flex !important;
+        flex-direction: column !important;
+        width: calc(100% - 32px) !important;
+        max-width: 480px !important;
+        height: calc(((var(--item-size) + 22px) * 4) + (var(--vault-gap) * 3) + 32px + 76px) !important;
+        border-radius: 32px !important;
+        margin: 0 !important;
+        padding: 0px !important;
+    }
+
+    /* ===================================================
+       2. EL ÁREA DE MÓDULOS
+       =================================================== */
+    .vault-modules {
+        display: flex !important;
+        align-items: center !important;
+        gap: var(--vault-gap) !important;
+        height: 100% !important;
+        width: 100% !important;
+
+        padding: 0 !important;
+        box-sizing: border-box !important;
+
+        overflow-x: auto !important;
+        overflow-y: hidden !important;
+        scrollbar-width: none !important;
+        scroll-snap-type: x proximity !important;
+        scroll-behavior: smooth !important;
+
+        -webkit-mask-image: linear-gradient(to right, transparent 0px, black 16px, black calc(100% - var(--item-size) - 24px), transparent calc(100% - var(--item-size) - 8px)) !important;
+        mask-image: linear-gradient(to right, transparent 0px, black 16px, black calc(100% - var(--item-size) - 24px), transparent calc(100% - var(--item-size) - 8px)) !important;
+    }
+    .vault-modules::-webkit-scrollbar { display: none !important; }
+
+    .fab-spacer {
+        flex: 0 0 calc(var(--item-size) + 8px) !important;
+        height: 10px !important;
+        order: 999 !important;
+    }
+
+    .vault-open .vault-modules {
+        display: grid !important;
+        width: 100% !important;
+        height: auto !important;
+        flex: 1 1 auto !important;
+        min-height: 0 !important;
+        padding: 16px !important;
+
+        grid-template-columns: repeat(5, var(--item-size)) !important;
+        grid-auto-rows: calc(var(--item-size) + 22px) !important;
+        gap: var(--vault-gap) !important;
+
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+        justify-content: center !important;
+        scroll-snap-type: none !important;
+
+        -webkit-mask-image: none !important;
+        mask-image: none !important;
+    }
+    .vault-open .fab-spacer {
+        display: block !important;
+        flex: none !important;
+        width: var(--item-size) !important;
+        height: var(--item-size) !important;
+        grid-column: 5 !important;
+        grid-row: 1 !important;
+        order: unset !important;
+    }
+
+    /* ===================================================
+       2b. PERFIL DE USUARIO -- solo visible con la bóveda abierta
+       =================================================== */
+    .vault-user-profile {
+        display: none;
+    }
+    .vault-open .vault-user-profile {
+        display: flex !important;
+        align-items: center !important;
+        gap: 10px !important;
+        padding: 12px 20px !important;
+        border-top: 1px solid rgba(255, 255, 255, 0.12) !important;
+        flex: 0 0 auto !important;
+        box-sizing: border-box !important;
+    }
+    .vault-user-avatar {
+        width: 44px !important; height: 44px !important; border-radius: 50% !important;
+        border: 1px solid rgba(254, 243, 226, 0.45) !important; background: rgba(254, 243, 226, 0.3) !important;
+        -webkit-backdrop-filter: blur(10px) saturate(180%) !important; backdrop-filter: blur(10px) saturate(180%) !important;
+        box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.5), inset 0 -2px 4px rgba(184, 134, 11, 0.15), 0 2px 6px rgba(0, 0, 0, 0.12) !important;
+        display: flex !important; align-items: center !important; justify-content: center !important;
+        color: #f7d998 !important; flex-shrink: 0 !important; box-sizing: border-box !important;
+    }
+    .vault-user-info { display: flex !important; flex-direction: column !important; gap: 2px !important; min-width: 0 !important; flex: 1 1 auto !important; }
+    .vault-user-nombre {
+        font-size: 15px !important; font-weight: 600 !important; color: #fff !important;
+        font-family: 'Poppins', sans-serif !important; white-space: nowrap !important;
+        overflow: hidden !important; text-overflow: ellipsis !important;
+    }
+    .vault-user-correo {
+        font-size: 12.5px !important; color: rgba(255, 255, 255, 0.6) !important;
+        font-family: 'Inter', sans-serif !important; white-space: nowrap !important;
+        overflow: hidden !important; text-overflow: ellipsis !important;
+    }
+    .vault-user-logout {
+        background: none !important; border: none !important; padding: 0 !important;
+        width: 22px !important; height: 22px !important; display: flex !important;
+        align-items: center !important; justify-content: center !important;
+        color: rgba(255, 255, 255, 0.6) !important; cursor: pointer !important; flex-shrink: 0 !important;
+    }
+
+    /* ===================================================
+       3. EL BOTÓN DE FLECHA
+       =================================================== */
+    .vault-fab {
+        position: absolute !important;
+        top: 16px !important;
+        right: 16px !important;
+
+        width: var(--item-size) !important;
+        height: var(--item-size) !important;
+
+        border-radius: 50% !important;
+        background: linear-gradient(145deg, rgb(0, 82, 204), rgb(0, 61, 153)) !important;
+        box-shadow: 0 8px 24px rgba(0, 71, 171, 0.4), inset 0 2px 4px rgba(255, 255, 255, 0.3) !important;
+        border: none !important;
+        color: white !important;
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        cursor: pointer !important;
+        z-index: 20 !important;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+    }
+    .vault-fab svg {
+        width: 22px !important;
+        height: 22px !important;
+        transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+    }
+    .vault-open .vault-fab {
+        background: rgba(255, 255, 255, 0.1) !important;
+        box-shadow: none !important;
+    }
+    .vault-open .vault-fab svg {
+        transform: rotate(180deg) scale(1.3) !important;
+        opacity: 0.8 !important;
+    }
+
+    /* ===================================================
+       4. LOS CUADRADITOS — ahora envueltos en dock-item-wrap
+       para poder mostrar el nombre debajo cuando está abierta.
+       =================================================== */
+    .dock-item-wrap {
+        flex: 0 0 auto !important;
+        width: var(--item-size) !important;
+        height: var(--item-size) !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: flex-start !important;
+        gap: 0 !important;
+        scroll-snap-align: start !important;
+        min-width: 0 !important;
+    }
+    .vault-open .dock-item-wrap {
+        width: 100% !important;
+        height: 100% !important;
+        scroll-snap-align: none !important;
+    }
+
+    .dock-item {
+        flex: 0 0 auto !important;
+        width: var(--item-size) !important;
+        height: var(--item-size) !important;
+        margin: 0 !important;
+
+        border-radius: 18px !important;
+        background: transparent !important;
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        cursor: pointer !important;
+        transition: all 0.3s ease !important;
+        text-decoration: none !important;
+        -webkit-tap-highlight-color: transparent !important;
+        position: relative !important;
+        z-index: 1;
+    }
+
+    .dock-item img, .dock-item svg, .dock-item i {
+        width: 45% !important;
+        height: 45% !important;
+        object-fit: contain !important;
+        font-size: 24px !important;
+        color: white !important;
+        filter: brightness(0) invert(1) opacity(0.7) !important;
+        transition: all 0.3s ease !important;
+    }
+
+    /* Nombre del módulo — solo visible con la bóveda abierta, como
+       la etiqueta debajo de un ícono de apps */
+    .dock-label {
+        display: none;
+        font-family: 'Poppins', sans-serif !important;
+        font-size: 10px !important;
+        font-weight: 500 !important;
+        color: rgba(255, 255, 255, 0.75) !important;
+        text-align: center !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        max-width: calc(var(--item-size) + 12px) !important;
+        margin-top: 4px !important;
+        line-height: 1.2 !important;
+        letter-spacing: 0.01em !important;
+    }
+    .vault-open .dock-label {
+        display: block !important;
+    }
+    .dock-item.active + .dock-label {
+        color: #ffffff !important;
+        font-weight: 700 !important;
+    }
+
+    /* ===================================================
+       5. EL ESTADO ACTIVO
+       =================================================== */
+    .dock-item.active {
+        background: linear-gradient(145deg, rgb(0, 82, 204), rgb(0, 61, 153)) !important;
+        box-shadow: 0 4px 14px rgba(0, 82, 204, 0.7), inset 0 2px 4px rgba(255, 255, 255, 0.3) !important;
+        z-index: 10 !important;
+    }
+    .dock-item.active img, .dock-item.active svg, .dock-item.active i {
+        transform: scale(1.15) !important;
+        filter: brightness(0) invert(1) opacity(1) drop-shadow(0 0 8px rgba(255, 255, 255, 0.5)) !important;
+    }
+    .dock-item:active:not(.active) {
+        transform: scale(0.9) !important;
+        background: rgba(255, 255, 255, 0.05) !important;
+    }
+
+    @media (min-width: 1024px) { .hadeon-vault-container { display: none !important; } }
+    /* En tablet (768-1024px) el dock de vidrio y el menú lateral se
+       turnan según la orientación: vertical = dock (como en teléfono),
+       horizontal = lateral (como en PC). */
+    @media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+      .hadeon-vault-container { display: none !important; }
+    }
+
+/* ===== Ajustes de Nodus para que la bóveda viva dentro de Odoo ===== */
+.dock-item img.o_nodus_ic_odoo { filter: none !important; border-radius: 10px; }
+@media (min-width: 1024px), (min-width: 768px) and (orientation: landscape) {
+    .hadeon-vault-container { display: none !important; }
+}
+/* Se aparta con el teclado, la búsqueda móvil y los chats a pantalla completa */
+body:has(.o_mobile_search) .hadeon-vault-container,
+body:has(.o-mail-ChatWindow) .hadeon-vault-container,
+body:has(input:focus:not([type=checkbox]):not([type=radio])) .hadeon-vault-container,
+body:has(textarea:focus) .hadeon-vault-container,
+body:has([contenteditable=true]:focus) .hadeon-vault-container {
+    transform: translateX(-50%) translateY(160%) !important;
+    pointer-events: none;
+}
+@media print { .hadeon-vault-container { display: none !important; } }

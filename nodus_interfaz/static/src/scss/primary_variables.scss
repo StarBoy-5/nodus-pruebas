@@ -1,0 +1,13 @@
+// Colores de marca de Nodus (tokens de la interfaz Hadeon). Se cargan antes que los
+// de Odoo, así que todo lo que Odoo pinta con su morado pasa a cobalto.
+$o-community-color: #0047AB !default;
+$o-enterprise-color: #0047AB !default;
+$o-enterprise-action-color: #0047AB !default;
+$o-brand-odoo: #0047AB !default;
+$o-brand-primary: #0047AB !default;
+
+// La barra superior va transparente: el degradado cobalto es el fondo del marco
+$o-navbar-background: transparent !default;
+$o-navbar-border-bottom: 0 !default;
+$o-navbar-entry-bg--hover: rgba(255, 255, 255, .1) !default;
+$o-navbar-entry-border-radius: 10px !default;

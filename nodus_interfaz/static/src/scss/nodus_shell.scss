@@ -1,0 +1,673 @@
+// Interfaz Nodus: marco de la app, lateral de PC y Menú Principal (medidas de hadeon_ui).
+
+$nodus-degradado: linear-gradient(135deg, #0047AB 0%, #031F5A 100%);
+$nodus-degradado-inicio: linear-gradient(135deg, #053B9C 0%, #031F5A 100%);
+$nodus-fondo-contenido: #F3F3FC;
+$nodus-elastica: cubic-bezier(.175, .885, .32, 1.275);
+$nodus-suave: cubic-bezier(.4, 0, .2, 1);
+
+// PC y tablet horizontal usan el lateral; teléfono y tablet vertical, la bóveda
+@mixin nodus-pc {
+    @media (min-width: 1024px), (min-width: 768px) and (orientation: landscape) {
+        @content;
+    }
+}
+@mixin nodus-telefono {
+    @media (max-width: 767.98px), (max-width: 1023.98px) and (orientation: portrait) {
+        @content;
+    }
+}
+
+body.o_web_client.o_nodus {
+    background: $nodus-degradado;
+    font-family: 'Inter', 'Poppins', system-ui, sans-serif;
+
+    .o_main_navbar {
+        background: transparent;
+        border-bottom: 0;
+        box-shadow: none;
+
+        .o_menu_brand {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+        }
+    }
+}
+
+// ---------- Marco: el contenido va en una tarjeta clara de esquinas redondeadas ----------
+@include nodus-pc {
+    body.o_web_client.o_nodus {
+        padding-left: 260px;
+        transition: padding-left .3s $nodus-suave;
+
+        &.o_nodus_colapsado {
+            padding-left: 72px;
+        }
+        .o_main_navbar .o_navbar_apps_menu {
+            display: none;
+        }
+        .o_action_manager {
+            margin: 0 16px 16px 0;
+            border-radius: 33px;
+            background-color: $nodus-fondo-contenido;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, .1);
+            overflow: hidden;
+        }
+    }
+}
+
+@include nodus-telefono {
+    body.o_web_client.o_nodus {
+        .o_nodus_lateral {
+            display: none;
+        }
+        .o_action_manager {
+            border-radius: 22px 22px 0 0;
+            background-color: $nodus-fondo-contenido;
+            overflow: hidden;
+        }
+        // espacio para que la bóveda no tape el final de las listas
+        &:not(.o_nodus_inicio) .o_action_manager .o_content {
+            padding-bottom: calc(var(--item-size) + 44px);
+        }
+    }
+}
+
+// ---------- Lateral de PC: copia del sidebar de hadeon_ui ----------
+.o_nodus_lateral {
+    display: none;
+}
+
+@include nodus-pc {
+    .o_nodus_lateral {
+        position: fixed;
+        inset: 0 auto 0 0;
+        z-index: 1020;
+        width: 260px;
+        padding: 16px;
+        display: flex;
+        flex-direction: column;
+        color: #fff;
+        box-sizing: border-box;
+        transition: all .3s $nodus-suave;
+
+        * {
+            box-sizing: border-box;
+        }
+    }
+}
+
+.o_nodus_lat_top {
+    flex: none;
+    height: 40px;
+    margin: 10px 10px 20px 4px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.o_nodus_lat_marca {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Michroma', 'Poppins', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: .06em;
+    white-space: nowrap;
+
+    img {
+        width: 26px;
+        height: auto;
+    }
+}
+
+.sidebar-toggle-btn {
+    flex: 0 0 40px;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    background: transparent;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: all .3s ease;
+
+    img {
+        width: 20px;
+        height: 20px;
+        opacity: .7;
+        transition: opacity .3s ease;
+    }
+    &:hover {
+        border-color: rgba(255, 255, 255, .12);
+        border-right-color: rgba(255, 255, 255, .02);
+        border-bottom-color: rgba(255, 255, 255, .02);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, .15), inset 0 2px 10px rgba(255, 255, 255, .03);
+        backdrop-filter: blur(12px);
+        transform: scale(1.05);
+
+        img {
+            opacity: 1;
+        }
+    }
+}
+
+.o_nodus_lat_tit {
+    flex: none;
+    margin: 0 0 16px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 12px;
+    text-align: center;
+    color: #fff;
+}
+
+.o_nodus_lat_lista {
+    flex: 1 1 auto;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 0 10px 8px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+// 1. Botón en reposo
+.o_nodus_lateral .sidebar-nav-item {
+    position: relative;
+    z-index: 1;
+    flex: none;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    height: 42px;
+    padding: 10px 12px;
+    border-radius: 16px;
+    background: transparent;
+    border: 1px solid transparent;
+    color: rgba(255, 255, 255, .8);
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 20px;
+    text-decoration: none;
+    cursor: pointer;
+    transform: translateX(0);
+    transition: all .4s $nodus-elastica;
+
+    .sidebar-icono-modulo {
+        flex: 0 0 18px;
+        width: 18px;
+        height: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        img {
+            width: 18px;
+            height: 20px;
+            object-fit: contain;
+            filter: brightness(0) invert(1);
+            transition: transform .3s ease;
+        }
+        &.o_nodus_ic_odoo img {
+            width: 22px;
+            height: 22px;
+            filter: none;
+            border-radius: 6px;
+        }
+    }
+    .sidebar-hideable {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        transition: color .3s ease;
+    }
+
+    // 2. Hover de los inactivos: salto de 4 px y borde de vidrio
+    &:hover {
+        color: rgba(255, 255, 255, .8);
+        border-color: rgba(255, 255, 255, .12);
+        border-right-color: rgba(255, 255, 255, .02);
+        border-bottom-color: rgba(255, 255, 255, .02);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, .15), inset 0 2px 10px rgba(255, 255, 255, .03);
+        transform: translateX(4px);
+
+        .sidebar-hideable {
+            text-shadow: 0 0 8px rgba(255, 255, 255, .2);
+        }
+    }
+
+    // 3. Activo: cristal fantasma de 40x40 detrás del icono
+    &.active-module,
+    &.active-module:hover {
+        border-color: transparent;
+        box-shadow: none;
+    }
+    &.active-module::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 1px;
+        width: 40px;
+        height: 40px;
+        border-radius: 12px;
+        transform: translateY(-50%);
+        background: transparent;
+        border: 1px solid rgba(255, 255, 255, .12);
+        border-right-color: rgba(255, 255, 255, .02);
+        border-bottom-color: rgba(255, 255, 255, .02);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, .15), inset 0 2px 10px rgba(255, 255, 255, .03);
+        backdrop-filter: blur(12px);
+        z-index: -1;
+        transition: all .4s $nodus-suave;
+    }
+    // 4. Expansión fluida del cristal
+    &.active-module:hover::before {
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border-radius: 16px;
+    }
+    // 5. Icono y texto del activo
+    &.active-module .sidebar-icono-modulo img {
+        transform: scale(1.05);
+    }
+    &.active-module .sidebar-hideable {
+        padding-left: 8px;
+        text-shadow: 0 0 10px rgba(255, 255, 255, .3);
+        transition: all .3s ease;
+    }
+}
+
+// Sesión de usuario
+.o_nodus_lat_sesion {
+    flex: none;
+    padding-top: 12px;
+    border-top: 1px solid rgba(255, 255, 255, .1);
+}
+
+.o_nodus_lat_sesion_t {
+    margin: 0 0 12px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    text-align: center;
+    color: rgba(255, 255, 255, .5);
+    white-space: nowrap;
+}
+
+.o_nodus_lateral .user-profile-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    height: 68px;
+    padding: 0 10px 0 5px;
+}
+
+.o_nodus_avatar,
+.vault-user-avatar {
+    flex: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #f7d998;
+    border: 1px solid rgba(254, 243, 226, .45);
+    background: rgba(254, 243, 226, .3);
+    backdrop-filter: blur(10px) saturate(180%);
+    box-shadow: inset 0 1px 1px rgba(255, 255, 255, .5), inset 0 -2px 4px rgba(184, 134, 11, .15), 0 2px 6px rgba(0, 0, 0, .12);
+
+    svg {
+        width: 16px;
+        height: 16px;
+    }
+}
+
+.o_nodus_usuario {
+    flex: 1 1 auto;
+    min-width: 0;
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
+}
+
+.o_nodus_usuario_nombre {
+    display: block;
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 15px;
+    color: #fff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.o_nodus_usuario_correo {
+    display: block;
+    margin-top: 3px;
+    font-size: 10px;
+    font-weight: 600;
+    line-height: 10px;
+    color: rgba(255, 255, 255, .6);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.o_nodus_salir {
+    flex: none;
+    display: flex;
+    background: none;
+    border: 0;
+    padding: 0;
+    color: rgba(255, 255, 255, .7);
+    cursor: pointer;
+    transition: color .3s ease;
+
+    &:hover {
+        color: #fff;
+    }
+    svg {
+        width: 16px;
+        height: 16px;
+    }
+}
+
+// Lateral colapsado: 72 px, botones de 40x40
+.o_nodus_lateral.collapsed {
+    width: 72px;
+    padding: 16px 8px;
+
+    .o_nodus_lat_marca span,
+    .o_nodus_lat_tit,
+    .sidebar-hideable {
+        display: none;
+    }
+    .o_nodus_lat_marca {
+        display: none;
+    }
+    .o_nodus_lat_top {
+        justify-content: center;
+        margin: 10px 0 20px;
+    }
+    .o_nodus_lat_lista {
+        padding: 0 0 8px;
+        gap: 0;
+    }
+    .sidebar-nav-item {
+        justify-content: center;
+        gap: 0;
+        padding: 0;
+        width: 40px;
+        height: 40px;
+        margin: 10px auto;
+        border-radius: 12px;
+
+        &:hover,
+        &.active-module:hover {
+            transform: scale(1.05);
+        }
+        &.active-module::before,
+        &.active-module:hover::before {
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 12px;
+        }
+    }
+    .user-profile-row {
+        justify-content: center;
+        padding: 0;
+    }
+}
+
+// ---------- Menú Principal: pantalla de inicio de hadeon_ui ----------
+body.o_web_client.o_nodus.o_nodus_inicio {
+    padding-left: 0;
+
+    .o_navbar,
+    .o_nodus_lateral,
+    .hadeon-vault-container {
+        display: none !important;
+    }
+    .o_action_manager {
+        margin: 0;
+        border-radius: 0;
+        box-shadow: none;
+        background: $nodus-degradado-inicio;
+    }
+}
+
+.o_nodus_menu_principal {
+    position: relative;
+    height: 100%;
+    overflow-y: auto;
+    background: $nodus-degradado-inicio;
+    color: #fff;
+}
+
+.hadeon-dash-header {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 40px;
+    background: rgba(255, 255, 255, .08);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255, 255, 255, .15);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, .15);
+}
+
+.hadeon-dash-header-inicio {
+    flex: 1;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, .65);
+    letter-spacing: .3px;
+}
+
+.hadeon-dash-titulo-wrap {
+    flex: 1;
+    text-align: center;
+}
+
+.hadeon-dash-titulo {
+    margin: 0;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: #fff;
+}
+
+.hadeon-dash-titulo-barra {
+    width: 48px;
+    height: 2px;
+    margin: 7px auto 0;
+    border-radius: 2px;
+    background: #fff;
+}
+
+.hadeon-dash-header-usuario {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 12px;
+}
+
+.hadeon-dash-usuario-texto {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    line-height: 1.3;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.hadeon-dash-usuario-nombre {
+    font-size: 14px;
+    font-weight: 700;
+    color: #fff;
+}
+
+.hadeon-dash-usuario-correo {
+    font-size: 11px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, .6);
+}
+
+// Tarjetas: 140 px, 31 px entre columnas y 48 px entre filas
+.o_nodus_mp_grid {
+    display: grid;
+    grid-template-columns: repeat(5, 140px);
+    column-gap: 31px;
+    row-gap: 48px;
+    justify-content: center;
+    padding: 100px 40px 64px;
+}
+
+.hadeon-module-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: #fff;
+    cursor: pointer;
+}
+
+.o_nodus_mp_cristal {
+    width: 140px;
+    aspect-ratio: 1 / 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, .08);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, .15);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, .2), inset 0 1px 1px rgba(255, 255, 255, .1);
+    transition: all .3s ease;
+
+    img {
+        width: 60px;
+        height: 60px;
+        object-fit: contain;
+        filter: brightness(0) invert(1);
+        transition: transform .3s $nodus-suave;
+
+        &.o_nodus_ic_odoo {
+            filter: none;
+            border-radius: 12px;
+        }
+    }
+}
+
+.o_nodus_mp_nombre {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: #fff;
+    transition: color .3s ease;
+}
+
+.hadeon-module-card:hover,
+.hadeon-module-card:focus-visible {
+    outline: 0;
+
+    .o_nodus_mp_cristal {
+        background: rgba(255, 255, 255, .12);
+        transform: translateY(-3px);
+
+        img {
+            transform: scale(1.15);
+        }
+    }
+    .o_nodus_mp_nombre {
+        color: #bfdbfe;
+    }
+}
+
+@media (max-width: 1100px) {
+    .o_nodus_mp_grid {
+        grid-template-columns: repeat(4, 140px);
+    }
+}
+
+@media (max-width: 767px) {
+    .hadeon-dash-header {
+        padding: 14px 20px;
+    }
+    .hadeon-dash-header-inicio,
+    .hadeon-dash-usuario-texto {
+        display: none;
+    }
+    .hadeon-dash-titulo-wrap {
+        text-align: left;
+    }
+    .hadeon-dash-titulo {
+        font-size: 18px;
+    }
+    .hadeon-dash-titulo-barra {
+        margin: 7px auto 0 0;
+    }
+    .o_nodus_mp_grid {
+        grid-template-columns: repeat(3, 1fr);
+        column-gap: 12px;
+        row-gap: 28px;
+        padding: 32px 16px 48px;
+    }
+    .o_nodus_mp_cristal {
+        width: 100%;
+        max-width: 104px;
+
+        img {
+            width: 44px;
+            height: 44px;
+        }
+    }
+    .o_nodus_mp_nombre {
+        font-size: 12px;
+        text-align: center;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .o_nodus_lateral,
+    .o_nodus_lateral *,
+    .o_nodus_lateral *::before,
+    .o_nodus_menu_principal *,
+    body.o_web_client.o_nodus {
+        transition: none !important;
+    }
+}
+
+@media print {
+    .o_nodus_lateral {
+        display: none !important;
+    }
+    body.o_web_client.o_nodus {
+        padding-left: 0 !important;
+        background: none !important;
+    }
+}

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="module_category_nodus" model="ir.module.category">
+        <field name="name">Nodus</field>
+        <field name="sequence">1</field>
+    </record>
+
+    <!-- Cuenta de soporte de Nodus: ve todo, incluidas las apps que el cliente no ve -->
+    <record id="group_nodus_soporte" model="res.groups">
+        <field name="name">Soporte Nodus</field>
+        <field name="comment">Acceso de soporte de Nodus: ve todas las aplicaciones de Odoo.</field>
+    </record>
+</odoo>

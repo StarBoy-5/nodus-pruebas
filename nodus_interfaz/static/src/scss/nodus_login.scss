@@ -1,0 +1,9 @@
+// Inicio de sesión con el fondo cobalto de Nodus
+body.o_web_client:has(.oe_login_form),
+.oe_website_login_container {
+    background: linear-gradient(135deg, #0047AB 0%, #031F5A 100%);
+}
+.o_nodus_powered {
+    font-weight: 600;
+    letter-spacing: .04em;
+}

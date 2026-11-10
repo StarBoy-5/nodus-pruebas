@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Nombre de la app instalada (manifiesto PWA) -->
+    <record id="param_web_app_name" model="ir.config_parameter" forcecreate="1">
+        <field name="key">web.web_app_name</field>
+        <field name="value">Nodus</field>
+    </record>
+
+    <!-- Menú Principal: es la primera app, así que Odoo lo abre al entrar -->
+    <record id="action_menu_principal" model="ir.actions.client">
+        <field name="name">Menú Principal</field>
+        <field name="tag">nodus_menu_principal</field>
+        <field name="path">menu-principal</field>
+    </record>
+
+    <menuitem id="menu_principal"
+              name="Menú Principal"
+              action="action_menu_principal"
+              web_icon="nodus_interfaz,static/description/icon.png"
+              sequence="-100"/>
+</odoo>

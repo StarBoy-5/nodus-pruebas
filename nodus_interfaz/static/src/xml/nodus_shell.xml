@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <!-- Lateral de PC: copia del sidebar de hadeon_ui -->
+    <t t-name="nodus_interfaz.Lateral">
+        <aside class="o_nodus_lateral" t-att-class="{ collapsed: state.colapsado }" aria-label="Módulos">
+            <div class="o_nodus_lat_top">
+                <span class="o_nodus_lat_marca">
+                    <img src="/nodus_interfaz/static/src/img/nodus-mark-white.png" alt=""/>
+                    <span>NODUS</span>
+                </span>
+                <button type="button" class="sidebar-toggle-btn" t-on-click="alternar"
+                        t-att-title="state.colapsado ? 'Expandir menú' : 'Colapsar menú'"
+                        t-att-aria-label="state.colapsado ? 'Expandir menú' : 'Colapsar menú'">
+                    <img src="/nodus_interfaz/static/src/img/modulos/colapsar.svg" alt=""/>
+                </button>
+            </div>
+            <div class="o_nodus_lat_tit">MODULOS</div>
+            <nav class="o_nodus_lat_lista">
+                <t t-foreach="modulos" t-as="m" t-key="m.id">
+                    <a href="#" class="sidebar-nav-item" t-att-class="{ 'active-module': m.id === idActivo }"
+                       t-att-title="state.colapsado ? m.nombre : undefined" t-att-aria-label="m.nombre"
+                       t-on-click.prevent="() => this.abrir(m)">
+                        <span class="sidebar-icono-modulo" t-att-class="{ o_nodus_ic_odoo: !m.propio }">
+                            <img t-att-src="m.icono" alt=""/>
+                        </span>
+                        <span class="sidebar-hideable" t-esc="m.nombre"/>
+                    </a>
+                </t>
+            </nav>
+            <div class="o_nodus_lat_sesion">
+                <div class="o_nodus_lat_sesion_t sidebar-hideable">Sesión de usuario</div>
+                <div class="user-profile-row">
+                    <div class="o_nodus_avatar">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    </div>
+                    <div class="o_nodus_usuario sidebar-hideable">
+                        <span class="o_nodus_usuario_nombre" t-esc="usuario.nombre"/>
+                        <span class="o_nodus_usuario_correo" t-esc="usuario.correo"/>
+                    </div>
+                    <button type="button" class="o_nodus_salir sidebar-hideable" title="Cerrar sesión" aria-label="Cerrar sesión" t-on-click="salir">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                    </button>
+                </div>
+            </div>
+        </aside>
+    </t>
+
+    <!-- Bóveda de vidrio del teléfono: copia de la de hadeon_ui -->
+    <t t-name="nodus_interfaz.Boveda">
+        <nav class="hadeon-vault-container" t-att-class="{ 'vault-open': state.abierta }" aria-label="Módulos">
+            <div class="vault-modules" t-ref="lista">
+                <t t-foreach="modulos" t-as="m" t-key="m.id">
+                    <div class="dock-item-wrap">
+                        <a href="#" class="dock-item" t-att-class="{ active: m.id === idActivo }" t-att-aria-label="m.nombre"
+                           t-on-click.prevent="() => this.abrir(m)">
+                            <img t-att-src="m.icono" alt="" t-att-class="{ o_nodus_ic_odoo: !m.propio }"/>
+                        </a>
+                        <span class="dock-label" t-esc="m.nombre"/>
+                    </div>
+                </t>
+                <div class="fab-spacer"/>
+            </div>
+            <div class="vault-user-profile">
+                <div class="vault-user-avatar">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                </div>
+                <div class="vault-user-info">
+                    <span class="vault-user-nombre" t-esc="usuario.nombre"/>
+                    <span class="vault-user-correo" t-esc="usuario.correo"/>
+                </div>
+                <button type="button" class="vault-user-logout" title="Cerrar sesión" aria-label="Cerrar sesión" t-on-click="salir">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                </button>
+            </div>
+            <button type="button" class="vault-fab" t-on-click="alternar"
+                    t-att-title="state.abierta ? 'Cerrar Bóveda' : 'Abrir Bóveda'" t-att-aria-label="state.abierta ? 'Cerrar Bóveda' : 'Abrir Bóveda'">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+            </button>
+        </nav>
+    </t>
+
+    <!-- Menú Principal: encabezado y tarjetas de hadeon_ui -->
+    <t t-name="nodus_interfaz.MenuPrincipal">
+        <div class="o_nodus_menu_principal">
+            <header class="hadeon-dash-header">
+                <div class="hadeon-dash-header-inicio">Inicio</div>
+                <div class="hadeon-dash-titulo-wrap">
+                    <h1 class="hadeon-dash-titulo">Nodus</h1>
+                    <div class="hadeon-dash-titulo-barra"/>
+                </div>
+                <div class="hadeon-dash-header-usuario">
+                    <div class="hadeon-dash-usuario-texto">
+                        <span class="hadeon-dash-usuario-nombre" t-esc="usuario.nombre"/>
+                        <span class="hadeon-dash-usuario-correo" t-esc="usuario.correo"/>
+                    </div>
+                    <div class="vault-user-avatar">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    </div>
+                    <button type="button" class="o_nodus_salir" title="Cerrar sesión" aria-label="Cerrar sesión" t-on-click="salir">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                    </button>
+                </div>
+            </header>
+            <div class="o_nodus_mp_grid">
+                <t t-foreach="modulos" t-as="m" t-key="m.id">
+                    <button type="button" class="hadeon-module-card" t-on-click="() => this.abrir(m)" t-att-aria-label="m.nombre">
+                        <span class="o_nodus_mp_cristal">
+                            <img t-att-src="m.icono" alt="" t-att-class="{ o_nodus_ic_odoo: !m.propio }"/>
+                        </span>
+                        <span class="o_nodus_mp_nombre" t-esc="m.nombre"/>
+                    </button>
+                </t>
+            </div>
+        </div>
+    </t>
+
+</templates>
