@@ -6,7 +6,7 @@
         <aside class="o_nodus_lateral" t-att-class="{ collapsed: state.colapsado }" aria-label="Módulos">
             <div class="o_nodus_lat_top">
                 <span class="o_nodus_lat_marca">
-                    <img src="/nodus_interfaz/static/src/img/nodus-mark-white.png" alt=""/>
+                    <img src="/nodus_interfaz/static/src/img/nodus_marca_blanca.png" alt=""/>
                     <span>NODUS</span>
                 </span>
                 <button type="button" class="sidebar-toggle-btn" t-on-click="alternar"

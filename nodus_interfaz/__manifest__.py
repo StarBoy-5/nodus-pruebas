@@ -29,6 +29,7 @@
             "nodus_interfaz/static/src/xml/nodus_shell.xml",
         ],
         "web.assets_frontend": [
+            "nodus_interfaz/static/src/scss/nodus_fuentes.scss",
             "nodus_interfaz/static/src/scss/nodus_login.scss",
         ],
     },

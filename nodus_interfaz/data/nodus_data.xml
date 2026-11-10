@@ -6,6 +6,10 @@
         <field name="value">Nodus</field>
     </record>
 
+    <!-- Sin registro libre: las cuentas las crea el administrador ("¿No tienes una cuenta?").
+         set_param porque el parámetro ya existe cuando auth_signup está instalado. -->
+    <function model="ir.config_parameter" name="set_param" eval="('auth_signup.invitation_scope', 'b2b')"/>
+
     <!-- Menú Principal: es la primera app, así que Odoo lo abre al entrar -->
     <record id="action_menu_principal" model="ir.actions.client">
         <field name="name">Menú Principal</field>

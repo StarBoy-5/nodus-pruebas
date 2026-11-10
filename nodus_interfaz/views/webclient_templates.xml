@@ -7,11 +7,53 @@
         </xpath>
     </template>
 
-    <!-- Pantalla de inicio de sesión: Nodus en vez de "Powered by Odoo" -->
-    <template id="login_layout_nodus" inherit_id="web.login_layout" name="Nodus: inicio de sesión">
-        <xpath expr="//a[@href='https://www.odoo.com?utm_source=db&amp;utm_medium=auth']" position="replace">
-            <span class="o_nodus_powered">Nodus</span>
+    <!-- Inicio de sesión: la tarjeta de vidrio de Nodus en vez de la de Odoo -->
+    <template id="login_layout_nodus" inherit_id="web.login_layout" name="Nodus: marco del inicio de sesión">
+        <xpath expr="//t[@t-set='body_classname']" position="attributes">
+            <attribute name="t-value">'o_nodus_login'</attribute>
         </xpath>
+        <xpath expr="//div[hasclass('container')]" position="replace">
+            <div class="o_nodus_login_fondo" aria-hidden="true">
+                <span class="o_nodus_login_luz o_nodus_login_luz_a"/>
+                <span class="o_nodus_login_luz o_nodus_login_luz_b"/>
+            </div>
+            <main class="o_nodus_login_pagina">
+                <div class="o_nodus_login_tarjeta o_database_list">
+                    <div class="o_nodus_login_cab">
+                        <img class="o_nodus_login_marca" src="/nodus_interfaz/static/src/img/nodus_marca_blanca.png" alt=""/>
+                        <h1 class="o_nodus_login_nombre">NODUS</h1>
+                        <p class="o_nodus_login_sub">Ingresa a tu cuenta</p>
+                    </div>
+                    <t t-out="0"/>
+                </div>
+                <div class="o_nodus_login_pie">© <t t-esc="datetime.date.today().year"/> NODUS.</div>
+            </main>
+        </xpath>
+    </template>
+
+    <!-- Formulario: textos de Nodus y sin la lista de cuentas recientes de Odoo -->
+    <template id="login_nodus" inherit_id="web.login" name="Nodus: inicio de sesión">
+        <xpath expr="//owl-component[@name='web.user_switch']" position="replace"/>
+        <xpath expr="//form" position="attributes">
+            <attribute name="t-attf-class">oe_login_form</attribute>
+        </xpath>
+        <xpath expr="//label[@for='login']" position="replace">
+            <label for="login" class="form-label">Usuario o Correo</label>
+        </xpath>
+        <xpath expr="//input[@id='login']" position="attributes">
+            <attribute name="placeholder">ejemplo@correo.com</attribute>
+        </xpath>
+        <xpath expr="//label[@for='password']" position="replace">
+            <label for="password" class="form-label">Contraseña</label>
+        </xpath>
+        <xpath expr="//input[@id='password']" position="attributes">
+            <attribute name="placeholder">••••••••</attribute>
+        </xpath>
+        <xpath expr="//div[hasclass('oe_login_buttons')]/button[@type='submit']" position="replace">
+            <button type="submit" class="btn btn-primary o_nodus_login_entrar">Entrar a NODUS</button>
+        </xpath>
+        <!-- Sin "Usa una llave de acceso" ni proveedores externos de Odoo -->
+        <xpath expr="//t[@t-call='web.login_oauth']" position="replace"/>
     </template>
 
     <!-- "Powered by Odoo" del portal y los correos -->
