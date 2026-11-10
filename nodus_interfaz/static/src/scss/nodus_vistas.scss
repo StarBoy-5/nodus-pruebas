@@ -1,0 +1,276 @@
+// Vistas de Odoo (barra de herramientas, listas, formularios, kanban) con el estilo de
+// las páginas de hadeon_ui: tarjetas blancas de 12-16 px, buscador gris claro, botones
+// de 8 px y tablas con encabezado gris en mayúsculas.
+
+$n-azul: #0047AB;
+$n-azul-osc: #00327D;
+$n-texto: #1A1A24;
+$n-texto2: #434653;
+$n-gris: #6B7280;
+$n-borde: #E5E7EB;
+$n-borde-suave: #EEF0F4;
+$n-campo: #F9FAFB;
+$n-fondo: #F3F3FC;
+
+body.o_web_client.o_nodus {
+    // ---------- Botones ----------
+    .btn {
+        border-radius: 8px;
+        font-weight: 500;
+    }
+    .btn-primary {
+        background-color: $n-azul;
+        border-color: $n-azul;
+
+        &:hover,
+        &:focus-visible {
+            background-color: $n-azul-osc;
+            border-color: $n-azul-osc;
+        }
+    }
+    .btn-secondary,
+    .o_cp_switch_buttons .btn,
+    .o_control_panel .btn-light {
+        background: #fff;
+        border: 1px solid #D1D5DB;
+        color: #374151;
+        font-size: 13px;
+        font-weight: 600;
+
+        &:hover {
+            background: $n-campo;
+            border-color: #C3C6D5;
+            color: $n-texto;
+        }
+        &.active {
+            background: $n-azul;
+            border-color: $n-azul;
+            color: #fff;
+        }
+    }
+
+    // ---------- Contenido ----------
+    .o_content {
+        background-color: $n-fondo;
+    }
+
+    // ---------- Barra de herramientas: tarjeta blanca como la de Inventario ----------
+    .o_control_panel {
+        margin: 6px 24px 16px;
+        padding: 10px 12px;
+        background: #fff;
+        border: 0;
+        border-radius: 12px;
+        box-shadow: 0 1px 2px rgba(16, 24, 40, .04);
+
+        .o_breadcrumb {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            color: $n-texto;
+
+            .active,
+            .o_last_breadcrumb_item {
+                color: $n-texto;
+            }
+            a {
+                color: $n-azul;
+            }
+        }
+    }
+    .o_searchview {
+        background: $n-campo;
+        border: 1px solid $n-borde !important;
+        border-radius: 8px;
+        padding: 4px 8px;
+
+        &:focus-within {
+            border-color: $n-azul !important;
+            box-shadow: 0 0 0 3px rgba(0, 71, 171, .12);
+        }
+        .o_searchview_facet {
+            border-radius: 999px;
+            overflow: hidden;
+        }
+    }
+
+    // ---------- Listas: tabla en tarjeta blanca ----------
+    .o_list_renderer {
+        margin: 0 24px 24px;
+        background: #fff;
+        border-radius: 16px;
+        box-shadow: 0 1px 3px rgba(16, 24, 40, .05);
+        overflow: auto;
+
+        .o_list_table {
+            margin-bottom: 0;
+            background: #fff;
+
+            thead {
+                background: $n-campo;
+
+                th {
+                    height: 46px;
+                    padding: 0 12px;
+                    vertical-align: middle;
+                    background: $n-campo;
+                    border-bottom: 1px solid $n-borde-suave !important;
+                    color: $n-gris;
+                    font-size: 11px;
+                    font-weight: 600;
+                    letter-spacing: .05em;
+                    text-transform: uppercase;
+                }
+            }
+            tbody tr.o_data_row {
+                > td {
+                    height: 58px;
+                    padding: 8px 12px;
+                    vertical-align: middle;
+                    border-top: 1px solid $n-borde-suave;
+                    color: #1F2937;
+                    font-size: 14px;
+                }
+                &:hover > td {
+                    background: #F7F9FF;
+                }
+            }
+            tfoot td {
+                background: $n-campo;
+                font-weight: 600;
+                color: $n-texto;
+            }
+        }
+        .o_list_record_selector .form-check-input,
+        thead .form-check-input {
+            border-radius: 4px;
+        }
+    }
+
+    // Etiquetas de estado como las de hadeon_ui (ACTIVO / INACTIVO)
+    .o_list_renderer .badge,
+    .o_field_badge .badge {
+        border-radius: 6px;
+        padding: 4px 8px;
+        font-size: 10.5px;
+        font-weight: 700;
+        letter-spacing: .04em;
+        text-transform: uppercase;
+    }
+
+    // ---------- Formularios: hoja como tarjeta blanca ----------
+    .o_form_view {
+        background: $n-fondo;
+
+        .o_form_sheet_bg {
+            background: $n-fondo;
+            border-bottom: 0;
+        }
+        .o_form_sheet {
+            border: 0;
+            border-radius: 16px;
+            box-shadow: 0 1px 3px rgba(16, 24, 40, .06);
+        }
+        .o_form_statusbar {
+            background: transparent;
+            border-bottom: 0;
+        }
+        .o_arrow_button {
+            border-radius: 999px !important;
+        }
+        .o_input,
+        .form-control,
+        .form-select {
+            border-radius: 8px;
+        }
+        .oe_title h1,
+        .o_field_widget.o_field_char.fs-1 {
+            font-family: 'Poppins', sans-serif;
+            color: $n-texto;
+        }
+        .nav-tabs .nav-link {
+            border-radius: 999px;
+            border: 0;
+            margin-right: 6px;
+            color: $n-texto2;
+            font-weight: 500;
+
+            &.active {
+                background: $n-azul;
+                color: #fff;
+            }
+        }
+    }
+    .o-mail-ChatterContainer,
+    .o-mail-Form-chatter {
+        background: $n-fondo;
+    }
+
+    // ---------- Kanban: tarjetas de 12 px ----------
+    .o_kanban_renderer {
+        background: $n-fondo;
+
+        .o_kanban_record {
+            border: 0;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(16, 24, 40, .06);
+        }
+    }
+
+    // ---------- Ventanas emergentes ----------
+    .modal-content {
+        border: 0;
+        border-radius: 16px;
+        overflow: hidden;
+    }
+    .modal-header {
+        border-bottom: 1px solid $n-borde-suave;
+
+        .modal-title {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            color: $n-azul;
+        }
+    }
+    .dropdown-menu,
+    .o-dropdown--menu {
+        border: 1px solid $n-borde;
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(16, 24, 40, .12);
+    }
+
+    // ---------- Pantallas vacías: sin las imágenes y videos de Odoo ----------
+    .o_view_nocontent {
+        .o_view_nocontent_smiling_face,
+        .o_view_nocontent_empty_folder,
+        img,
+        video,
+        iframe {
+            display: none !important;
+        }
+        .o_nocontent_help {
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 1px 3px rgba(16, 24, 40, .06);
+            padding: 32px 40px;
+            color: $n-texto2;
+
+            p:first-child,
+            .o_view_nocontent_title {
+                font-family: 'Poppins', sans-serif;
+                color: $n-azul;
+            }
+        }
+    }
+}
+
+// Teléfono: márgenes más cortos, como las tarjetas de hadeon_ui en móvil
+@media (max-width: 767.98px) {
+    body.o_web_client.o_nodus {
+        .o_control_panel {
+            margin: 6px 12px 12px;
+        }
+        .o_list_renderer {
+            margin: 0 12px 16px;
+        }
+    }
+}
