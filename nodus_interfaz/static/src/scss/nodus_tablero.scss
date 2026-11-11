@@ -234,7 +234,6 @@
     left: 0;
     right: 0;
     height: 1px;
-    margin-bottom: 28px;
     background: #ECEDF3;
 }
 
@@ -439,7 +438,7 @@
 }
 
 // ---------- Tamaños ----------
-@media (max-width: 1280px) {
+@media (max-width: 1100px) {
     .o_nodus_kpis {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
@@ -493,5 +492,124 @@
         flex: 1 1 auto;
         min-height: clamp(180px, calc(100vh - 520px), 330px);
         height: auto;
+    }
+}
+
+// ---------- PC: todo el Resumen cabe en la tarjeta, sin desplazar ----------
+// Los indicadores quedan arriba con su alto natural; el gráfico y la actividad toman el
+// resto, el gráfico se estira y la actividad muestra los movimientos que quepan.
+@media (min-width: 1024px) and (min-height: 520px) {
+    .o_action.o_nodus_tablero {
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        padding-bottom: 24px;
+    }
+    .o_nodus_subtitulo,
+    .o_nodus_kpis,
+    .o_nodus_nota {
+        flex: none;
+    }
+    .o_nodus_tablero_fila {
+        flex: 1 1 auto;
+        min-height: 0;
+    }
+    .o_nodus_panel {
+        display: flex;
+        flex-direction: column;
+        min-height: 0;
+    }
+    .o_nodus_grafico .o_nodus_barras {
+        flex: 1 1 auto;
+        min-height: 110px;
+        height: auto;
+    }
+    .o_nodus_act_lista {
+        flex: 1 1 auto;
+        min-height: 0;
+        overflow-y: auto;
+        scrollbar-width: thin;
+    }
+    .o_nodus_ver_todas {
+        flex: none;
+    }
+}
+
+// Laptops de poca altura: todo un poco más compacto
+@media (min-width: 1024px) and (max-height: 760px) {
+    .o_nodus_subtitulo {
+        margin: 0 0 12px 10px;
+    }
+    .o_nodus_kpis {
+        margin-bottom: 12px;
+    }
+    .o_nodus_kpi {
+        padding: 14px 18px;
+        gap: 8px;
+        border-radius: 24px;
+    }
+    .o_nodus_kpi_icono {
+        width: 32px;
+        height: 32px;
+        padding: 7px;
+        border-radius: 10px;
+
+        svg {
+            width: 18px;
+            height: 18px;
+        }
+    }
+    .o_nodus_tend {
+        font-size: 12px;
+        padding: 3px 7px;
+    }
+    .o_nodus_kpi_tit {
+        margin-bottom: -6px;
+        font-size: 13px;
+    }
+    .o_nodus_kpi_valor {
+        font-size: 24px;
+    }
+    .o_nodus_grafico {
+        padding: 18px 24px;
+        border-radius: 24px;
+    }
+    .o_nodus_actividad {
+        padding: 18px 20px;
+        gap: 8px;
+        border-radius: 24px;
+    }
+    .o_nodus_panel_cab {
+        margin-bottom: 10px;
+    }
+    .o_nodus_panel_tit {
+        font-size: 17px;
+    }
+    .o_nodus_segmentos .btn-filtro {
+        padding: 6px 12px;
+    }
+    .o_nodus_act_lista {
+        margin-top: 4px;
+        gap: 2px;
+    }
+    .o_nodus_act_fila {
+        padding: 6px 8px;
+    }
+    .o_nodus_act_icono {
+        width: 34px;
+        height: 34px;
+    }
+    .o_nodus_leyenda {
+        margin-top: 6px;
+        font-size: 13px;
+    }
+    .o_nodus_ver_todas {
+        padding: 9px;
+        font-size: 14px;
+        border-radius: 14px;
+    }
+    .o_nodus_nota {
+        margin-top: 8px;
+        font-size: 12px;
     }
 }
