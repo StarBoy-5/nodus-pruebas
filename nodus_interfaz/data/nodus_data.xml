@@ -23,15 +23,15 @@
               web_icon="nodus_interfaz,static/description/icon.png"
               sequence="-100"/>
 
-    <!-- Ventas: el tablero de hadeon_ui y, como secciones, los documentos de Odoo detrás -->
+    <!-- Resumen (la pantalla "Ventas" de hadeon_ui): tablero del negocio y, como secciones, los documentos de Odoo detrás -->
     <record id="action_tablero_ventas" model="ir.actions.client">
-        <field name="name">Ventas</field>
+        <field name="name">Resumen</field>
         <field name="tag">nodus_tablero_ventas</field>
-        <field name="path">ventas</field>
+        <field name="path">resumen</field>
     </record>
 
     <menuitem id="menu_ventas"
-              name="Ventas"
+              name="Resumen"
               web_icon="nodus_interfaz,static/description/icon.png"
               sequence="-90">
         <menuitem id="menu_ventas_tablero" name="Tablero" action="action_tablero_ventas" sequence="1"/>

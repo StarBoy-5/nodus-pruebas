@@ -1,5 +1,5 @@
 /** @odoo-module **/
-// Tablero de Ventas (pantalla Ventas de hadeon_ui): cuatro indicadores, el gráfico de
+// Resumen (pantalla "Ventas" de hadeon_ui): cuatro indicadores, el gráfico de
 // ingresos y gastos por periodo y la actividad reciente, con datos reales de Odoo
 // (modelo nodus.tablero).
 

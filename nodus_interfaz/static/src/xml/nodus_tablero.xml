@@ -3,7 +3,7 @@
 
     <t t-name="nodus_interfaz.TableroVentas">
         <div class="o_nodus_tablero o_action">
-            <h1 class="o_nodus_tit_movil">Ventas</h1>
+            <h1 class="o_nodus_tit_movil">Resumen</h1>
             <p class="o_nodus_subtitulo">Información en tiempo real y análisis de flujo de caja</p>
 
             <t t-set="d" t-value="state.datos"/>
