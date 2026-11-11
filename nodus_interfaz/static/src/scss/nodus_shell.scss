@@ -793,3 +793,33 @@ body.o_web_client.o_nodus.o_nodus_inicio {
     -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 18px), transparent);
     mask-image: linear-gradient(to bottom, #000 calc(100% - 18px), transparent);
 }
+
+// ---------- Pantallas diseñadas (hadeon_ui) dentro de la tarjeta ----------
+// La pantalla trae su propio título y botones: se oculta la barra de Odoo y la
+// tarjeta queda completa para ella.
+body.o_web_client.o_nodus.o_nodus_ui_activa {
+    .o_navbar {
+        display: none !important;
+    }
+    .o_action_manager {
+        border-radius: 33px;
+    }
+}
+@media (max-width: 767.98px), (max-width: 1023.98px) and (orientation: portrait) {
+    body.o_web_client.o_nodus.o_nodus_ui_activa .o_action_manager {
+        border-radius: 28px 28px 0 0;
+    }
+}
+.o_action.o_nodus_pagina_ui {
+    display: block;
+    height: 100%;
+    overflow: hidden;
+    background: #F3F3FC;
+}
+.o_nodus_pagina_marco {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    background: #F3F3FC;
+}

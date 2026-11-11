@@ -8,11 +8,12 @@
     "category": "Hidden",
     "author": "Hadeon",
     "license": "LGPL-3",
-    "depends": ["web", "mail", "account", "point_of_sale"],
+    "depends": ["web", "mail", "account", "point_of_sale", "purchase_stock"],
     "data": [
         "security/nodus_security.xml",
         "data/nodus_data.xml",
         "views/webclient_templates.xml",
+        "views/ui/inventario.xml",
     ],
     "assets": {
         "web._assets_primary_variables": [
@@ -28,6 +29,7 @@
             "nodus_interfaz/static/src/js/nodus_shell.js",
             "nodus_interfaz/static/src/js/nodus_menu_principal.js",
             "nodus_interfaz/static/src/js/nodus_tablero_ventas.js",
+            "nodus_interfaz/static/src/js/nodus_pagina_ui.js",
             "nodus_interfaz/static/src/js/nodus_titulo.js",
             "nodus_interfaz/static/src/js/nodus_marca.js",
             "nodus_interfaz/static/src/xml/nodus_shell.xml",
