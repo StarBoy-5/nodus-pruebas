@@ -10,6 +10,7 @@ APPS_CLIENTE = (
     "account.menu_finance",
     "point_of_sale.menu_point_root",
     "stock.menu_stock_root",
+    "nodus_interfaz.menu_ventas",
     "sale.sale_menu_root",
     "contacts.menu_contacts",
     "auto_repair_workshop.menu_workshop_root",
@@ -19,8 +20,25 @@ APPS_CLIENTE = (
 )
 
 
+# Menús de otros módulos que en Nodus viven dentro de otra app (como en hadeon_ui):
+# xmlid del menú -> (xmlid del nuevo padre, secuencia)
+REUBICAR = {
+    # "Precios" de hadeon_pricing_usd: en hadeon_ui la lista de precios está dentro de Inventario
+    "hadeon_pricing_usd.menu_hadeon_prices_root": ("stock.menu_stock_root", 90),
+}
+
+
 class IrUiMenu(models.Model):
     _inherit = "ir.ui.menu"
+
+    @api.model
+    def _nodus_reubicar_menus(self):
+        """Mueve los menús de REUBICAR si su módulo está instalado (se llama en cada actualización)."""
+        for menu_xmlid, (padre_xmlid, secuencia) in REUBICAR.items():
+            menu = self.env.ref(menu_xmlid, raise_if_not_found=False)
+            padre = self.env.ref(padre_xmlid, raise_if_not_found=False)
+            if menu and padre and menu.parent_id != padre:
+                menu.write({"parent_id": padre.id, "sequence": secuencia})
 
     @api.model
     def _nodus_es_soporte(self):

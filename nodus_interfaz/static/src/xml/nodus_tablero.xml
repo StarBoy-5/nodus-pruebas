@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="nodus_interfaz.TableroVentas">
+        <div class="o_nodus_tablero o_action">
+            <h1 class="o_nodus_tit_movil">Ventas</h1>
+            <p class="o_nodus_subtitulo">Información en tiempo real y análisis de flujo de caja</p>
+
+            <t t-set="d" t-value="state.datos"/>
+            <div class="o_nodus_kpis" t-if="d">
+                <t t-set="tv" t-value="tendencia(d.kpis.ventas.tendencia)"/>
+                <div class="o_nodus_kpi">
+                    <div class="o_nodus_kpi_cab">
+                        <span class="o_nodus_kpi_icono"><svg viewBox="0 0 19 14" fill="currentColor" aria-hidden="true"><path d="M10.83 7.5q-1.04 0-1.77-.73T8.33 5t.73-1.77T10.83 2.5t1.77.73T13.33 5t-.73 1.77-1.77.73M5 10q-.69 0-1.18-.49T3.33 8.33V1.67q0-.69.49-1.18T5 0h11.67q.69 0 1.18.49t.48 1.18v6.66q0 .69-.48 1.18t-1.18.49zm1.67-1.67H15q0-.69.49-1.18t1.18-.48V3.33q-.69 0-1.18-.49T15 1.67H6.67q0 .69-.49 1.17T5 3.33v3.34q.69 0 1.18.48t.49 1.18m9.16 5H1.67q-.69 0-1.18-.49T0 11.67V2.5h1.67v9.17h14.16z"/></svg></span>
+                        <span t-att-class="'o_nodus_tend ' + tv.clase"><t t-esc="tv.flecha"/> <t t-esc="tv.texto"/></span>
+                    </div>
+                    <p class="o_nodus_kpi_tit">Ventas Totales</p>
+                    <h3 class="o_nodus_kpi_valor" t-esc="dinero(d.kpis.ventas.valor)"/>
+                </div>
+                <t t-set="tt" t-value="tendencia(d.kpis.tickets.tendencia)"/>
+                <div class="o_nodus_kpi">
+                    <div class="o_nodus_kpi_cab">
+                        <span class="o_nodus_kpi_icono o_nodus_kpi_icono_gris"><svg viewBox="0 0 12 14" fill="currentColor" aria-hidden="true"><path d="M2 13.33q-.83 0-1.42-.58T0 11.33v-2h2V0l1 1 1-1 1 1 1-1 1 1 1-1 1 1 1-1 1 1 1-1v11.33q0 .84-.58 1.42t-1.42.58zm8-1.33q.28 0 .47-.19t.2-.48V2H3.33v7.33h6v2q0 .29.2.48T10 12M4 4.67V3.33h4v1.34zm0 2V5.33h4v1.34zm5.33-2q-.28 0-.47-.2T8.67 4t.19-.47.47-.2.48.2T10 4t-.19.47-.48.2m0 2q-.28 0-.47-.2T8.67 6t.19-.47.47-.2.48.2T10 6t-.19.47-.48.2M2 12h6v-1.33H1.33v.66q0 .29.2.48T2 12"/></svg></span>
+                        <span t-att-class="'o_nodus_tend ' + tt.clase"><t t-esc="tt.flecha"/> <t t-esc="tt.texto"/></span>
+                    </div>
+                    <p class="o_nodus_kpi_tit">Tickets Emitidos</p>
+                    <h3 class="o_nodus_kpi_valor" t-esc="entero(d.kpis.tickets.valor)"/>
+                </div>
+                <t t-set="tp" t-value="tendencia(d.kpis.promedio.tendencia)"/>
+                <div class="o_nodus_kpi">
+                    <div class="o_nodus_kpi_cab">
+                        <span class="o_nodus_kpi_icono o_nodus_kpi_icono_naranja"><svg viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M377.94 169.94V216H134.06v-46.06c0-21.38-25.85-32.09-40.97-16.97L7.03 239.03a24 24 0 0 0 0 33.94l86.06 86.06c15.12 15.12 40.97 4.41 40.97-16.97V296h243.88v46.06c0 21.38 25.85 32.09 40.97 16.97l86.06-86.06a24 24 0 0 0 0-33.94l-86.06-86.06c-15.12-15.12-40.97-4.41-40.97 16.97z"/></svg></span>
+                        <span t-att-class="'o_nodus_tend ' + tp.clase"><t t-esc="tp.flecha"/> <t t-esc="tp.texto"/></span>
+                    </div>
+                    <p class="o_nodus_kpi_tit">Ticket Promedio</p>
+                    <h3 class="o_nodus_kpi_valor" t-esc="dinero(d.kpis.promedio.valor)"/>
+                </div>
+                <t t-set="tb" t-value="tendencia(d.kpis.tasa.tendencia)"/>
+                <div class="o_nodus_kpi">
+                    <div class="o_nodus_kpi_cab">
+                        <span class="o_nodus_kpi_icono o_nodus_kpi_icono_verde"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 11a8 8 0 0 0-14.3-4.9L4 8"/><path d="M4 3v5h5"/><path d="M4 13a8 8 0 0 0 14.3 4.9L20 16"/><path d="M20 21v-5h-5"/></svg></span>
+                        <span t-att-class="'o_nodus_tend ' + tb.clase"><t t-esc="tb.flecha"/> <t t-esc="tb.texto"/></span>
+                    </div>
+                    <p class="o_nodus_kpi_tit">Tasa BCV del Día</p>
+                    <h3 class="o_nodus_kpi_valor"><t t-if="d.kpis.tasa.valor">Bs<t t-esc="dinero(d.kpis.tasa.valor).slice(1)"/></t><t t-else="">Sin tasa</t></h3>
+                </div>
+            </div>
+
+            <div class="o_nodus_tablero_fila" t-if="d">
+                <section class="o_nodus_panel o_nodus_grafico">
+                    <div class="o_nodus_panel_cab">
+                        <h2 class="o_nodus_panel_tit">Análisis Financiero</h2>
+                        <div class="o_nodus_segmentos" role="group" aria-label="Periodo">
+                            <t t-foreach="periodos" t-as="p" t-key="p.clave">
+                                <button type="button" class="btn-filtro" t-att-class="{ activo: state.periodo === p.clave }"
+                                        t-att-aria-pressed="state.periodo === p.clave ? 'true' : 'false'"
+                                        t-on-click="() => this.elegir(p.clave)" t-esc="p.nombre"/>
+                            </t>
+                        </div>
+                    </div>
+                    <div class="o_nodus_barras" t-att-class="{ o_nodus_cargando: state.cargando }">
+                        <div class="o_nodus_eje">
+                            <t t-foreach="escala.marcas" t-as="m" t-key="m_index">
+                                <span t-esc="etiquetaEje(m)"/>
+                            </t>
+                        </div>
+                        <div class="o_nodus_area">
+                            <t t-foreach="escala.marcas" t-as="m" t-key="m_index">
+                                <span class="o_nodus_guia" t-att-style="'bottom:' + (100 - m_index * 25) + '%'"/>
+                            </t>
+                            <div class="o_nodus_columnas">
+                                <t t-foreach="d.serie" t-as="p" t-key="p_index">
+                                    <div class="o_nodus_columna" t-att-title="p.etiqueta + ': ingresos ' + dinero(p.ingresos) + ', gastos ' + dinero(p.gastos)">
+                                        <div class="o_nodus_par">
+                                            <span class="o_nodus_barra o_nodus_barra_ing" t-att-style="'height:' + alto(p.ingresos)"/>
+                                            <span class="o_nodus_barra o_nodus_barra_gas" t-att-style="'height:' + alto(p.gastos)"/>
+                                        </div>
+                                        <span class="o_nodus_col_etq" t-esc="p.etiqueta"/>
+                                    </div>
+                                </t>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="o_nodus_leyenda">
+                        <span><i class="o_nodus_punto o_nodus_punto_ing"/>Ingresos</span>
+                        <span><i class="o_nodus_punto o_nodus_punto_gas"/>Gastos</span>
+                    </div>
+                </section>
+
+                <section class="o_nodus_panel o_nodus_actividad">
+                    <h2 class="o_nodus_panel_tit">Actividad Reciente</h2>
+                    <div class="o_nodus_act_lista">
+                        <t t-foreach="d.actividad" t-as="e" t-key="e.modelo + e.id">
+                            <button type="button" class="o_nodus_act_fila" t-on-click="() => this.abrir(e)">
+                                <span t-att-class="'o_nodus_act_icono o_nodus_act_' + e.tipo">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                        <t t-if="e.tipo === 'ingreso'"><path d="M12 5v14"/><path d="M19 12l-7 7-7-7"/></t>
+                                        <t t-else=""><path d="M12 19V5"/><path d="M5 12l7-7 7 7"/></t>
+                                    </svg>
+                                </span>
+                                <span class="o_nodus_act_txt">
+                                    <span class="o_nodus_act_nom" t-esc="e.titulo"/>
+                                    <span class="o_nodus_act_fecha" t-esc="fecha(e.fecha)"/>
+                                </span>
+                                <span class="o_nodus_act_monto">
+                                    <span t-att-class="'o_nodus_act_val o_nodus_act_val_' + e.tipo"><t t-esc="e.tipo === 'ingreso' ? '+' : '-'"/><t t-esc="dinero(e.monto)"/></span>
+                                    <span class="o_nodus_act_estado" t-esc="e.estado"/>
+                                </span>
+                            </button>
+                        </t>
+                        <p class="o_nodus_act_vacio" t-if="!d.actividad.length">Todavía no hay movimientos.</p>
+                    </div>
+                    <button type="button" class="o_nodus_ver_todas" t-on-click="verTodas">Ver Todas las Transacciones</button>
+                </section>
+            </div>
+            <p class="o_nodus_nota" t-if="d and !d.con_tasa">Sin tasa BCV del día: los montos se muestran en <t t-esc="d.moneda_empresa"/>.</p>
+        </div>
+    </t>
+
+</templates>

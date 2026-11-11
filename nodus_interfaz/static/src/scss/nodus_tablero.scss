@@ -1,0 +1,481 @@
+// Tablero de Ventas: medidas de la pantalla Ventas de hadeon_ui
+// (tarjetas de 33 px, borde #E2E2EB, sombra 0 2px 12px, títulos Poppins, valores Inter 32/700).
+
+.o_nodus_tablero {
+    height: 100%;
+    overflow-y: auto;
+    padding: 0 32px 32px;
+    background: #F3F3FC;
+    color: #191B22;
+}
+
+// En PC el título lo pone la barra; en teléfono la barra no lo muestra en pantallas propias
+.o_nodus_tit_movil {
+    display: none;
+    margin: 0 0 4px 8px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 26px;
+    font-weight: 600;
+    color: #0047AB;
+}
+
+@media (max-width: 767.98px) {
+    .o_nodus_tit_movil {
+        display: block;
+    }
+}
+
+.o_nodus_subtitulo {
+    margin: 2px 0 26px 10px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    color: #6B7280;
+}
+
+@mixin nodus-tarjeta {
+    background: #fff;
+    border: 1px solid #E2E2EB;
+    border-radius: 33px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, .05);
+}
+
+// ---------- Indicadores ----------
+.o_nodus_kpis {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.o_nodus_kpi {
+    @include nodus-tarjeta;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    min-width: 0;
+}
+
+.o_nodus_kpi_cab {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.o_nodus_kpi_icono {
+    width: 40px;
+    height: 40px;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    background: #EEF4FF;
+    color: #0047AB;
+
+    svg {
+        width: 20px;
+        height: 20px;
+    }
+    &.o_nodus_kpi_icono_gris {
+        background: #F1F2F6;
+        color: #434653;
+    }
+    &.o_nodus_kpi_icono_naranja {
+        background: #FDEEE8;
+        color: #8B2E01;
+    }
+    &.o_nodus_kpi_icono_verde {
+        background: #E3F6F0;
+        color: #0E7C66;
+    }
+}
+
+.o_nodus_tend {
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    white-space: nowrap;
+
+    &.o_nodus_tend_sube {
+        background: #DAE2FF;
+        color: #2559BD;
+    }
+    &.o_nodus_tend_baja {
+        background: #FFDAD6;
+        color: #BA1A1A;
+    }
+    &.o_nodus_tend_igual {
+        background: #E2E2EB;
+        color: #434653;
+    }
+}
+
+.o_nodus_kpi_tit {
+    margin: 0 0 -10px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    color: #434653;
+}
+
+.o_nodus_kpi_valor {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 1.1;
+    color: #434653;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+// ---------- Gráfico y actividad ----------
+.o_nodus_tablero_fila {
+    display: grid;
+    grid-template-columns: minmax(0, 2.1fr) minmax(280px, 1fr);
+    gap: 12px;
+}
+
+.o_nodus_panel {
+    @include nodus-tarjeta;
+    min-width: 0;
+}
+
+.o_nodus_panel_cab {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+}
+
+.o_nodus_panel_tit {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    color: #191B22;
+}
+
+.o_nodus_segmentos {
+    display: flex;
+    gap: 4px;
+    padding: 4px;
+    border-radius: 8px;
+    background: #EDEDF6;
+
+    .btn-filtro {
+        padding: 8px 16px;
+        border: 0;
+        border-radius: 6px;
+        background: transparent;
+        color: #434653;
+        font-family: 'Inter', sans-serif;
+        font-size: 13px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background .2s ease, color .2s ease;
+
+        &:hover {
+            color: #191B22;
+        }
+        &.activo {
+            background: #fff;
+            color: #191B22;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
+        }
+    }
+}
+
+.o_nodus_grafico {
+    padding: 32px;
+}
+
+.o_nodus_barras {
+    display: flex;
+    gap: 12px;
+    height: 330px;
+    transition: opacity .2s ease;
+
+    &.o_nodus_cargando {
+        opacity: .45;
+    }
+}
+
+.o_nodus_eje {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 48px;
+    padding-bottom: 28px;
+    margin-top: -8px;
+    text-align: right;
+    font-size: 12px;
+    color: #434653;
+}
+
+.o_nodus_area {
+    position: relative;
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.o_nodus_guia {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 1px;
+    margin-bottom: 28px;
+    background: #ECEDF3;
+}
+
+.o_nodus_columnas {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    justify-content: space-around;
+    padding: 0 8px;
+}
+
+.o_nodus_columna {
+    flex: 1 1 0;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.o_nodus_par {
+    flex: 1 1 auto;
+    width: 100%;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 4px;
+}
+
+.o_nodus_barra {
+    width: 18px;
+    max-width: 30%;
+    border-radius: 2px 2px 0 0;
+    transition: height .4s cubic-bezier(.4, 0, .2, 1);
+
+    &.o_nodus_barra_ing {
+        background: #0047AB;
+    }
+    &.o_nodus_barra_gas {
+        background: #C9CED8;
+    }
+}
+
+.o_nodus_col_etq {
+    height: 28px;
+    padding-top: 10px;
+    font-size: 12px;
+    color: #434653;
+    white-space: nowrap;
+}
+
+.o_nodus_leyenda {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    margin-top: 14px;
+    font-size: 14px;
+    color: #434653;
+
+    span {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+}
+
+.o_nodus_punto {
+    width: 12px;
+    height: 12px;
+    border-radius: 2px;
+
+    &.o_nodus_punto_ing {
+        background: #0047AB;
+    }
+    &.o_nodus_punto_gas {
+        background: #C9CED8;
+    }
+}
+
+.o_nodus_actividad {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.o_nodus_act_lista {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 12px;
+}
+
+.o_nodus_act_fila {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    width: 100%;
+    padding: 10px;
+    border: 0;
+    border-radius: 12px;
+    background: transparent;
+    text-align: left;
+    cursor: pointer;
+    transition: background .2s ease;
+
+    &:hover,
+    &:focus-visible {
+        background: #F5F6FB;
+        outline: 0;
+    }
+}
+
+.o_nodus_act_icono {
+    flex: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    svg {
+        width: 20px;
+        height: 20px;
+    }
+    &.o_nodus_act_ingreso {
+        background: #EEF4FF;
+        color: #0047AB;
+    }
+    &.o_nodus_act_egreso {
+        background: #FDECEC;
+        color: #BA1A1A;
+    }
+}
+
+.o_nodus_act_txt,
+.o_nodus_act_monto {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.o_nodus_act_txt {
+    flex: 1 1 auto;
+}
+
+.o_nodus_act_monto {
+    align-items: flex-end;
+    flex: none;
+}
+
+.o_nodus_act_nom,
+.o_nodus_act_val {
+    font-size: 14px;
+    font-weight: 600;
+    color: #191B22;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.o_nodus_act_val_ingreso {
+    color: #0047AB;
+}
+
+.o_nodus_act_fecha,
+.o_nodus_act_estado {
+    font-size: 12px;
+    color: #434653;
+}
+
+.o_nodus_act_vacio {
+    margin: 24px 0;
+    text-align: center;
+    color: #6B7280;
+}
+
+.o_nodus_ver_todas {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #D9D9E2;
+    border-radius: 16px;
+    background: #fff;
+    color: #0047AB;
+    font-family: 'Poppins', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background .2s ease, border-color .2s ease;
+
+    &:hover {
+        background: #F5F7FF;
+        border-color: #B1C5FF;
+    }
+}
+
+.o_nodus_nota {
+    margin: 14px 0 0 10px;
+    font-size: 13px;
+    color: #6B7280;
+}
+
+// ---------- Tamaños ----------
+@media (max-width: 1280px) {
+    .o_nodus_kpis {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 1023.98px) {
+    .o_nodus_tablero_fila {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+@media (max-width: 767.98px) {
+    .o_nodus_tablero {
+        padding: 0 12px calc(var(--item-size, 60px) + 56px);
+    }
+    .o_nodus_subtitulo {
+        margin: 0 0 16px 8px;
+    }
+    .o_nodus_kpis {
+        gap: 10px;
+    }
+    .o_nodus_kpi {
+        padding: 16px;
+        gap: 12px;
+        border-radius: 24px;
+    }
+    .o_nodus_kpi_valor {
+        font-size: 22px;
+    }
+    .o_nodus_grafico {
+        padding: 20px 14px;
+        border-radius: 24px;
+    }
+    .o_nodus_barras {
+        height: 240px;
+    }
+    .o_nodus_eje {
+        width: 40px;
+    }
+    .o_nodus_actividad {
+        border-radius: 24px;
+    }
+}
