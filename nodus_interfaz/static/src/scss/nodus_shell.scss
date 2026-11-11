@@ -760,3 +760,36 @@ body.o_web_client.o_nodus.o_nodus_inicio {
         background: none !important;
     }
 }
+
+// Pantallas bajas (laptops de 768 px o menos de alto): lateral más compacto y con
+// un desvanecido abajo que indica que la lista sigue
+@media (max-height: 760px) {
+    .o_nodus_lateral {
+        .o_nodus_lat_top {
+            margin: 4px 10px 12px 4px;
+        }
+        .o_nodus_lat_tit {
+            margin-bottom: 10px;
+        }
+        .o_nodus_lat_lista {
+            gap: 2px;
+        }
+        .sidebar-nav-item {
+            height: 38px;
+            padding: 8px 12px;
+        }
+        .o_nodus_lat_sesion {
+            padding-top: 8px;
+        }
+        .o_nodus_lat_sesion_t {
+            margin-bottom: 4px;
+        }
+        .user-profile-row {
+            height: 52px;
+        }
+    }
+}
+.o_nodus_lat_lista {
+    -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 18px), transparent);
+    mask-image: linear-gradient(to bottom, #000 calc(100% - 18px), transparent);
+}

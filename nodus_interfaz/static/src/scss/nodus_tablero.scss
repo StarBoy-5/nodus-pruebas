@@ -1,8 +1,11 @@
 // Tablero de Ventas: medidas de la pantalla Ventas de hadeon_ui
 // (tarjetas de 33 px, borde #E2E2EB, sombra 0 2px 12px, títulos Poppins, valores Inter 32/700).
 
-.o_nodus_tablero {
+// .o_action de Odoo trae display:flex y overflow:hidden: aquí el contenido debe desplazarse
+.o_action.o_nodus_tablero {
+    display: block;
     height: 100%;
+    overflow-x: hidden;
     overflow-y: auto;
     padding: 0 32px 32px;
     background: #F3F3FC;
@@ -199,7 +202,8 @@
 .o_nodus_barras {
     display: flex;
     gap: 12px;
-    height: 330px;
+    // se achica en pantallas bajas para que el tablero entre en la tarjeta
+    height: clamp(180px, calc(100vh - 520px), 330px);
     transition: opacity .2s ease;
 
     &.o_nodus_cargando {
@@ -448,7 +452,7 @@
 }
 
 @media (max-width: 767.98px) {
-    .o_nodus_tablero {
+    .o_action.o_nodus_tablero {
         padding: 0 12px calc(var(--item-size, 60px) + 56px);
     }
     .o_nodus_subtitulo {
@@ -477,5 +481,17 @@
     }
     .o_nodus_actividad {
         border-radius: 24px;
+    }
+}
+
+// El gráfico ocupa todo el alto de su tarjeta (que se iguala a la de Actividad Reciente)
+.o_nodus_grafico {
+    display: flex;
+    flex-direction: column;
+
+    .o_nodus_barras {
+        flex: 1 1 auto;
+        min-height: clamp(180px, calc(100vh - 520px), 330px);
+        height: auto;
     }
 }
