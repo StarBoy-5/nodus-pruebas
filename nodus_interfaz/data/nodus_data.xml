@@ -51,6 +51,15 @@
     <menuitem id="menu_ui_inventario" name="Inventario" parent="stock.menu_stock_root"
               action="action_ui_inventario" sequence="-1"/>
 
+    <record id="action_ui_contactos" model="ir.actions.client">
+        <field name="name">Contactos</field>
+        <field name="tag">nodus_pagina_ui</field>
+        <field name="params" eval="{'pagina': 'contactos'}"/>
+        <field name="path">contactos</field>
+    </record>
+    <menuitem id="menu_ui_contactos" name="Contactos" parent="contacts.menu_contacts"
+              action="action_ui_contactos" sequence="-1"/>
+
     <!-- Menús de otros módulos que en Nodus van dentro de otra app (Precios dentro de Inventario) -->
     <function model="ir.ui.menu" name="_nodus_reubicar_menus"/>
 </odoo>

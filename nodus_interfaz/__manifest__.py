@@ -8,12 +8,13 @@
     "category": "Hidden",
     "author": "Hadeon",
     "license": "LGPL-3",
-    "depends": ["web", "mail", "account", "point_of_sale", "purchase_stock"],
+    "depends": ["web", "mail", "account", "point_of_sale", "purchase_stock", "contacts"],
     "data": [
         "security/nodus_security.xml",
         "data/nodus_data.xml",
         "views/webclient_templates.xml",
         "views/ui/inventario.xml",
+        "views/ui/contactos.xml",
     ],
     "assets": {
         "web._assets_primary_variables": [
