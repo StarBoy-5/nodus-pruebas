@@ -60,6 +60,57 @@
     <menuitem id="menu_ui_contactos" name="Contactos" parent="contacts.menu_contacts"
               action="action_ui_contactos" sequence="-1"/>
 
+    <record id="action_ui_contabilidad" model="ir.actions.client">
+        <field name="name">Contabilidad</field>
+        <field name="tag">nodus_pagina_ui</field>
+        <field name="params" eval="{'pagina': 'contabilidad'}"/>
+        <field name="path">contabilidad</field>
+    </record>
+    <menuitem id="menu_ui_contabilidad" name="Contabilidad" parent="account.menu_finance"
+              action="action_ui_contabilidad" sequence="-1"/>
+
+    <record id="action_ui_pos" model="ir.actions.client">
+        <field name="name">Punto de Venta</field>
+        <field name="tag">nodus_pagina_ui</field>
+        <field name="params" eval="{'pagina': 'punto-de-venta'}"/>
+        <field name="path">punto-de-venta</field>
+    </record>
+    <menuitem id="menu_ui_pos" name="Punto de Venta" parent="point_of_sale.menu_point_root"
+              action="action_ui_pos" sequence="-1"/>
+
+    <!-- Comandas: lo que el Punto de Venta manda a cocina, barra, parrilla... -->
+    <record id="seq_nodus_comanda" model="ir.sequence">
+        <field name="name">Comandas Nodus</field>
+        <field name="code">nodus.comanda</field>
+        <field name="prefix">#</field>
+        <field name="padding">4</field>
+    </record>
+    <record id="action_ui_comandas" model="ir.actions.client">
+        <field name="name">Comandas</field>
+        <field name="tag">nodus_pagina_ui</field>
+        <field name="params" eval="{'pagina': 'comandas'}"/>
+        <field name="path">comandas</field>
+    </record>
+    <menuitem id="menu_comandas" name="Comandas" action="action_ui_comandas"
+              web_icon="nodus_interfaz,static/description/icon.png" sequence="950"/>
+
+    <!-- Configuración: lo que ve el cliente. Los Ajustes originales de Odoo quedan solo para soporte -->
+    <record id="action_ui_configuracion" model="ir.actions.client">
+        <field name="name">Configuración</field>
+        <field name="tag">nodus_pagina_ui</field>
+        <field name="params" eval="{'pagina': 'configuracion'}"/>
+        <field name="path">configuracion</field>
+    </record>
+    <menuitem id="menu_configuracion" name="Configuración" action="action_ui_configuracion"
+              web_icon="nodus_interfaz,static/description/icon.png" sequence="900"
+              groups="nodus_interfaz.group_nodus_admin,nodus_interfaz.group_nodus_soporte"/>
+
+    <!-- El asistente automático de Odoo se llama Nodus Bot -->
+    <function model="res.partner" name="write">
+        <value eval="[ref('base.partner_root')]"/>
+        <value eval="{'name': 'Nodus Bot'}"/>
+    </function>
+
     <!-- Menús de otros módulos que en Nodus van dentro de otra app (Precios dentro de Inventario) -->
     <function model="ir.ui.menu" name="_nodus_reubicar_menus"/>
 </odoo>

@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Documentos con formato Nodus: TODO lo que sale (cotizaciones, facturas, órdenes de compra,
+         entregas, recibos de pago, reportes contables y de caja) usa estos marcos. El estilo está en
+         static/src/scss/nodus_reportes.scss (paquete web.report_assets_common). -->
+
+    <!-- Marco externo (lo que ve el cliente). Se fuerza aquí para que ningún documento salga con un
+         diseño de Odoo aunque alguien elija otro en Ajustes > Diseño del documento. -->
+    <template id="external_layout_nodus" name="Nodus: marco de documentos">
+        <div t-attf-class="header o_nodus_doc_cab o_company_#{company.id}_layout">
+            <div class="o_nodus_doc_franja"/>
+            <table class="o_nodus_doc_cab_tabla">
+                <tr>
+                    <td class="o_nodus_doc_logo" t-if="company.logo">
+                        <img t-att-src="image_data_uri(company.logo)" alt="Logo"/>
+                    </td>
+                    <td class="o_nodus_doc_empresa">
+                        <div class="o_nodus_doc_empresa_nombre" t-out="company.name"/>
+                        <div t-if="company.report_header" class="o_nodus_doc_lema" t-field="company.report_header"/>
+                        <div class="o_nodus_doc_empresa_datos">
+                            <span t-if="forced_vat or company.vat">
+                                <t t-out="company.country_id.vat_label or 'RIF'"/>: <t t-out="forced_vat or company.vat"/>
+                            </span>
+                            <span t-if="company.street"><t t-out="company.street"/><t t-if="company.city">, <t t-out="company.city"/></t></span>
+                        </div>
+                        <div class="o_nodus_doc_empresa_datos">
+                            <span t-if="company.phone">Tel. <t t-out="company.phone"/></span>
+                            <span t-if="company.email" t-out="company.email"/>
+                            <span t-if="company.website" t-out="company.website"/>
+                        </div>
+                    </td>
+                    <td class="o_nodus_doc_ref" t-if="o and 'name' in o and o.name">
+                        <div class="o_nodus_doc_ref_num" t-out="o.name"/>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div t-attf-class="article o_nodus_doc o_company_#{company.id}_layout"
+             t-att-data-oe-model="o and o._name"
+             t-att-data-oe-id="o and o.id"
+             t-att-data-oe-lang="o and o.env.context.get('lang')">
+            <t t-call="web.address_layout"/>
+            <h2 t-out="layout_document_title"/>
+            <t t-out="0"/>
+        </div>
+
+        <div t-attf-class="footer o_nodus_doc_pie o_company_#{company.id}_layout">
+            <table class="o_nodus_doc_pie_tabla">
+                <tr>
+                    <td class="o_nodus_doc_pie_texto"><div t-field="company.report_footer"/></td>
+                    <td class="o_nodus_doc_pie_pagina" t-if="report_type == 'pdf'">
+                        <div t-if="display_name_in_footer and o" t-out="o.name"/>
+                        Página <span class="page"/> de <span class="topage"/>
+                    </td>
+                </tr>
+            </table>
+            <div class="o_nodus_doc_marca">
+                <img src="/nodus_interfaz/static/src/img/nodus-mark-blue.png" alt=""/> Hecho con NODUS
+            </div>
+        </div>
+    </template>
+
+    <template id="external_layout_forzado" inherit_id="web.external_layout" name="Nodus: marco externo siempre">
+        <xpath expr="//t[@t-if='company.external_report_layout_id']" position="replace">
+            <t t-call="nodus_interfaz.external_layout_nodus"><t t-out="0"/></t>
+        </xpath>
+        <xpath expr="//t[@t-call='web.external_layout_standard']" position="replace"/>
+    </template>
+
+    <!-- Marco interno (reportes contables, de caja e inventario): mismo encabezado, compacto -->
+    <template id="internal_layout_nodus" inherit_id="web.internal_layout" name="Nodus: marco interno">
+        <!-- La fila original de Odoo se queda (oculta por CSS): otros módulos la heredan, p. ej. el
+             estado de cuenta bancario cambia las clases de sus columnas -->
+        <xpath expr="//div[hasclass('header')]" position="attributes">
+            <attribute name="class">header o_nodus_doc_cab o_nodus_doc_cab_interno</attribute>
+        </xpath>
+        <xpath expr="//div[hasclass('header')]/div[hasclass('row')]" position="before">
+                <div class="o_nodus_doc_franja"/>
+                <table class="o_nodus_doc_cab_tabla">
+                    <tr>
+                        <td class="o_nodus_doc_logo" t-if="company.logo">
+                            <img t-att-src="image_data_uri(company.logo)" alt="Logo"/>
+                        </td>
+                        <td class="o_nodus_doc_empresa">
+                            <div class="o_nodus_doc_empresa_nombre" t-out="company.name"/>
+                            <div class="o_nodus_doc_empresa_datos">
+                                <span t-if="company.vat"><t t-out="company.country_id.vat_label or 'RIF'"/>: <t t-out="company.vat"/></span>
+                            </div>
+                        </td>
+                        <td class="o_nodus_doc_ref">
+                            <div class="o_nodus_doc_empresa_datos" t-out="context_timestamp(datetime.datetime.now()).strftime('%d/%m/%Y %H:%M')"/>
+                            <div class="o_nodus_doc_empresa_datos">Página <span class="page"/> de <span class="topage"/></div>
+                        </td>
+                    </tr>
+                </table>
+        </xpath>
+        <xpath expr="//div[hasclass('article')]" position="attributes">
+            <attribute name="class">article o_nodus_doc o_nodus_doc_interno</attribute>
+        </xpath>
+    </template>
+
+    <!-- Documentos e interfaz dicen "RIF / C.I." en vez de "Número de identificación fiscal".
+         El país viene de datos protegidos de Odoo (no se pisan con <record>): se escribe con una función. -->
+    <function model="res.country" name="write">
+        <value eval="[ref('base.ve')]"/>
+        <value eval="{'vat_label': 'RIF / C.I.'}"/>
+    </function>
+    <!-- En la dirección de los documentos: también para contactos sin país (en Nodus todos son de Venezuela) -->
+    <template id="contact_rif" inherit_id="base.contact" name="Nodus: RIF / C.I. en direcciones">
+        <xpath expr="//span[@t-esc='vat_label']" position="attributes">
+            <attribute name="t-esc">'RIF / C.I.' if (not object.country_id or object.country_id.code == 'VE') else vat_label</attribute>
+        </xpath>
+    </template>
+
+    <!-- Picking de almacén (stock.report_picking): arma su página sin marco; se le pone el encabezado compacto -->
+    <template id="report_picking_nodus" inherit_id="stock.report_picking" name="Nodus: encabezado del picking">
+        <xpath expr="//div[hasclass('page')]" position="before">
+            <t t-set="company" t-value="o.company_id"/>
+            <div class="o_nodus_doc_cab o_nodus_doc_cab_interno">
+                <div class="o_nodus_doc_franja"/>
+                <table class="o_nodus_doc_cab_tabla">
+                    <tr>
+                        <td class="o_nodus_doc_logo" t-if="company.logo">
+                            <img t-att-src="image_data_uri(company.logo)" alt="Logo"/>
+                        </td>
+                        <td class="o_nodus_doc_empresa">
+                            <div class="o_nodus_doc_empresa_nombre" t-out="company.name"/>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </xpath>
+    </template>
+
+    <!-- Marco básico (etiquetas y códigos de barras): solo las fuentes de Nodus -->
+    <template id="basic_layout_nodus" inherit_id="web.basic_layout" name="Nodus: marco básico">
+        <xpath expr="//div[hasclass('article')]" position="attributes">
+            <attribute name="class">article o_nodus_doc_basico</attribute>
+        </xpath>
+    </template>
+</odoo>

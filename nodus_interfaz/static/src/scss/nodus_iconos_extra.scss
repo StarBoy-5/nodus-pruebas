@@ -1,0 +1,240 @@
+// Tamaños de los iconos Nodus en botones y marcadores de imagen propios (en lugar de los de Odoo)
+$n-gris-icono: #6B7280;
+body.o_web_client.o_nodus {
+    .o_cp_switch_buttons .btn > i,
+    .o_cp_switch_buttons .btn > span {
+        font-size: 18px !important;
+    }
+    .o_pager .btn > i,
+    .o_pager .btn > span {
+        font-size: 16px !important;
+    }
+    .o_breadcrumb .fa-cog,
+    .o_cp_action_menus .fa-cog {
+        font-size: 16px !important;
+    }
+    .o_menu_systray .fa-comments,
+    .o_menu_systray .fa-clock-o {
+        font-size: 20px !important;
+    }
+    .o_form_status_indicator i {
+        font-size: 16px !important;
+    }
+    // Sin foto: marcador de Nodus en lugar de la silueta de Odoo
+    img[src*="/base/static/img/avatar"],
+    img[src*="/base/static/img/placeholder"],
+    img[src*="/web/static/img/placeholder"],
+    img[src*="/web/static/img/user_menu_avatar"] {
+        content: url("/nodus_interfaz/static/src/img/nodus_persona.svg");
+        object-fit: contain;
+        background: transparent;
+    }
+    img[src*="/base/static/img/company_image"],
+    img[src*="/base/static/img/money"] {
+        content: url("/nodus_interfaz/static/src/img/nodus_empresa.svg");
+    }
+}
+// Silueta por defecto de Odoo (viene incrustada en la página) -> marcador de Nodus
+body.o_web_client.o_nodus img[src^="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAAEACAMAAABrrFhUAAAA2FBMVEUAAAA4SHQ"] {
+    content: url("/nodus_interfaz/static/src/img/nodus_persona.svg");
+    object-fit: contain;
+}
+
+// Ajustes: pestañas con los iconos de los módulos de Nodus (en lugar de los de colores de Odoo)
+body.o_web_client.o_nodus .settings_tab .tab {
+    .icon {
+        background-image: none !important;
+        background-color: $n-gris-icono !important;
+        -webkit-mask: var(--nodus-icono) center / 20px 20px no-repeat;
+        mask: var(--nodus-icono) center / 20px 20px no-repeat;
+        width: 22px !important;
+        height: 22px !important;
+    }
+    &.selected .icon {
+        background-color: #0047AB !important;
+    }
+    &[data-key="general_settings"] { --nodus-icono: url("/nodus_interfaz/static/src/img/modulos/ajustes.svg"); }
+    &[data-key="sale_management"] { --nodus-icono: url("/nodus_interfaz/static/src/img/modulos/documento.svg"); }
+    &[data-key="purchase"] { --nodus-icono: url("/nodus_interfaz/static/src/img/modulos/compras.svg"); }
+    &[data-key="stock"] { --nodus-icono: url("/nodus_interfaz/static/src/img/modulos/inventario.svg"); }
+    &[data-key="account"] { --nodus-icono: url("/nodus_interfaz/static/src/img/modulos/documento.svg"); }
+    &[data-key="fleet"] { --nodus-icono: url("/nodus_interfaz/static/src/img/modulos/flotilla.svg"); }
+    &[data-key="point_of_sale"] { --nodus-icono: url("/nodus_interfaz/static/src/img/modulos/pos.svg"); }
+    &[data-key="auto_repair_workshop"] { --nodus-icono: url("/nodus_interfaz/static/src/img/modulos/taller.svg"); }
+    &[data-key="contacts"] { --nodus-icono: url("/nodus_interfaz/static/src/img/modulos/contactos.svg"); }
+    &[data-key="mail"] { --nodus-icono: url("/nodus_interfaz/static/src/img/modulos/conversaciones.svg"); }
+    &:not([data-key="general_settings"]):not([data-key="sale_management"]):not([data-key="purchase"]):not([data-key="stock"]):not([data-key="account"]):not([data-key="fleet"]):not([data-key="point_of_sale"]):not([data-key="auto_repair_workshop"]):not([data-key="contacts"]):not([data-key="mail"]) {
+        --nodus-icono: url("/nodus_interfaz/static/src/img/modulos/aplicaciones.svg");
+    }
+}
+
+// Iconos de apps de Odoo (/<app>/static/description/icon.png) en menús y avisos: icono Nodus
+// blanco sobre cuadro azul redondeado, como los del selector de cobro y las tarjetas de Nodus.
+body.o_web_client.o_nodus img[src*="/static/description/icon"] {
+    content: url("/nodus_interfaz/static/src/img/modulos/aplicaciones.svg");
+    box-sizing: border-box;
+    width: 40px !important;
+    height: 40px !important;
+    padding: 9px;
+    border-radius: 10px;
+    background: #0047AB;
+    object-fit: contain;
+}
+body.o_web_client.o_nodus img[src^="/fleet/static/description/icon"] { content: url("/nodus_interfaz/static/src/img/modulos/flotilla.svg"); }
+body.o_web_client.o_nodus img[src^="/account/static/description/icon"] { content: url("/nodus_interfaz/static/src/img/modulos/documento.svg"); }
+body.o_web_client.o_nodus img[src^="/sale/static/description/icon"] { content: url("/nodus_interfaz/static/src/img/modulos/documento.svg"); }
+body.o_web_client.o_nodus img[src^="/auto_repair_workshop/static/description/icon"] { content: url("/nodus_interfaz/static/src/img/modulos/taller.svg"); }
+body.o_web_client.o_nodus img[src^="/purchase/static/description/icon"] { content: url("/nodus_interfaz/static/src/img/modulos/compras.svg"); }
+body.o_web_client.o_nodus img[src^="/stock/static/description/icon"] { content: url("/nodus_interfaz/static/src/img/modulos/inventario.svg"); }
+body.o_web_client.o_nodus img[src^="/point_of_sale/static/description/icon"] { content: url("/nodus_interfaz/static/src/img/modulos/pos.svg"); }
+body.o_web_client.o_nodus img[src^="/contacts/static/description/icon"] { content: url("/nodus_interfaz/static/src/img/modulos/contactos.svg"); }
+body.o_web_client.o_nodus img[src^="/mail/static/description/icon"] { content: url("/nodus_interfaz/static/src/img/modulos/conversaciones.svg"); }
+body.o_web_client.o_nodus img[src^="/spreadsheet_dashboard/static/description/icon"] { content: url("/nodus_interfaz/static/src/img/modulos/tableros.svg"); }
+body.o_web_client.o_nodus img[src^="/base/static/description/icon"] { content: url("/nodus_interfaz/static/src/img/modulos/ajustes.svg"); }
+body.o_web_client.o_nodus img[src^="/hr/static/description/icon"] { content: url("/nodus_interfaz/static/src/img/modulos/contactos.svg"); }
+body.o_web_client.o_nodus img[src^="/calendar/static/description/icon"] { content: url("/nodus_interfaz/static/src/img/modulos/documento.svg"); }
+body.o_web_client.o_nodus img[src^="/utm/static/description/icon"] { content: url("/nodus_interfaz/static/src/img/modulos/enlaces.svg"); }
+
+// Botones de la barra superior (chat, actividades): sin el recuadro negro al tocarlos
+body.o_web_client.o_nodus .o_menu_systray {
+    .dropdown-toggle, > div > button, button, a {
+        outline: none !important;
+        box-shadow: none !important;
+        border-color: transparent !important;
+        border-radius: 10px;
+    }
+    .dropdown-toggle.show, button.show, button:focus-visible {
+        background: #E8F0FF !important;
+        color: #0047AB !important;
+    }
+}
+// Lista de actividades con el estilo de Nodus
+body.o_web_client.o_nodus .o-mail-ActivityGroup {
+    gap: 12px;
+    align-items: center;
+    padding: 10px 12px !important;
+    border: 0 !important;
+    border-radius: 10px;
+    margin: 2px 6px;
+    &:hover { background: #F7F9FF !important; }
+}
+
+// =====================================================================================
+// Panel de mensajes (Notificaciones / Chats / Canales): se conservan los colores de cada
+// aviso, con la estética de Nodus (avatares cuadrados redondeados, pestañas en píldora,
+// puntos azules y filas con margen y hover suave).
+// =====================================================================================
+body.o_web_client.o_nodus .o-mail-MessagingMenu {
+    font-family: 'Inter', sans-serif;
+    padding: 6px !important;
+
+    // Pestañas en píldora
+    .o-mail-MessagingMenu-headerFilter {
+        border-radius: 999px !important;
+        padding: 6px 14px !important;
+        margin: 4px 2px !important;
+        color: #434653 !important;
+        font-weight: 600 !important;
+        text-decoration: none !important;
+        box-shadow: none !important;
+
+        &.o-active {
+            background: #0047AB !important;
+            color: #fff !important;
+        }
+        &:hover:not(.o-active) {
+            background: #E8F0FF !important;
+            color: #0047AB !important;
+        }
+    }
+    // Filas
+    .o-mail-NotificationItem {
+        border: 0 !important;
+        border-radius: 12px !important;
+        margin: 2px 0;
+        padding: 10px 12px !important;
+        gap: 12px !important;
+        transition: background .2s ease;
+
+        &:hover {
+            background: #F7F9FF !important;
+        }
+    }
+    .o-mail-NotificationItem-name {
+        font-family: 'Poppins', sans-serif;
+        font-weight: 600 !important;
+        color: #1A1A24;
+    }
+    .o-mail-NotificationItem-text {
+        color: #6B7280 !important;
+    }
+    // Avatares: cuadro de 40 px con esquinas de 12 px (se mantiene el color de cada uno)
+    .o-mail-NotificationItem-avatarContainer {
+        flex: 0 0 40px;
+        width: 40px !important;
+        height: 40px !important;
+
+        img.o_avatar {
+            border-radius: 12px !important;
+            object-fit: cover;
+        }
+    }
+    // Estado (corazón verde de Odoo) fuera
+    .o-mail-NotificationItem-avatarContainer .o-mail-ImStatus {
+        display: none !important;
+    }
+    // Puntos de no leído y contadores en azul Nodus
+    .o-mail-NotificationItem-badge,
+    .o-discuss-badge {
+        background: #0047AB !important;
+        color: #fff !important;
+        border-color: #fff !important;
+    }
+    // Botones Instalar / Habilitar
+    .o-mail-NotificationItem .btn-primary {
+        border-radius: 999px !important;
+        padding: 2px 10px !important;
+        font-size: 12px;
+        font-weight: 600;
+        background: #0047AB !important;
+        border-color: #0047AB !important;
+    }
+    .o-mail-NotificationItem .oi-close,
+    .o-mail-NotificationItem .fa-times {
+        color: #9CA3AF !important;
+    }
+}
+// Avatar de Nodus Bot (partner 2): el logo de Nodus sobre azul
+body.o_web_client.o_nodus img[src*="/web/image/res.partner/2/avatar_128"] {
+    content: url("/nodus_interfaz/static/src/img/nodus_bot.png");
+    box-sizing: border-box;
+    padding: 8px;
+    background: #0047AB;
+    object-fit: contain !important;
+}
+
+// Sin desplazamiento horizontal cuando el contenido cabe: las filas no suman margen al ancho
+body.o_web_client.o_nodus .o-mail-ActivityGroup {
+    width: auto !important;
+    max-width: 100%;
+    margin: 2px 0 !important;
+    box-sizing: border-box;
+}
+body.o_web_client.o_nodus .o-mail-ActivityMenu,
+body.o_web_client.o_nodus .o-mail-MessagingMenu,
+body.o_web_client.o_nodus .o_nodus_menu_usuario,
+body.o_web_client.o_nodus .o-dropdown--menu {
+    overflow-x: hidden !important;
+}
+body.o_web_client.o_nodus .o-mail-ActivityMenu {
+    padding: 6px !important;
+}
+
+// Menús desplegables: Odoo les pone "scrollbar-width: thin", que anula la barra de Nodus
+// (separada de las esquinas). Se devuelve a auto para que aplique la regla general.
+body.o_web_client.o_nodus .dropdown-menu,
+body.o_web_client.o_nodus .o-dropdown--menu {
+    scrollbar-width: auto !important;
+    scrollbar-color: auto !important;
+}
+

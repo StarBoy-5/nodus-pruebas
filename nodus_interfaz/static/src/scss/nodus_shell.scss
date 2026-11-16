@@ -6,14 +6,14 @@ $nodus-fondo-contenido: #F3F3FC;
 $nodus-elastica: cubic-bezier(.175, .885, .32, 1.275);
 $nodus-suave: cubic-bezier(.4, 0, .2, 1);
 
-// PC y tablet horizontal usan el lateral; teléfono y tablet vertical, la bóveda
+// PC y tablet (desde 768 px) usan el lateral; solo el teléfono usa la bóveda
 @mixin nodus-pc {
-    @media (min-width: 1024px), (min-width: 768px) and (orientation: landscape) {
+    @media (min-width: 768px) {
         @content;
     }
 }
 @mixin nodus-telefono {
-    @media (max-width: 767.98px), (max-width: 1023.98px) and (orientation: portrait) {
+    @media (max-width: 767.98px) {
         @content;
     }
 }
@@ -41,6 +41,7 @@ body.o_web_client.o_nodus {
         color: #1A1A24;
 
         .o_menu_brand {
+            flex: 0 0 auto;
             margin-right: 18px;
             padding: 0;
             font-family: 'Poppins', sans-serif;
@@ -54,6 +55,9 @@ body.o_web_client.o_nodus {
         .o_menu_sections {
             gap: 8px;
             align-items: center;
+            // ocupa solo el espacio libre: el avatar de la derecha nunca se le monta encima
+            flex: 1 1 0;
+            min-width: 0;
 
             .o_nav_entry,
             .dropdown-toggle {
@@ -80,6 +84,8 @@ body.o_web_client.o_nodus {
         }
         .o_menu_systray {
             color: #434653;
+            flex: 0 0 auto;
+            margin-left: auto;
 
             .o_nav_entry,
             .dropdown-toggle,
@@ -96,6 +102,16 @@ body.o_web_client.o_nodus {
         }
         .o_menu_toggle {
             color: #0047AB !important;
+        }
+        // Anchos medios: el avatar queda arriba a la derecha y las secciones bajan a su propia línea
+        @media (min-width: 768px) and (max-width: 1180px) {
+            .o_menu_brand { order: 1; }
+            .o_menu_systray { order: 2; }
+            .o_menu_sections {
+                order: 3;
+                flex: 1 1 100%;
+                flex-wrap: wrap;
+            }
         }
         // En teléfono Odoo pone ahí el título de la pantalla (migas de pan), en blanco
         .o_navbar_breadcrumbs,
@@ -159,6 +175,15 @@ body.o_web_client.o_nodus {
         &:not(.o_nodus_inicio) .o_action_manager .o_content {
             padding-bottom: calc(var(--item-size) + 44px);
         }
+    }
+}
+
+// Punto de Venta en teléfono: la tarjeta llega de borde a borde para que la bandeja del
+// pedido ocupe todo el ancho de la pantalla, como en el diseño original
+@media (max-width: 767.98px) {
+    body.o_web_client.o_nodus.o_nodus_pag_punto-de-venta {
+        padding-left: 0;
+        padding-right: 0;
     }
 }
 
@@ -528,7 +553,8 @@ body.o_web_client.o_nodus {
 
 // ---------- Menú Principal: pantalla de inicio de hadeon_ui ----------
 body.o_web_client.o_nodus.o_nodus_inicio {
-    padding-left: 0;
+    padding: 0 !important;
+    margin: 0 !important;
 
     .o_navbar,
     .o_nodus_lateral,
@@ -543,11 +569,14 @@ body.o_web_client.o_nodus.o_nodus_inicio {
     }
 }
 
+body.o_web_client.o_nodus.o_nodus_inicio .o_action_manager {
+    background: $nodus-degradado-inicio !important;
+}
 .o_nodus_menu_principal {
     position: relative;
     height: 100%;
     overflow-y: auto;
-    background: $nodus-degradado-inicio;
+    background: transparent;
     color: #fff;
 }
 
@@ -789,10 +818,7 @@ body.o_web_client.o_nodus.o_nodus_inicio {
         }
     }
 }
-.o_nodus_lat_lista {
-    -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 18px), transparent);
-    mask-image: linear-gradient(to bottom, #000 calc(100% - 18px), transparent);
-}
+// (el degradado del lateral lo pone ahora la regla general nodus-degradado)
 
 // ---------- Pantallas diseñadas (hadeon_ui) dentro de la tarjeta ----------
 // La pantalla trae su propio título y botones: se oculta la barra de Odoo y la
@@ -805,7 +831,7 @@ body.o_web_client.o_nodus.o_nodus_ui_activa {
         border-radius: 33px;
     }
 }
-@media (max-width: 767.98px), (max-width: 1023.98px) and (orientation: portrait) {
+@media (max-width: 767.98px) {
     body.o_web_client.o_nodus.o_nodus_ui_activa .o_action_manager {
         border-radius: 28px 28px 0 0;
     }
@@ -822,4 +848,396 @@ body.o_web_client.o_nodus.o_nodus_ui_activa {
     height: 100%;
     border: 0;
     background: #F3F3FC;
+}
+
+// ---------- Sesión de usuario: el bloque abre el menú de usuario (hereda el de arriba a la derecha) ----------
+.o_nodus_lateral .user-profile-row > .o-dropdown,
+.o_nodus_lateral .user-profile-row > div:has(> .o_nodus_usuario_btn) {
+    flex: 1 1 auto;
+    min-width: 0;
+    display: flex;
+}
+.o_nodus_usuario_btn {
+    flex: 1 1 auto;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0;
+    padding: 6px 8px 6px 4px;
+    position: relative;
+    z-index: 1;
+    border: 1px solid transparent;
+    border-radius: 16px;
+    background: transparent;
+    color: inherit;
+    text-align: left;
+    cursor: pointer;
+    outline: none;
+    transform: translateX(0);
+    transition: all .4s $nodus-elastica;
+
+    .o_nodus_usuario {
+        transition: all .3s ease;
+    }
+
+    // Igual que los módulos: al pasar el ratón, salto de 4 px y borde de vidrio
+    &:hover,
+    &:focus-visible {
+        border-color: rgba(255, 255, 255, .12);
+        border-right-color: rgba(255, 255, 255, .02);
+        border-bottom-color: rgba(255, 255, 255, .02);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, .15), inset 0 2px 10px rgba(255, 255, 255, .03);
+        transform: translateX(4px);
+
+        .o_nodus_usuario {
+            text-shadow: 0 0 8px rgba(255, 255, 255, .2);
+        }
+    }
+
+    // Abierto (seleccionado): cristal fantasma detrás del avatar que se expande, como el módulo activo
+    &::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 1px;
+        width: 42px;
+        height: 42px;
+        border-radius: 12px;
+        transform: translateY(-50%);
+        border: 1px solid rgba(255, 255, 255, .12);
+        border-right-color: rgba(255, 255, 255, .02);
+        border-bottom-color: rgba(255, 255, 255, .02);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, .15), inset 0 2px 10px rgba(255, 255, 255, .03);
+        backdrop-filter: blur(12px);
+        z-index: -1;
+        opacity: 0;
+        transition: all .4s $nodus-suave;
+    }
+    &.show {
+        border-color: transparent;
+        box-shadow: none;
+        transform: translateX(0);
+
+        &::before {
+            opacity: 1;
+        }
+        .o_nodus_usuario {
+            text-shadow: 0 0 10px rgba(255, 255, 255, .3);
+        }
+        .o_nodus_avatar {
+            transform: scale(1.05);
+        }
+    }
+    &.show:hover::before {
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border-radius: 16px;
+    }
+    .o_nodus_avatar {
+        transition: transform .3s ease;
+    }
+}
+body.o_nodus_colapsado .o_nodus_usuario_btn {
+    justify-content: center;
+    padding: 6px;
+
+    &:hover,
+    &:focus-visible {
+        transform: scale(1.05);
+    }
+    &::before,
+    &.show:hover::before {
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border-radius: 12px;
+    }
+}
+.o-dropdown--menu.o_nodus_menu_usuario {
+    min-width: 230px;
+    padding: 6px;
+    border: 1px solid #E5E7EB;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(16, 24, 40, .16);
+    font-family: 'Inter', sans-serif;
+
+    .dropdown-item {
+        border-radius: 8px;
+        padding: 8px 12px;
+        font-size: 14px;
+        color: #1F2937;
+
+        &:hover,
+        &:focus {
+            background: #E8F0FF;
+            color: #0047AB;
+        }
+    }
+    .dropdown-divider {
+        margin: 6px 4px;
+        border-color: #EEF0F4;
+    }
+}
+
+// ---------- Menú Principal: logo de Nodus con nombre y usuario con el mismo menú del lateral ----------
+.hadeon-dash-titulo {
+    line-height: 0;
+}
+.o_nodus_mp_logo {
+    display: inline-block;
+    height: 30px;
+    width: auto;
+}
+.hadeon-dash-header-usuario > .o_nodus_usuario_btn {
+    flex: 0 0 auto;
+    gap: 12px;
+    padding: 4px 4px 4px 12px;
+}
+// El cristal del "abierto" va detrás del avatar, que aquí está a la derecha
+.o_nodus_usuario_btn_der::before {
+    left: auto;
+    right: 1px;
+    width: 46px;
+    height: 46px;
+}
+.o_nodus_usuario_btn_der.show:hover::before {
+    left: auto;
+    right: 0;
+}
+.o_nodus_usuario_btn_der.show .vault-user-avatar {
+    transform: scale(1.05);
+}
+.o_nodus_usuario_btn_der .vault-user-avatar {
+    transition: transform .3s ease;
+}
+// Al pasar el ratón se desplaza hacia la izquierda (hacia dentro de la pantalla)
+.o_nodus_usuario_btn_der:hover,
+.o_nodus_usuario_btn_der:focus-visible {
+    transform: translateX(-4px);
+}
+.o_nodus_usuario_btn_der.show,
+.o_nodus_usuario_btn_der.show:hover {
+    transform: translateX(0);
+}
+@media (max-width: 767.98px) {
+    .o_nodus_mp_logo {
+        height: 24px;
+    }
+}
+
+// Usuario seleccionado (menú abierto): el cristal cubre todo el bloque, no solo el avatar
+.o_nodus_usuario_btn.show::before,
+.o_nodus_usuario_btn.show:hover::before,
+.o_nodus_usuario_btn_der.show::before,
+.o_nodus_usuario_btn_der.show:hover::before {
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 16px;
+}
+body.o_nodus_colapsado .o_nodus_usuario_btn.show::before {
+    border-radius: 12px;
+}
+
+// Foto del usuario dentro del círculo de vidrio: se conserva el borde y el brillo del cristal encima
+.o_nodus_avatar,
+.vault-user-avatar {
+    position: relative;
+    padding: 2px;
+    box-sizing: border-box;
+    overflow: hidden;
+
+    &::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: 50%;
+        pointer-events: none;
+        background: linear-gradient(160deg, rgba(255, 255, 255, .28) 0%, rgba(255, 255, 255, .06) 45%, rgba(255, 255, 255, 0) 60%);
+        box-shadow: inset 0 1px 1px rgba(255, 255, 255, .5), inset 0 -2px 4px rgba(184, 134, 11, .15);
+    }
+}
+.o_nodus_avatar_foto {
+    display: block;
+    width: 100% !important;
+    height: 100% !important;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+// Menú Principal: se desplaza sin mostrar barra
+body.o_web_client.o_nodus .o_nodus_menu_principal {
+    scrollbar-width: none !important;
+
+    &::-webkit-scrollbar {
+        display: none !important;
+        width: 0 !important;
+        height: 0 !important;
+    }
+}
+
+// =====================================================================================
+// Regla general: degradado en los bordes de todo lo que se desplaza (js/nodus_degradado.js
+// pone las variables; 0 px en el tope = sin degradado). Empieza bajo el encabezado fijo.
+// =====================================================================================
+// (las máscaras van en línea en los hijos del contenedor; ver js/nodus_degradado.js)
+
+// Teléfono: el contenido sigue por debajo de la bóveda (transparente) y el degradado termina
+// cerca del borde de la pantalla, no encima de la bóveda. El relleno inferior sigue existiendo
+// para que lo último pueda subir por encima de la bóveda al desplazar.
+@media (max-width: 767.98px) {
+    body.o_web_client.o_nodus:not(.o_nodus_inicio) .o_action_manager .o_content {
+        --nodus-deg-pb: 12px;
+    }
+    body.o_web_client.o_nodus:not(.o_nodus_inicio) .o_action_manager .o_content:has(> .o_kanban_renderer.o_kanban_grouped) {
+        padding-bottom: 0 !important;
+
+        > .o_kanban_renderer {
+            padding-bottom: calc(var(--item-size, 56px) + 44px) !important;
+            --nodus-deg-pb: 12px;
+        }
+    }
+}
+
+// =====================================================================================
+// Degradado del contenido que se desplaza (js/nodus_degradado.js): dos capas PEGADAS
+// (position: sticky) que pintan el color de fondo del contenedor de opaco a transparente,
+// con curva suave. Al ser sticky se mueven con el desplazamiento en el mismo cuadro: no se
+// separan del borde ni parpadean aunque se mueva muy rápido. Aparecen y se apagan
+// gradualmente en los primeros/últimos 48 px de recorrido (opacidad ligada al scroll).
+// =====================================================================================
+@keyframes nodus-deg-entra { from { opacity: 0; } to { opacity: 1; } }
+@keyframes nodus-deg-sale { from { opacity: 1; } to { opacity: 0; } }
+
+body .nodus-degradado.nodus-deg-v::before,
+body .nodus-degradado.nodus-deg-v::after,
+body .nodus-degradado.nodus-deg-h::before,
+body .nodus-degradado.nodus-deg-h::after {
+    content: "" !important;
+    display: block !important;
+    position: sticky !important;
+    z-index: 2 !important;
+    flex: none !important;
+    align-self: stretch !important;
+    pointer-events: none !important;
+    border: 0 !important;
+    box-shadow: none !important;
+}
+// ---- Vertical ----
+body .nodus-degradado.nodus-deg-v::before {
+    --s: var(--nodus-deg-top-solido, 0px);
+    top: var(--nodus-deg-top, 0px) !important;
+    height: calc(var(--s) + 48px) !important;
+    margin: 0 0 calc(-1 * (var(--s) + 48px)) 0 !important;
+    background: linear-gradient(to bottom, var(--nodus-deg-color) 0, var(--nodus-deg-color) var(--s), color-mix(in srgb, var(--nodus-deg-color) 94%, transparent) calc(var(--s) + 9.6px), color-mix(in srgb, var(--nodus-deg-color) 78%, transparent) calc(var(--s) + 19.2px), color-mix(in srgb, var(--nodus-deg-color) 50%, transparent) calc(var(--s) + 28.8px), color-mix(in srgb, var(--nodus-deg-color) 20%, transparent) calc(var(--s) + 38.4px), transparent calc(var(--s) + 48px)) !important;
+    animation: nodus-deg-entra linear both !important;
+    animation-timeline: scroll(nearest block) !important;
+    animation-range: 0px 48px !important;
+}
+body .nodus-degradado.nodus-deg-v::after {
+    --s: var(--nodus-deg-bot-solido, 0px);
+    bottom: var(--nodus-deg-bot, 0px) !important;
+    height: calc(var(--s) + 48px) !important;
+    margin: calc(-1 * (var(--s) + 48px)) 0 0 0 !important;
+    background: linear-gradient(to top, var(--nodus-deg-color) 0, var(--nodus-deg-color) var(--s), color-mix(in srgb, var(--nodus-deg-color) 94%, transparent) calc(var(--s) + 9.6px), color-mix(in srgb, var(--nodus-deg-color) 78%, transparent) calc(var(--s) + 19.2px), color-mix(in srgb, var(--nodus-deg-color) 50%, transparent) calc(var(--s) + 28.8px), color-mix(in srgb, var(--nodus-deg-color) 20%, transparent) calc(var(--s) + 38.4px), transparent calc(var(--s) + 48px)) !important;
+    animation: nodus-deg-sale linear both !important;
+    animation-timeline: scroll(nearest block) !important;
+    animation-range: calc(100% - 48px) 100% !important;
+}
+// Formularios: arriba ya está el degradado de la barra de botones y pasos
+body .nodus-degradado.nodus-deg-v.nodus-deg-sin-arriba::before {
+    display: none !important;
+}
+// En contenedores flex con separación (gap), la capa no debe sumar espacio
+body .nodus-degradado.nodus-deg-v[style*="--nodus-deg-gap"]::before {
+    margin-bottom: calc(-1 * (var(--s) + 48px + var(--nodus-deg-gap, 0px))) !important;
+}
+body .nodus-degradado.nodus-deg-v[style*="--nodus-deg-gap"]::after {
+    margin-top: calc(-1 * (var(--s) + 48px + var(--nodus-deg-gap, 0px))) !important;
+}
+// ---- Horizontal (filas de columnas del kanban, etc.) ----
+body .nodus-degradado.nodus-deg-h::before {
+    --s: var(--nodus-deg-izq-solido, 0px);
+    left: var(--nodus-deg-izq, 0px) !important;
+    width: calc(var(--s) + 48px) !important;
+    min-height: 100% !important;
+    margin: 0 calc(-1 * (var(--s) + 48px + var(--nodus-deg-gap, 0px))) 0 0 !important;
+    background: linear-gradient(to right, var(--nodus-deg-color) 0, var(--nodus-deg-color) var(--s), color-mix(in srgb, var(--nodus-deg-color) 94%, transparent) calc(var(--s) + 9.6px), color-mix(in srgb, var(--nodus-deg-color) 78%, transparent) calc(var(--s) + 19.2px), color-mix(in srgb, var(--nodus-deg-color) 50%, transparent) calc(var(--s) + 28.8px), color-mix(in srgb, var(--nodus-deg-color) 20%, transparent) calc(var(--s) + 38.4px), transparent calc(var(--s) + 48px)) !important;
+    animation: nodus-deg-entra linear both !important;
+    animation-timeline: scroll(nearest inline) !important;
+    animation-range: 0px 48px !important;
+}
+body .nodus-degradado.nodus-deg-h::after {
+    --s: var(--nodus-deg-der-solido, 0px);
+    right: var(--nodus-deg-der, 0px) !important;
+    width: calc(var(--s) + 48px) !important;
+    min-height: 100% !important;
+    margin: 0 0 0 calc(-1 * (var(--s) + 48px + var(--nodus-deg-gap, 0px))) !important;
+    background: linear-gradient(to left, var(--nodus-deg-color) 0, var(--nodus-deg-color) var(--s), color-mix(in srgb, var(--nodus-deg-color) 94%, transparent) calc(var(--s) + 9.6px), color-mix(in srgb, var(--nodus-deg-color) 78%, transparent) calc(var(--s) + 19.2px), color-mix(in srgb, var(--nodus-deg-color) 50%, transparent) calc(var(--s) + 28.8px), color-mix(in srgb, var(--nodus-deg-color) 20%, transparent) calc(var(--s) + 38.4px), transparent calc(var(--s) + 48px)) !important;
+    animation: nodus-deg-sale linear both !important;
+    animation-timeline: scroll(nearest inline) !important;
+    animation-range: calc(100% - 48px) 100% !important;
+}
+
+// Contenedores sin fondo propio (p. ej. el lateral sobre el azul): en vez de capas de color,
+// máscara sobre el propio contenedor (no se mueve con el contenido) con la misma curva suave.
+@property --nodus-mt { syntax: "<length>"; inherits: false; initial-value: 0px; }
+@property --nodus-mb { syntax: "<length>"; inherits: false; initial-value: 0px; }
+@property --nodus-ml { syntax: "<length>"; inherits: false; initial-value: 0px; }
+@property --nodus-mr { syntax: "<length>"; inherits: false; initial-value: 0px; }
+@keyframes nodus-deg-mt { from { --nodus-mt: 0px; } to { --nodus-mt: 48px; } }
+@keyframes nodus-deg-mb { from { --nodus-mb: 48px; } to { --nodus-mb: 0px; } }
+@keyframes nodus-deg-ml { from { --nodus-ml: 0px; } to { --nodus-ml: 48px; } }
+@keyframes nodus-deg-mr { from { --nodus-mr: 48px; } to { --nodus-mr: 0px; } }
+body .nodus-degradado.nodus-deg-mascara::before,
+body .nodus-degradado.nodus-deg-mascara::after {
+    content: none !important;
+    display: none !important;
+}
+body .nodus-degradado.nodus-deg-mascara.nodus-deg-v {
+    animation: nodus-deg-mt linear both, nodus-deg-mb linear both;
+    animation-timeline: scroll(self block), scroll(self block);
+    animation-range: 0px 48px, calc(100% - 48px) 100%;
+    -webkit-mask-image: linear-gradient(to bottom,
+        #000 var(--nodus-deg-cab, 0px), transparent var(--nodus-deg-cab, 0px), rgba(0, 0, 0, .06) calc(var(--nodus-deg-cab, 0px) + var(--nodus-mt) * .2), rgba(0, 0, 0, .22) calc(var(--nodus-deg-cab, 0px) + var(--nodus-mt) * .4),
+        rgba(0, 0, 0, .5) calc(var(--nodus-deg-cab, 0px) + var(--nodus-mt) * .6), rgba(0, 0, 0, .8) calc(var(--nodus-deg-cab, 0px) + var(--nodus-mt) * .8), #000 calc(var(--nodus-deg-cab, 0px) + var(--nodus-mt)),
+        #000 calc(100% - var(--nodus-deg-bot-solido, 0px) - var(--nodus-mb)), rgba(0, 0, 0, .8) calc(100% - var(--nodus-deg-bot-solido, 0px) - var(--nodus-mb) * .8),
+        rgba(0, 0, 0, .5) calc(100% - var(--nodus-deg-bot-solido, 0px) - var(--nodus-mb) * .6), rgba(0, 0, 0, .22) calc(100% - var(--nodus-deg-bot-solido, 0px) - var(--nodus-mb) * .4),
+        rgba(0, 0, 0, .06) calc(100% - var(--nodus-deg-bot-solido, 0px) - var(--nodus-mb) * .2), transparent calc(100% - var(--nodus-deg-bot-solido, 0px)));
+    mask-image: linear-gradient(to bottom,
+        #000 var(--nodus-deg-cab, 0px), transparent var(--nodus-deg-cab, 0px), rgba(0, 0, 0, .06) calc(var(--nodus-deg-cab, 0px) + var(--nodus-mt) * .2), rgba(0, 0, 0, .22) calc(var(--nodus-deg-cab, 0px) + var(--nodus-mt) * .4),
+        rgba(0, 0, 0, .5) calc(var(--nodus-deg-cab, 0px) + var(--nodus-mt) * .6), rgba(0, 0, 0, .8) calc(var(--nodus-deg-cab, 0px) + var(--nodus-mt) * .8), #000 calc(var(--nodus-deg-cab, 0px) + var(--nodus-mt)),
+        #000 calc(100% - var(--nodus-deg-bot-solido, 0px) - var(--nodus-mb)), rgba(0, 0, 0, .8) calc(100% - var(--nodus-deg-bot-solido, 0px) - var(--nodus-mb) * .8),
+        rgba(0, 0, 0, .5) calc(100% - var(--nodus-deg-bot-solido, 0px) - var(--nodus-mb) * .6), rgba(0, 0, 0, .22) calc(100% - var(--nodus-deg-bot-solido, 0px) - var(--nodus-mb) * .4),
+        rgba(0, 0, 0, .06) calc(100% - var(--nodus-deg-bot-solido, 0px) - var(--nodus-mb) * .2), transparent calc(100% - var(--nodus-deg-bot-solido, 0px)));
+}
+body .nodus-degradado.nodus-deg-mascara.nodus-deg-h {
+    animation: nodus-deg-ml linear both, nodus-deg-mr linear both;
+    animation-timeline: scroll(self inline), scroll(self inline);
+    animation-range: 0px 48px, calc(100% - 48px) 100%;
+    -webkit-mask-image: linear-gradient(to right,
+        transparent 0, rgba(0, 0, 0, .06) calc(var(--nodus-ml) * .2), rgba(0, 0, 0, .22) calc(var(--nodus-ml) * .4),
+        rgba(0, 0, 0, .5) calc(var(--nodus-ml) * .6), rgba(0, 0, 0, .8) calc(var(--nodus-ml) * .8), #000 var(--nodus-ml),
+        #000 calc(100% - var(--nodus-mr)), rgba(0, 0, 0, .8) calc(100% - var(--nodus-mr) * .8),
+        rgba(0, 0, 0, .5) calc(100% - var(--nodus-mr) * .6), rgba(0, 0, 0, .22) calc(100% - var(--nodus-mr) * .4),
+        rgba(0, 0, 0, .06) calc(100% - var(--nodus-mr) * .2), transparent 100%);
+    mask-image: linear-gradient(to right,
+        transparent 0, rgba(0, 0, 0, .06) calc(var(--nodus-ml) * .2), rgba(0, 0, 0, .22) calc(var(--nodus-ml) * .4),
+        rgba(0, 0, 0, .5) calc(var(--nodus-ml) * .6), rgba(0, 0, 0, .8) calc(var(--nodus-ml) * .8), #000 var(--nodus-ml),
+        #000 calc(100% - var(--nodus-mr)), rgba(0, 0, 0, .8) calc(100% - var(--nodus-mr) * .8),
+        rgba(0, 0, 0, .5) calc(100% - var(--nodus-mr) * .6), rgba(0, 0, 0, .22) calc(100% - var(--nodus-mr) * .4),
+        rgba(0, 0, 0, .06) calc(100% - var(--nodus-mr) * .2), transparent 100%);
+}
+
+// Conversaciones en teléfono: la barra de pestañas de Odoo (abajo) quedaba tapada por la bóveda.
+// Se sube arriba para que la lista llegue hasta el borde y pase por debajo de la bóveda.
+@media (max-width: 767.98px) {
+    body.o_web_client.o_nodus .o-mail-Discuss > .o-mail-MessagingMenu-navbar {
+        order: -1;
+        border-top: 0 !important;
+        border-bottom: 1px solid #EEF0F4 !important;
+    }
 }

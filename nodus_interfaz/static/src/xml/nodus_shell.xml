@@ -31,13 +31,33 @@
             <div class="o_nodus_lat_sesion">
                 <div class="o_nodus_lat_sesion_t sidebar-hideable">Sesión de usuario</div>
                 <div class="user-profile-row">
-                    <div class="o_nodus_avatar">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                    </div>
-                    <div class="o_nodus_usuario sidebar-hideable">
-                        <span class="o_nodus_usuario_nombre" t-esc="usuario.nombre"/>
-                        <span class="o_nodus_usuario_correo" t-esc="usuario.correo"/>
-                    </div>
+                    <Dropdown position="'right-end'" menuClass="'o_nodus_menu_usuario'">
+                        <button type="button" class="o_nodus_usuario_btn" title="Opciones de usuario" aria-label="Opciones de usuario">
+                            <div class="o_nodus_avatar">
+                                <img class="o_nodus_avatar_foto" t-att-src="usuario.foto" alt=""/>
+                            </div>
+                            <div class="o_nodus_usuario sidebar-hideable">
+                                <span class="o_nodus_usuario_nombre" t-esc="usuario.nombre"/>
+                                <span class="o_nodus_usuario_correo" t-esc="usuario.correo"/>
+                            </div>
+                        </button>
+                        <t t-set-slot="content">
+                            <t t-foreach="opcionesUsuario()" t-as="el" t-key="el_index">
+                                <t t-if="!el.hide">
+                                    <t t-if="el.type === 'component'" t-component="el.contentComponent"/>
+                                    <DropdownItem t-if="el.type == 'item' || el.type == 'switch'"
+                                        attrs="{ href: el.href, 'data-menu': el.id }" onSelected="el.callback">
+                                        <div class="d-flex justify-content-between p-0 w-100">
+                                            <t t-out="el.description"/>
+                                            <CheckBox t-if="el.type == 'switch'" value="el.isChecked"
+                                                className="'form-switch ms-2'" onChange="el.callback"/>
+                                        </div>
+                                    </DropdownItem>
+                                    <div t-if="el.type == 'separator'" role="separator" class="dropdown-divider"/>
+                                </t>
+                            </t>
+                        </t>
+                    </Dropdown>
                     <button type="button" class="o_nodus_salir sidebar-hideable" title="Cerrar sesión" aria-label="Cerrar sesión" t-on-click="salir">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
                     </button>
@@ -63,7 +83,7 @@
             </div>
             <div class="vault-user-profile">
                 <div class="vault-user-avatar">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    <img class="o_nodus_avatar_foto" t-att-src="usuario.foto" alt=""/>
                 </div>
                 <div class="vault-user-info">
                     <span class="vault-user-nombre" t-esc="usuario.nombre"/>
@@ -86,17 +106,37 @@
             <header class="hadeon-dash-header">
                 <div class="hadeon-dash-header-inicio">Inicio</div>
                 <div class="hadeon-dash-titulo-wrap">
-                    <h1 class="hadeon-dash-titulo">Nodus</h1>
+                    <h1 class="hadeon-dash-titulo"><img class="o_nodus_mp_logo" src="/nodus_interfaz/static/src/img/nodus_nombre_color.png" alt="Nodus"/></h1>
                     <div class="hadeon-dash-titulo-barra"/>
                 </div>
                 <div class="hadeon-dash-header-usuario">
-                    <div class="hadeon-dash-usuario-texto">
-                        <span class="hadeon-dash-usuario-nombre" t-esc="usuario.nombre"/>
-                        <span class="hadeon-dash-usuario-correo" t-esc="usuario.correo"/>
-                    </div>
-                    <div class="vault-user-avatar">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                    </div>
+                    <Dropdown position="'bottom-end'" menuClass="'o_nodus_menu_usuario'">
+                        <button type="button" class="o_nodus_usuario_btn o_nodus_usuario_btn_der" title="Opciones de usuario" aria-label="Opciones de usuario">
+                            <div class="hadeon-dash-usuario-texto">
+                                <span class="hadeon-dash-usuario-nombre" t-esc="usuario.nombre"/>
+                                <span class="hadeon-dash-usuario-correo" t-esc="usuario.correo"/>
+                            </div>
+                            <div class="vault-user-avatar">
+                                <img class="o_nodus_avatar_foto" t-att-src="usuario.foto" alt=""/>
+                            </div>
+                        </button>
+                        <t t-set-slot="content">
+                            <t t-foreach="opcionesUsuario()" t-as="el" t-key="el_index">
+                                <t t-if="!el.hide">
+                                    <t t-if="el.type === 'component'" t-component="el.contentComponent"/>
+                                    <DropdownItem t-if="el.type == 'item' || el.type == 'switch'"
+                                        attrs="{ href: el.href, 'data-menu': el.id }" onSelected="el.callback">
+                                        <div class="d-flex justify-content-between p-0 w-100">
+                                            <t t-out="el.description"/>
+                                            <CheckBox t-if="el.type == 'switch'" value="el.isChecked"
+                                                className="'form-switch ms-2'" onChange="el.callback"/>
+                                        </div>
+                                    </DropdownItem>
+                                    <div t-if="el.type == 'separator'" role="separator" class="dropdown-divider"/>
+                                </t>
+                            </t>
+                        </t>
+                    </Dropdown>
                     <button type="button" class="o_nodus_salir" title="Cerrar sesión" aria-label="Cerrar sesión" t-on-click="salir">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
                     </button>

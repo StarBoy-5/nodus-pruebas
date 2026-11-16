@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <!-- Indicador de carga de Nodus: el logo une sus dos piezas y las separa mientras carga -->
+    <t t-name="nodus_interfaz.Cargando" t-inherit="web.LoadingIndicator" t-inherit-mode="extension">
+        <xpath expr="//Transition" position="attributes">
+            <attribute name="leaveDuration">600</attribute>
+        </xpath>
+        <xpath expr="//span[hasclass('o_loading_indicator')]" position="replace">
+            <div class="o_nodus_cargando" t-att-class="transition.className" role="status" aria-live="polite">
+                <div class="o_nodus_cargando_logo" aria-hidden="true">
+                    <img class="o_nodus_pieza o_nodus_pieza_izq" src="/nodus_interfaz/static/src/img/nodus_pieza_izq.png" alt=""/>
+                    <img class="o_nodus_pieza o_nodus_pieza_der" src="/nodus_interfaz/static/src/img/nodus_pieza_der.png" alt=""/>
+                </div>
+                <div class="o_nodus_cargando_texto">Cargando<span class="o_nodus_punto">.</span><span class="o_nodus_punto">.</span><span class="o_nodus_punto">.</span></div>
+            </div>
+        </xpath>
+    </t>
+
+</templates>

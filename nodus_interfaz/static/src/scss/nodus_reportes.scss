@@ -1,0 +1,353 @@
+// Documentos con formato Nodus (views/nodus_reportes.xml).
+// Ojo: los PDF los arma wkhtmltopdf (WebKit viejo): nada de variables CSS, gap ni grid; las
+// columnas van en tablas. Las fuentes son TTF (no lee woff2).
+
+$nd-azul: #0047AB;
+$nd-azul-osc: #00327D;
+$nd-azul-claro: #EAF0FA;
+$nd-texto: #1A1A24;
+$nd-gris: #6B7280;
+$nd-borde: #E5E7EB;
+$nd-fila: #F7F8FC;
+
+@mixin nd-fuente($familia, $peso, $archivo) {
+    @font-face {
+        font-family: $familia;
+        font-weight: $peso;
+        font-style: normal;
+        src: url("/nodus_interfaz/static/src/fonts/pdf/#{$archivo}") format("truetype");
+    }
+}
+@include nd-fuente("Nodus Inter", 400, "Inter-400.ttf");
+@include nd-fuente("Nodus Inter", 500, "Inter-500.ttf");
+@include nd-fuente("Nodus Inter", 600, "Inter-600.ttf");
+@include nd-fuente("Nodus Inter", 700, "Inter-700.ttf");
+@include nd-fuente("Nodus Poppins", 400, "Poppins-Regular.ttf");
+@include nd-fuente("Nodus Poppins", 500, "Poppins-Medium.ttf");
+@include nd-fuente("Nodus Poppins", 600, "Poppins-SemiBold.ttf");
+@include nd-fuente("Nodus Poppins", 700, "Poppins-Bold.ttf");
+
+$nd-cuerpo: "Nodus Inter", "Inter", Arial, sans-serif;
+$nd-titulo: "Nodus Poppins", "Poppins", Arial, sans-serif;
+
+// Todo documento con las fuentes de Nodus, aunque arme su página sin los marcos (p. ej. el
+// picking de almacén usa web.report_layout directo)
+body.o_body_html,
+.o_nodus_doc,
+.o_nodus_doc_cab,
+.o_nodus_doc_pie,
+.o_nodus_doc_basico {
+    font-family: $nd-cuerpo;
+    color: $nd-texto;
+}
+
+// ---------- Encabezado ----------
+.o_nodus_doc_cab {
+    padding-bottom: 10px;
+
+    .o_nodus_doc_franja {
+        height: 6px;
+        margin-bottom: 14px;
+        border-radius: 3px;
+        background-color: $nd-azul;
+        background-image: -webkit-linear-gradient(left, $nd-azul-osc, $nd-azul 60%, #1763D1);
+        background-image: linear-gradient(to right, $nd-azul-osc, $nd-azul 60%, #1763D1);
+    }
+    .o_nodus_doc_cab_tabla {
+        width: 100%;
+        border-collapse: collapse;
+
+        td {
+            padding: 0;
+            vertical-align: middle;
+            border: 0;
+        }
+    }
+    .o_nodus_doc_logo {
+        width: 1%;
+        padding-right: 14px !important;
+        white-space: nowrap;
+
+        img {
+            max-height: 64px;
+            max-width: 160px;
+        }
+    }
+    .o_nodus_doc_empresa_nombre {
+        font-family: $nd-titulo;
+        font-size: 17px;
+        font-weight: 600;
+        line-height: 1.25;
+        color: $nd-azul;
+    }
+    .o_nodus_doc_lema {
+        font-size: 11px;
+        color: $nd-gris;
+    }
+    .o_nodus_doc_empresa_datos {
+        font-size: 10.5px;
+        line-height: 1.5;
+        color: $nd-gris;
+
+        span + span:before {
+            content: "·";
+            margin: 0 6px;
+        }
+    }
+    .o_nodus_doc_ref {
+        text-align: right;
+        white-space: nowrap;
+    }
+    .o_nodus_doc_ref_num {
+        display: inline-block;
+        padding: 6px 14px;
+        border-radius: 999px;
+        background: $nd-azul-claro;
+        font-family: $nd-titulo;
+        font-size: 13px;
+        font-weight: 600;
+        color: $nd-azul;
+    }
+}
+.o_nodus_doc_cab_interno {
+    .o_nodus_doc_logo img {
+        max-height: 40px;
+    }
+    // Fila original de Odoo (fecha, empresa, página): la reemplaza el encabezado de Nodus
+    > .row {
+        display: none !important;
+    }
+}
+
+// ---------- Cuerpo ----------
+// (también los documentos que no pasan por los marcos y usan la clase del diseño estándar de Odoo)
+.o_nodus_doc,
+.article.o_report_layout_standard {
+    font-size: 12px;
+    line-height: 1.45;
+
+    h1, h2, h3, h4 {
+        font-family: $nd-titulo;
+        font-weight: 600;
+        color: $nd-azul;
+    }
+    h2 {
+        margin: 6px 0 14px;
+        font-size: 22px;
+    }
+    h3 { font-size: 17px; }
+    h4 { font-size: 14px; }
+    strong, b, .fw-bold, .fw-bolder {
+        font-weight: 600;
+    }
+    a { color: $nd-azul; }
+    .text-muted { color: $nd-gris !important; }
+
+    // Dirección del cliente / proveedor: tarjeta suave
+    address,
+    div[name="address"] > div,
+    .o_address_box {
+        line-height: 1.5;
+    }
+
+    // Datos del documento (fecha, vencimiento, vendedor…): etiqueta pequeña en gris arriba
+    #informations {
+        margin: 4px 0 16px !important;
+        padding: 10px 14px;
+        border-radius: 10px;
+        background: $nd-fila;
+
+        strong, .fw-bold {
+            display: block;
+            font-size: 9.5px;
+            font-weight: 600;
+            letter-spacing: .05em;
+            text-transform: uppercase;
+            color: $nd-gris;
+        }
+        div, p, span {
+            font-size: 12px;
+        }
+    }
+
+    // Tablas de líneas: encabezado azul, filas alternas, bordes suaves
+    table.table,
+    table.o_main_table {
+        border-collapse: separate;
+        border-spacing: 0;
+        margin-bottom: 14px;
+
+        > thead > tr > th,
+        > thead > tr > td {
+            padding: 8px 10px;
+            border: 0 !important;
+            background-color: $nd-azul !important;
+            color: #fff !important;
+            font-family: $nd-titulo;
+            font-size: 10.5px;
+            font-weight: 600;
+            letter-spacing: .02em;
+            vertical-align: middle;
+        }
+        > thead > tr > th:first-child { border-top-left-radius: 8px; }
+        > thead > tr > th:last-child { border-top-right-radius: 8px; }
+
+        > tbody > tr > td {
+            padding: 7px 10px;
+            border: 0 !important;
+            border-bottom: 1px solid $nd-borde !important;
+            vertical-align: top;
+        }
+        > tbody > tr:nth-child(even) > td {
+            background-color: $nd-fila;
+        }
+        // Secciones y notas dentro de las líneas
+        tr.o_line_section > td,
+        tr.o_line_subsection > td {
+            background-color: $nd-azul-claro !important;
+            color: $nd-azul;
+            font-weight: 600;
+        }
+        tr.o_line_note > td {
+            color: $nd-gris;
+            font-style: italic;
+        }
+        tr.is-subtotal > td {
+            background: #fff !important;
+            font-weight: 600;
+        }
+    }
+    // Resumen bimonetario (hadeon_account_dual_currency): tabla con bordes de Bootstrap
+    div[name="dual_currency_summary"] table {
+        background: transparent !important;
+        font-size: 11.5px !important;
+
+        > thead > tr > th {
+            border-radius: 8px 8px 0 0;
+            text-align: center;
+        }
+        > tbody > tr > td strong {
+            font-weight: 500;
+        }
+    }
+
+    // Dirección del cliente / proveedor y bloque de información: tarjetas suaves con filete azul
+    .address {
+        div[name="address"],
+        div[name="information_block"] {
+            padding: 10px 14px;
+            border-left: 3px solid $nd-azul;
+            border-radius: 0 10px 10px 0;
+            background: $nd-fila;
+            line-height: 1.5;
+        }
+    }
+
+    // Totales: recuadro gris con el total en azul
+    #total table,
+    .o_total_table {
+        border-collapse: separate;
+        border-spacing: 0;
+        border-radius: 10px;
+        background: $nd-fila;
+
+        td {
+            padding: 6px 12px !important;
+            border: 0 !important;
+            background: transparent !important;
+        }
+        tr.o_subtotal td,
+        tr.o_taxes td {
+            color: $nd-texto;
+        }
+        tr.o_total td,
+        tr.o_total td * {
+            color: #fff !important;
+        }
+        tr.o_total td {
+            padding-top: 9px !important;
+            padding-bottom: 9px !important;
+            background: $nd-azul !important;
+            font-family: $nd-titulo;
+            font-size: 13.5px;
+            font-weight: 600;
+        }
+        tr.o_total td:first-child { border-radius: 8px 0 0 8px; }
+        tr.o_total td:last-child { border-radius: 0 8px 8px 0; }
+    }
+
+    // Impuestos en moneda de la empresa (Bs): Odoo lo encierra con un borde negro
+    .totals_taxes_company_currency {
+        padding: 10px 12px !important;
+        border: 0 !important;
+        border-radius: 10px;
+        background: $nd-fila;
+
+        .tax_computation_company_currency {
+            margin-bottom: 4px;
+            font-family: $nd-titulo;
+            font-size: 10.5px;
+            font-weight: 600;
+            letter-spacing: .04em;
+            text-transform: uppercase;
+            color: $nd-gris;
+        }
+        .o_total_table {
+            background: #fff;
+        }
+    }
+
+    // Términos, notas y condiciones de pago
+    #note,
+    .o_nodus_doc_nota,
+    p[name="payment_communication"],
+    p[name="payment_term"] {
+        font-size: 11px;
+        color: $nd-gris;
+    }
+}
+.o_nodus_doc_interno {
+    font-size: 11px;
+
+    h2 { font-size: 18px; }
+}
+
+// ---------- Pie ----------
+.o_nodus_doc_pie {
+    padding-top: 8px;
+    border-top: 1px solid $nd-borde;
+    font-size: 9.5px;
+    color: $nd-gris;
+
+    .o_nodus_doc_pie_tabla {
+        width: 100%;
+        border-collapse: collapse;
+
+        td {
+            padding: 0;
+            border: 0;
+            vertical-align: top;
+        }
+    }
+    .o_nodus_doc_pie_pagina {
+        text-align: right;
+        white-space: nowrap;
+        padding-left: 12px !important;
+    }
+    .o_nodus_doc_marca {
+        margin-top: 6px;
+        text-align: center;
+        font-family: $nd-titulo;
+        font-size: 8.5px;
+        font-weight: 600;
+        letter-spacing: .08em;
+        color: #9AA3B5;
+
+        img {
+            height: 9px;
+            margin-right: 3px;
+            vertical-align: -1px;
+            opacity: .6;
+        }
+    }
+}

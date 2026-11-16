@@ -5,6 +5,10 @@
 import { Component, onMounted, onPatched, onWillUnmount, useRef, useState } from "@odoo/owl";
 import { browser } from "@web/core/browser/browser";
 import { registry } from "@web/core/registry";
+import { imageUrl } from "@web/core/utils/urls";
+import { Dropdown } from "@web/core/dropdown/dropdown";
+import { DropdownItem } from "@web/core/dropdown/dropdown_item";
+import { CheckBox } from "@web/core/checkbox/checkbox";
 import { user } from "@web/core/user";
 import { useBus, useService } from "@web/core/utils/hooks";
 import { modulosDe } from "./nodus_modulos";
@@ -41,7 +45,8 @@ class NodusNavBase extends Component {
     }
 
     get usuario() {
-        return { nombre: user.name || "", correo: user.login || "" };
+        const foto = imageUrl("res.partner", user.partnerId, "avatar_128", { unique: user.writeDate });
+        return { nombre: user.name || "", correo: user.login || "", foto };
     }
 
     abrir(modulo) {
@@ -55,6 +60,17 @@ class NodusNavBase extends Component {
 
 export class NodusLateral extends NodusNavBase {
     static template = "nodus_interfaz.Lateral";
+    static components = { Dropdown, DropdownItem, CheckBox };
+
+    /** Mismas opciones del menú de usuario de Odoo (el de arriba a la derecha, que ya no se muestra). */
+    opcionesUsuario() {
+        return registry
+            .category("user_menuitems")
+            .getAll()
+            .map((el) => el(this.env))
+            .filter((el) => (el.show ? el.show() : true))
+            .sort((a, b) => (a.sequence || 100) - (b.sequence || 100));
+    }
 
     setup() {
         super.setup();

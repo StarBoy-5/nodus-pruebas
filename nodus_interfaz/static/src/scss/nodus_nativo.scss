@@ -1,0 +1,2159 @@
+// Pulido de las pantallas nativas de Odoo para que se vean 100 % Nodus: buscador, botones,
+// píldoras, tarjetas, paneles laterales, indicadores, avatares, campos, pestañas y estados.
+// Márgenes y rellenos en una sola escala (8 / 12 / 16 / 24 px) para que nada se monte.
+
+$n-azul: #0047AB;
+$n-azul-osc: #00327D;
+$n-azul-suave: #E8F0FF;
+$n-texto: #1A1A24;
+$n-texto2: #434653;
+$n-gris: #6B7280;
+$n-borde: #E5E7EB;
+$n-borde-suave: #EEF0F4;
+$n-campo: #F9FAFB;
+$n-fondo: #F3F3FC;
+
+body.o_web_client.o_nodus {
+
+    // ---------- Encabezado: píldoras y avatar sin montarse ----------
+    .o_main_navbar {
+        flex-wrap: wrap;
+        row-gap: 8px;
+
+        .o_menu_sections {
+            flex-wrap: wrap;
+            row-gap: 8px;
+        }
+        .o_menu_systray {
+            flex: 0 0 auto;
+            margin-left: auto;
+            gap: 6px;
+            align-items: center;
+            flex-wrap: nowrap;
+        }
+        .o_menu_systray .o_user_menu,
+        .o_menu_systray .o-mail-DiscussSystray-class,
+        .o_menu_systray .dropdown {
+            margin: 0;
+        }
+        // Chats y actividades: puntitos de aviso en azul Nodus
+        .badge,
+        .o-mail-MessagingMenu-counter,
+        .o_notification_counter {
+            background: $n-azul !important;
+            color: #fff !important;
+            border-radius: 999px;
+            font-weight: 600;
+        }
+        // Avatar: círculo limpio (sin el punto verde de Odoo)
+        .o_avatar,
+        .o_user_menu img,
+        .o_user_menu .o_avatar img {
+            border-radius: 50% !important;
+            width: 34px;
+            height: 34px;
+            object-fit: cover;
+        }
+        .o_user_menu .o-mail-Avatar-status,
+        .o_user_menu .o_avatar_status,
+        .o_user_menu .fa-circle {
+            display: none !important;
+        }
+        // En PC también pueden bajar de línea: con muchas secciones (Facturación tiene 7) la última
+        // quedaba debajo del icono de chats
+        // En pantallas de ancho medio las secciones bajan a su propia línea
+        @media (max-width: 1280px) {
+            .o_menu_sections {
+                order: 3;
+                flex: 1 1 100%;
+            }
+        }
+    }
+
+    // ---------- Buscador: píldora gris como el de Inventario ----------
+    .o_searchview {
+        background: $n-campo;
+        border: 1px solid $n-borde !important;
+        border-radius: 999px;
+        padding: 3px 6px 3px 12px;
+        min-height: 38px;
+        box-shadow: none;
+
+        .o_searchview_input_container {
+            padding: 0 4px;
+        }
+        .o_searchview_input {
+            font-size: 14px;
+            background: transparent;
+        }
+        .o_searchview_icon {
+            color: $n-gris;
+        }
+        .o_searchview_dropdown_toggler {
+            border: 0;
+            background: transparent;
+            border-radius: 999px;
+            color: $n-gris;
+
+            &:hover {
+                background: $n-azul-suave;
+                color: $n-azul;
+            }
+        }
+        .o_searchview_facet {
+            background: $n-azul-suave;
+            color: $n-azul;
+            border-radius: 999px;
+            font-weight: 600;
+
+            .o_searchview_facet_label {
+                background: $n-azul;
+                color: #fff;
+            }
+        }
+    }
+
+    // ---------- Panel de control: título, botones y selector de vistas ----------
+    .o_control_panel {
+        gap: 8px 12px;
+
+        .o_cp_buttons .btn {
+            height: 38px;
+            padding: 0 16px;
+        }
+        .o_cp_switch_buttons {
+            gap: 4px;
+
+            .btn {
+                width: 38px;
+                height: 38px;
+                padding: 0;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: 8px;
+            }
+        }
+        .o_pager {
+            color: $n-gris;
+            font-size: 13px;
+            gap: 4px;
+
+            .btn {
+                width: 32px;
+                height: 32px;
+                padding: 0;
+                border-radius: 8px;
+            }
+        }
+        .o_breadcrumb .o_last_breadcrumb_item,
+        .o_breadcrumb .breadcrumb-item {
+            font-size: 16px;
+        }
+    }
+
+    // ---------- Barra de herramientas: una sola fila, sin huecos ni cortes ----------
+    .o_control_panel {
+        .o_control_panel_main {
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 8px 12px;
+            min-height: 0;
+            width: 100%;
+        }
+        .o_control_panel_breadcrumbs {
+            flex: 1 1 auto;
+            min-width: 0;
+            min-height: 0;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .o_control_panel_actions {
+            flex: 1 1 280px;
+            min-width: 0;
+            min-height: 0;
+            align-items: center;
+        }
+        .o_control_panel_navigation {
+            flex: 0 0 auto;
+            min-height: 0;
+            align-items: center;
+            gap: 8px 12px;
+            margin-left: auto;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+        .o_cp_switch_buttons,
+        .o_cp_pager {
+            flex: 0 0 auto;
+        }
+        .o_breadcrumb {
+            min-width: 0;
+        }
+        .o_breadcrumb .o_last_breadcrumb_item,
+        .o_breadcrumb .breadcrumb-item {
+            max-width: none;
+            overflow: visible;
+            text-overflow: clip;
+            white-space: nowrap;
+        }
+        .o_cp_buttons {
+            flex: 0 0 auto;
+        }
+    }
+    .o_control_panel .o_searchview,
+    .o_control_panel .o_searchview.form-control,
+    .o_cp_searchview .o_searchview {
+        width: auto;
+        border-radius: 999px !important;
+        border: 1px solid $n-borde !important;
+        background: $n-campo !important;
+        overflow: hidden;
+    }
+    .o_control_panel .o_searchview .o_searchview_input_container,
+    .o_control_panel .o_searchview .o_searchview_input {
+        border: 0;
+        box-shadow: none;
+        background: transparent;
+    }
+    .o_control_panel .o_searchview .o_searchview_dropdown_toggler {
+        border-left: 1px solid $n-borde-suave;
+        border-radius: 0 999px 999px 0 !important;
+        height: 100%;
+    }
+
+    // ---------- Buscador: caja única (lupa, filtros, texto y flecha en la misma línea) ----------
+    .o_control_panel .o_cp_searchview {
+        flex: 1 1 320px;
+        min-width: 0;
+        max-width: 560px;
+    }
+    .o_control_panel .o_searchview {
+        position: relative;
+        display: flex;
+        align-items: center;
+        flex-wrap: nowrap;
+        padding: 2px 4px 2px 12px;
+        min-height: 40px;
+        height: auto;
+
+        .o_searchview_input_container {
+            flex: 1 1 auto;
+            min-width: 0;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 4px;
+        }
+        .o_searchview_input {
+            flex: 1 1 80px;
+            min-width: 60px;
+            height: 32px;
+            margin: 0;
+        }
+        .o_searchview_icon,
+        .o_searchview_facet {
+            flex: 0 0 auto;
+        }
+    }
+    // La flecha de filtros va dentro de la caja, a la derecha (no suelta debajo)
+    .o_control_panel .o_cp_searchview .o_searchview_dropdown_toggler,
+    .o_control_panel .o_searchview + .o_searchview_dropdown_toggler,
+    .o_control_panel .o_searchview .btn.o_searchview_dropdown_toggler {
+        position: static;
+        flex: 0 0 auto;
+        width: 36px;
+        height: 36px;
+        margin: 0;
+        padding: 0;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border: 0 !important;
+        border-radius: 999px !important;
+        background: transparent;
+        color: $n-gris;
+    }
+    .o_control_panel .o_cp_searchview {
+        display: flex;
+        flex-wrap: nowrap !important;
+        align-items: center;
+        gap: 0;
+        background: $n-campo;
+        border: 1px solid $n-borde;
+        border-radius: 999px;
+        padding-right: 4px;
+
+        &:focus-within {
+            border-color: $n-azul;
+            box-shadow: 0 0 0 3px rgba(0, 71, 171, .12);
+        }
+        .o_searchview {
+            flex: 1 1 auto;
+            min-width: 0;
+            border: 0 !important;
+            background: transparent !important;
+            box-shadow: none !important;
+        }
+    }
+
+    // ---------- Indicadores superiores: tarjeta blanca, su contenido usa todo el ancho ----------
+    .o_purchase_dashboard,
+    .o_sale_dashboard,
+    .o_account_dashboard,
+    .o_dashboard {
+        display: block;
+        margin: 0 24px 16px;
+        padding: 12px 16px !important;
+        max-width: calc(100% - 48px);
+        box-sizing: border-box;
+        background: #fff;
+        border: 0 !important;
+        border-radius: 16px;
+        box-shadow: 0 1px 3px rgba(16, 24, 40, .05);
+        overflow-x: auto;
+
+        .row {
+            margin: 0;
+            width: 100%;
+        }
+        .o_dashboard_button,
+        .btn {
+            border-radius: 12px !important;
+        }
+    }
+
+    // ---------- Formulario: botones, estados y hoja alineados con la barra de arriba (24 px) ----------
+    .o_form_view {
+        .o_form_sheet_bg {
+            padding: 0 24px 16px;
+        }
+        .o_form_statusbar,
+        .o_form_sheet_bg > .o_form_statusbar {
+            padding: 12px 0;
+            margin: 0;
+            gap: 8px 12px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .o_form_statusbar .o_statusbar_buttons {
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .o_form_statusbar .btn {
+            height: 36px;
+        }
+        .o_form_sheet {
+            margin: 0;
+            max-width: 100%;
+            box-sizing: border-box;
+        }
+        .o_statusbar_status {
+            max-width: 100%;
+            overflow: hidden;
+        }
+    }
+
+    // ---------- Ajustes: secciones como filas suaves y menú lateral limpio ----------
+    .o_base_settings,
+    .o_base_settings_view,
+    .o-settings-form-view {
+        .o_setting_container .settings_tab {
+            background: #fff;
+            border-right: 1px solid $n-borde-suave;
+            padding: 12px 8px;
+        }
+        .settings_tab .tab {
+            border-radius: 8px;
+            padding: 8px 12px;
+            margin: 2px 0;
+            color: $n-texto2;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            &.selected {
+                background: $n-azul-suave;
+                color: $n-azul;
+                font-weight: 600;
+            }
+            &:hover:not(.selected) {
+                background: $n-campo;
+            }
+            .icon {
+                width: 22px;
+                height: 22px;
+                flex: 0 0 22px;
+                background-size: contain;
+                background-position: center;
+            }
+        }
+        .app_settings_block {
+            background: $n-fondo;
+        }
+        h2,
+        .o_setting_search h2,
+        .o_form_sheet h2,
+        .o_settings_container h2 {
+            background: transparent !important;
+            margin: 0;
+            padding: 16px 24px 8px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            color: $n-azul;
+            border: 0;
+        }
+        .o_settings_container,
+        .o_setting_box,
+        .row.mt16 {
+            padding-left: 24px;
+            padding-right: 24px;
+        }
+        .o_setting_box {
+            border-radius: 12px;
+        }
+        .o_setting_left_pane,
+        .o_setting_right_pane {
+            padding: 8px 12px;
+        }
+    }
+
+    // ---------- Conversaciones: sin viñetas sueltas, lista y píldoras ordenadas ----------
+    .o-mail-DiscussSidebar,
+    .o-mail-DiscussSidebar ul,
+    .o-mail-DiscussSidebar li {
+        list-style: none;
+        padding-left: 0;
+    }
+    .o-mail-DiscussSidebar li::marker {
+        content: none;
+    }
+    .o-mail-DiscussSidebarChannel-container > .position-absolute.rounded-circle {
+        background: $n-azul !important;
+        border-color: #fff !important;
+    }
+    .o-mail-DiscussSidebar-item,
+    .o-mail-DiscussSidebarChannel {
+        margin: 2px 0;
+        padding: 6px 10px;
+    }
+    .o-mail-DiscussSidebar-badge,
+    .o-mail-DiscussSidebar .badge {
+        background: $n-azul !important;
+        color: #fff !important;
+        border-radius: 999px;
+    }
+
+    .o_navbar .o_menu_sections {
+        min-width: 0;
+        margin-right: 16px;
+        // Las píldoras bajan de línea si no caben (antes iban siempre en una sola: en tablet la fila
+        // se salía de la pantalla y en PC la última quedaba debajo del icono de chats)
+        flex-wrap: wrap;
+
+        .o_nav_entry, .dropdown-toggle {
+            padding-left: 8px !important;
+            padding-right: 8px !important;
+            font-size: 13px;
+            white-space: nowrap;
+        }
+    }
+
+    // ---------- Tableros (hojas de cálculo): barra de filtros y tarjeta ----------
+    .o_spreadsheet_dashboard_action {
+        background: $n-fondo;
+
+        .o_control_panel {
+            margin: 6px 24px 12px;
+            height: auto !important;
+            flex: 0 0 auto !important;
+            overflow: visible;
+
+            .o_control_panel_main {
+                height: auto !important;
+                max-height: none !important;
+                align-items: center;
+            }
+            .o_control_panel_breadcrumbs {
+                flex: 0 0 auto;
+            }
+            .o_control_panel_navigation {
+                margin-left: auto;
+                flex-wrap: nowrap !important;
+            }
+
+            .o_control_panel_main,
+            .o_control_panel_actions,
+            .o_cp_searchview {
+                flex-wrap: wrap !important;
+                row-gap: 8px;
+                min-width: 0;
+                overflow: visible;
+            }
+            .o_control_panel_actions {
+                flex: 1 1 300px;
+                gap: 8px;
+                align-items: center;
+            }
+            .o_searchview,
+            .o_cp_searchview {
+                flex: 1 1 220px;
+                max-width: 100%;
+            }
+            .o_searchview {
+                overflow: visible;
+            }
+            input.o_searchview_input,
+            .o_searchview_input {
+                min-width: 80px;
+            }
+            .btn {
+                white-space: nowrap;
+            }
+            .o_control_panel_navigation {
+                flex: 0 0 auto;
+            }
+        }
+        .o_spreadsheet_dashboard_search_panel {
+            background: #fff;
+            border: 0 !important;
+            border-radius: 16px 0 0 16px;
+            padding: 12px 8px;
+
+            .o_search_panel_category_value header,
+            .o_search_panel_category_value .o_search_panel_label {
+                border-radius: 8px;
+                padding: 6px 10px;
+                color: $n-texto2;
+            }
+            .active,
+            .o_selected {
+                background: $n-azul-suave !important;
+                color: $n-azul !important;
+                font-weight: 600;
+            }
+            .o_search_panel_section_header,
+            .o_search_panel_section_header b {
+                font-family: 'Poppins', sans-serif;
+                font-size: 11px;
+                letter-spacing: .05em;
+                color: $n-gris;
+            }
+        }
+        .o-spreadsheet {
+            background: #fff;
+            border-radius: 0 16px 16px 0;
+        }
+        .o_content,
+        .o_renderer,
+        .o_spreadsheet_dashboard_action .o_content {
+            min-width: 0;
+        }
+    }
+    .o_spreadsheet_dashboard_action > .o_content {
+        margin: 0 24px 24px;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 1px 3px rgba(16, 24, 40, .06);
+        background: #fff;
+    }
+
+    // ---------- Pestañas, píldoras de grupo y filtros ----------
+    .nav-tabs .nav-link,
+    .nav-pills .nav-link {
+        border-radius: 999px;
+        border: 0;
+        margin-right: 6px;
+        padding: 8px 16px;
+        color: $n-texto2;
+        font-weight: 500;
+
+        &.active {
+            background: $n-azul;
+            color: #fff;
+        }
+        &:hover:not(.active) {
+            background: $n-azul-suave;
+            color: $n-azul;
+        }
+    }
+    .nav-tabs {
+        border-bottom: 0;
+        flex-wrap: wrap;
+        row-gap: 6px;
+    }
+
+    // ---------- Campos de formulario ----------
+    .o_field_widget:not(.o_field_boolean) .o_input,
+    .o_input_dropdown .o_input,
+    .form-control,
+    .form-select {
+        background: $n-campo;
+        border: 1px solid $n-borde;
+        border-radius: 8px;
+        min-height: 38px;
+        padding: 6px 12px;
+
+        &:focus {
+            border-color: $n-azul;
+            box-shadow: 0 0 0 3px rgba(0, 71, 171, .12);
+            background: #fff;
+        }
+    }
+    .o_form_view .o_group .o_td_label,
+    .o_form_view label,
+    .o_form_label {
+        color: $n-texto2;
+        font-weight: 600;
+        font-size: 13px;
+    }
+    .form-check-input:checked,
+    .o_field_boolean input:checked {
+        background-color: $n-azul;
+        border-color: $n-azul;
+    }
+    .o_form_view .o_form_sheet {
+        padding: 24px;
+    }
+    .o_form_view .o_notebook_headers {
+        margin-bottom: 12px;
+    }
+    .o_form_view .o_statusbar_status .o_arrow_button {
+        font-weight: 600;
+
+        &.o_arrow_button_current {
+            background: $n-azul;
+            color: #fff;
+        }
+    }
+
+    // ---------- Kanban: tarjetas con aire y estados con color Nodus ----------
+    .o_kanban_renderer {
+        padding: 0 24px 24px;
+        gap: 12px;
+
+        .o_kanban_group {
+            padding: 0 6px;
+
+            .o_kanban_header {
+                font-family: 'Poppins', sans-serif;
+                font-weight: 600;
+                color: $n-texto;
+                padding: 8px 4px;
+            }
+        }
+        .o_kanban_record {
+            padding: 12px;
+            margin-bottom: 8px;
+            background: #fff;
+            transition: box-shadow .2s ease, transform .2s ease;
+
+            &:hover {
+                box-shadow: 0 6px 18px rgba(0, 71, 171, .12);
+                transform: translateY(-1px);
+            }
+        }
+        .o_kanban_quick_create {
+            border-radius: 12px;
+        }
+    }
+
+    // ---------- Etiquetas y estados ----------
+    .badge {
+        border-radius: 6px;
+        font-weight: 700;
+        letter-spacing: .03em;
+    }
+    .o_tag,
+    .o_field_many2many_tags .badge {
+        border-radius: 999px;
+        padding: 2px 10px;
+    }
+    .badge.text-bg-primary,
+    .badge.bg-primary {
+        background: $n-azul !important;
+    }
+    .badge.text-bg-info,
+    .badge.bg-info {
+        background: $n-azul-suave !important;
+        color: $n-azul !important;
+    }
+    .badge.text-bg-success,
+    .badge.bg-success {
+        background: #DCFCE7 !important;
+        color: #166534 !important;
+    }
+    .badge.text-bg-warning,
+    .badge.bg-warning {
+        background: #FEF3C7 !important;
+        color: #92400E !important;
+    }
+    .badge.text-bg-danger,
+    .badge.bg-danger {
+        background: #FEE2E2 !important;
+        color: #991B1B !important;
+    }
+    .badge.text-bg-secondary,
+    .badge.bg-secondary,
+    .badge.text-bg-light {
+        background: #E5E7EB !important;
+        color: #374151 !important;
+    }
+
+    // ---------- Avatares ----------
+    .o_avatar img,
+    .o_m2o_avatar > img,
+    .o_field_many2one_avatar img,
+    .o-mail-Avatar img {
+        border-radius: 50%;
+    }
+    .o_avatar.o_field_widget {
+        gap: 8px;
+    }
+
+    // ---------- Paneles laterales (Aplicaciones, Conversaciones, filtros) ----------
+    .o_cp_searchview,
+    .o_content > .o_controller_with_searchpanel {
+        gap: 0;
+    }
+    .o_searchpanel {
+        background: #fff;
+        border-right: 1px solid $n-borde-suave;
+        padding: 16px 12px;
+
+        .o_searchpanel_section_header,
+        .o_searchpanel_category .o_searchpanel_section_header {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            font-size: 12px;
+            letter-spacing: .05em;
+            text-transform: uppercase;
+            color: $n-gris;
+            margin: 8px 0;
+        }
+        .o_searchpanel_category_value header,
+        .o_searchpanel_filter_value {
+            border-radius: 8px;
+            padding: 6px 8px;
+            color: $n-texto2;
+
+            &:hover {
+                background: $n-campo;
+            }
+            &.active,
+            &.o_active {
+                background: $n-azul-suave;
+                color: $n-azul;
+                font-weight: 600;
+            }
+        }
+        .o_searchpanel_counter,
+        .badge {
+            color: $n-gris;
+            font-weight: 500;
+        }
+    }
+    .o-mail-DiscussSidebar,
+    .o-mail-Discuss-sidebar {
+        background: #fff;
+        padding: 12px;
+
+        .o-mail-DiscussSidebar-item,
+        .o-mail-DiscussSidebarChannel,
+        .o-mail-DiscussSidebarCategory-header {
+            border-radius: 8px;
+        }
+        .o-mail-DiscussSidebar-item.o-active,
+        .o-mail-DiscussSidebar-item:hover {
+            background: $n-azul-suave;
+            color: $n-azul;
+        }
+    }
+    .o-mail-Discuss,
+    .o-mail-Discuss-content {
+        background: $n-fondo;
+    }
+    .o-mail-Thread,
+    .o-mail-Composer {
+        font-size: 14px;
+    }
+    .o-mail-Message-bubble,
+    .o-mail-Message-content {
+        border-radius: 12px;
+    }
+    .o-mail-Composer-input {
+        border-radius: 999px;
+        background: $n-campo;
+        border: 1px solid $n-borde;
+        padding: 8px 14px;
+    }
+    .o-mail-Composer-send {
+        border-radius: 999px;
+    }
+
+    // ---------- Tarjetas de Aplicaciones ----------
+    .o_kanban_renderer.o_kanban_ungrouped {
+        .o_kanban_record {
+            border: 1px solid $n-borde-suave;
+        }
+    }
+    .o_kanban_renderer .o_kanban_record .o_kanban_record_title,
+    .o_kanban_renderer .o_kanban_record strong.o_kanban_record_title {
+        color: $n-texto;
+        font-weight: 600;
+    }
+
+    // ---------- Gráficos, pivote y calendario ----------
+    .o_pivot,
+    .o_graph_renderer,
+    .o_calendar_container {
+        background: #fff;
+        margin: 0 24px 24px;
+        padding: 12px;
+        border-radius: 16px;
+        box-shadow: 0 1px 3px rgba(16, 24, 40, .05);
+    }
+    .o_pivot table th,
+    .o_pivot table td {
+        border-color: $n-borde-suave;
+    }
+    .fc .fc-button-primary,
+    .o_calendar_button_today {
+        background: $n-azul;
+        border-color: $n-azul;
+        border-radius: 8px;
+    }
+
+    // ---------- Chatter (mensajes y notas debajo del formulario) ----------
+    .o-mail-Chatter {
+        background: #fff;
+        border-radius: 16px;
+        margin: 0 24px 24px;
+        padding: 12px 16px;
+        box-shadow: 0 1px 3px rgba(16, 24, 40, .05);
+    }
+    .o-mail-Chatter-topbar .btn {
+        border-radius: 999px;
+    }
+
+    // ---------- Notificaciones y avisos ----------
+    .o_notification {
+        border-radius: 12px;
+        border: 0;
+        box-shadow: 0 10px 30px rgba(16, 24, 40, .16);
+    }
+    .alert {
+        border-radius: 12px;
+        border: 0;
+    }
+    .alert-info {
+        background: $n-azul-suave;
+        color: $n-azul-osc;
+    }
+
+    // ---------- Menús desplegables ----------
+    .dropdown-menu,
+    .o-dropdown--menu {
+        padding: 6px;
+
+        .dropdown-item {
+            border-radius: 8px;
+            padding: 8px 12px;
+            color: $n-texto2;
+
+            &:hover,
+            &:focus {
+                background: $n-azul-suave;
+                color: $n-azul;
+            }
+            &.active,
+            &:active {
+                background: $n-azul;
+                color: #fff;
+            }
+        }
+        .dropdown-header {
+            font-family: 'Poppins', sans-serif;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: .05em;
+            text-transform: uppercase;
+            color: $n-gris;
+        }
+    }
+
+    // ---------- Barras de desplazamiento finas ----------
+    // (con ::-webkit-scrollbar y no con scrollbar-width, para poder separarlas de las esquinas curvas;
+    //  ver el bloque "Barras que no tocan las esquinas" al final)
+}
+
+// Teléfono: márgenes más cortos y nada que se desborde
+@media (max-width: 767.98px) {
+    body.o_web_client.o_nodus {
+        .o_purchase_dashboard,
+        .o_sale_dashboard,
+        .o_account_dashboard,
+        .o_dashboard,
+        .o_pivot,
+        .o_graph_renderer,
+        .o_calendar_container,
+        .o-mail-Chatter {
+            margin-left: 12px;
+            margin-right: 12px;
+        }
+        .o_kanban_renderer {
+            padding: 0 12px 16px;
+        }
+        .o_form_view .o_form_sheet {
+            padding: 16px 12px;
+        }
+        .o_control_panel .o_cp_switch_buttons .btn {
+            width: 34px;
+            height: 34px;
+        }
+        .o_searchview {
+            min-width: 0;
+            flex: 1 1 100%;
+        }
+        .o_searchpanel {
+            padding: 12px 8px;
+        }
+    }
+}
+
+// =====================================================================================
+// Barra de herramientas estilo Nodus (como la de Inventario de hadeon_ui): una fila limpia,
+// campos grises de 8 px, botones blancos con borde y mismo alto (40 px) en todas las pantallas.
+// Va al final para ganar sobre las reglas anteriores.
+// =====================================================================================
+body.o_web_client.o_nodus {
+    .o_control_panel {
+        padding: 12px 16px;
+        gap: 12px;
+
+        .o_control_panel_main {
+            flex-wrap: wrap;
+            gap: 12px;
+            align-items: center;
+        }
+        .o_control_panel_breadcrumbs {
+            flex-wrap: nowrap;
+            gap: 12px;
+            flex: 0 1 auto;
+        }
+        .o_breadcrumb {
+            flex-wrap: nowrap;
+            align-items: center;
+            gap: 6px;
+            font-size: 16px;
+        }
+        .o_control_panel_actions {
+            flex: 1 1 280px;
+        }
+
+        // Buscador: caja gris de 8 px, sin borde grueso al enfocar
+        .o_cp_searchview,
+        .o_searchview,
+        .o_cp_searchview .o_searchview {
+            border-radius: 8px !important;
+        }
+        .o_cp_searchview {
+            max-width: 420px;
+            min-height: 40px;
+            background: $n-campo;
+            border: 1px solid $n-borde;
+            box-shadow: none;
+            overflow: visible;
+
+            &:focus-within {
+                border-color: $n-azul;
+                box-shadow: 0 0 0 2px rgba(0, 71, 171, .10);
+            }
+        }
+        .o_searchview {
+            overflow: visible;
+            box-shadow: none !important;
+            border: 0 !important;
+        }
+        .o_searchview_input {
+            font-size: 14px;
+            color: #1F2937;
+        }
+        .o_searchview_facet {
+            border-radius: 6px;
+        }
+        .o_cp_searchview .o_searchview_dropdown_toggler,
+        .o_searchview .btn.o_searchview_dropdown_toggler {
+            width: 32px;
+            height: 32px;
+            border-radius: 6px !important;
+        }
+
+        // Todos los botones: blancos, borde gris, 40 px
+        .btn:not(.btn-link):not(.o_pager_previous):not(.o_pager_next):not(.o_searchview_dropdown_toggler) {
+            height: 40px;
+            padding: 0 14px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+        .btn-primary,
+        .btn-secondary,
+        .btn-light,
+        .btn-outline-primary,
+        .btn-outline-secondary {
+            background: #fff;
+            border: 1px solid #D1D5DB;
+            color: #1F2937;
+
+            &:hover,
+            &:focus-visible {
+                background: $n-campo;
+                border-color: #C3C6D5;
+                color: $n-texto;
+            }
+        }
+        // Acción principal de la pantalla (guardar): azul Nodus
+        .o_form_button_save {
+            background: $n-azul;
+            border-color: $n-azul;
+            color: #fff;
+
+            &:hover {
+                background: $n-azul-osc;
+                border-color: $n-azul-osc;
+                color: #fff;
+            }
+        }
+        // «Nuevo» con el signo + como el botón Agregar
+        .o_list_button_add,
+        .o_form_button_create,
+        .o-kanban-button-new {
+            &::before {
+                content: "+";
+                font-size: 20px;
+                font-weight: 500;
+                line-height: 1;
+                margin-right: 2px;
+            }
+        }
+        .o_form_button_cancel {
+            color: $n-gris;
+        }
+        .o_pager .btn {
+            width: 36px;
+            height: 36px;
+            background: #fff;
+            border: 1px solid #D1D5DB;
+            color: #374151;
+        }
+        .o_cp_switch_buttons .btn {
+            width: 40px;
+            height: 40px;
+            background: #fff;
+            border: 1px solid #D1D5DB;
+            color: #374151;
+
+            &.active {
+                background: $n-azul;
+                border-color: $n-azul;
+                color: #fff;
+            }
+        }
+        .o_cp_action_menus .btn,
+        .o_control_panel_actions .dropdown-toggle:not(.o_searchview_dropdown_toggler) {
+            height: 40px;
+        }
+    }
+}
+
+@media (max-width: 767.98px) {
+    body.o_web_client.o_nodus .o_control_panel {
+        padding: 10px 12px;
+        gap: 8px;
+
+        .o_cp_searchview {
+            max-width: none;
+        }
+    }
+}
+
+// Ajustes finos de la barra: título en una línea, facetas sin saltar de renglón, iconos de guardado pequeños
+body.o_web_client.o_nodus .o_control_panel {
+    .o_control_panel_breadcrumbs {
+        flex: 0 0 auto !important;
+        max-width: 100%;
+    }
+    .o_breadcrumb {
+        flex-wrap: nowrap !important;
+        white-space: nowrap;
+
+        .o_last_breadcrumb_item,
+        .breadcrumb-item {
+            width: auto !important;
+            flex: 0 0 auto;
+            max-width: none !important;
+            overflow: visible !important;
+        }
+    }
+    .o_cp_searchview .o_searchview_input_container {
+        flex-wrap: nowrap !important;
+        overflow: hidden;
+    }
+    .o_cp_searchview .o_searchview_facet {
+        flex: 0 1 auto;
+        min-width: 0;
+        max-width: 60%;
+    }
+    .o_form_status_indicator,
+    .o_form_status_indicator .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+    }
+    .o_form_status_indicator .btn {
+        height: 28px !important;
+        width: 28px;
+        padding: 0 !important;
+        justify-content: center;
+        background: transparent !important;
+        border: 0 !important;
+        color: $n-gris !important;
+
+        &.o_form_button_save {
+            color: $n-azul !important;
+        }
+        &:hover {
+            background: $n-azul-suave !important;
+            color: $n-azul !important;
+        }
+    }
+    .o_form_button_save {
+        height: 40px;
+    }
+}
+
+body.o_web_client.o_nodus .o_control_panel {
+    .o_breadcrumb {
+        flex-direction: row !important;
+        align-items: center !important;
+        gap: 8px;
+    }
+    .o_cp_searchview .o_searchview_facet,
+    .o_cp_searchview .o_searchview_facet * {
+        flex-wrap: nowrap !important;
+        white-space: nowrap;
+    }
+}
+
+// =====================================================================================
+// Barras con buscador (listas, kanban, calendario...): mismo orden que la de Inventario.
+// Izquierda: buscador arriba y título debajo. Derecha: botón de acción arriba y,
+// debajo, paginador y selector de vistas.
+// =====================================================================================
+@media (min-width: 768px) {
+    body.o_web_client.o_nodus .o_control_panel:has(.o_cp_searchview) {
+        .o_control_panel_main {
+            display: grid !important;
+            grid-template-columns: minmax(0, 1fr) auto;
+            grid-template-rows: auto auto;
+            column-gap: 16px;
+            row-gap: 10px;
+            align-items: center;
+        }
+        .o_control_panel_breadcrumbs,
+        .o_control_panel_actions {
+            display: contents !important;
+        }
+        .o_control_panel_breadcrumbs > * {
+            grid-column: 1;
+            grid-row: 2;
+        }
+        .o_control_panel_main { grid-auto-rows: 0; }
+        .o_control_panel_actions > .o_cp_searchview,
+        .o_control_panel_actions > :not(.o_cp_searchview) {
+            grid-column: 1;
+            grid-row: 1;
+        }
+        .o_cp_searchview {
+            width: 100%;
+            max-width: 460px;
+            justify-self: start;
+        }
+        .o_control_panel_main_buttons {
+            grid-column: 2;
+            grid-row: 1;
+            justify-self: end;
+            display: flex !important;
+            gap: 8px;
+        }
+        .o_breadcrumb {
+            grid-column: 1;
+            grid-row: 2;
+            justify-self: start;
+            min-width: 0;
+        }
+        .o_control_panel_navigation {
+            grid-column: 2;
+            grid-row: 2;
+            justify-self: end;
+            margin-left: 0;
+            flex-wrap: nowrap !important;
+        }
+    }
+}
+
+// Ancho medio (tablet / PC pequeño): el paginador y las vistas bajan a su propia línea, a la derecha
+@media (min-width: 768px) and (max-width: 1099.98px) {
+    body.o_web_client.o_nodus .o_control_panel:has(.o_cp_searchview) {
+        .o_control_panel_main {
+            grid-template-rows: auto auto auto;
+        }
+        .o_breadcrumb {
+            grid-column: 1 / -1;
+            grid-row: 2;
+        }
+        .o_control_panel_navigation {
+            grid-column: 1 / -1;
+            grid-row: 3;
+            flex-wrap: wrap !important;
+            justify-content: flex-end;
+        }
+        .o_cp_searchview {
+            max-width: 100%;
+        }
+    }
+}
+
+// Alturas fijas para que la barra quede pareja (sin huecos abajo):
+// buscador 40 px con facetas de 28 px, y grupo de vistas del mismo alto que sus botones.
+body.o_web_client.o_nodus .o_control_panel {
+    .o_cp_switch_buttons {
+        height: 40px !important;
+        min-height: 0 !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        align-items: center !important;
+        align-self: center;
+    }
+    .o_control_panel_navigation {
+        min-height: 0 !important;
+        height: auto;
+        align-items: center !important;
+        padding: 0 !important;
+    }
+    .o_cp_pager {
+        margin: 0 !important;
+        align-self: center;
+    }
+    .o_cp_searchview {
+        height: 40px;
+        min-height: 40px !important;
+        box-sizing: border-box;
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
+    }
+    .o_cp_searchview .o_searchview {
+        min-height: 0 !important;
+        height: 38px;
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
+    }
+    .o_cp_searchview .o_searchview_facet {
+        height: 28px !important;
+        min-height: 0 !important;
+        align-items: center;
+        align-self: center;
+    }
+    .o_cp_searchview .o_searchview_facet .o_searchview_facet_label {
+        height: 28px;
+        display: inline-flex;
+        align-items: center;
+    }
+    .o_cp_searchview .o_searchview_input {
+        height: 36px !important;
+    }
+}
+
+body.o_web_client.o_nodus .o_control_panel {
+    .o_cp_switch_buttons > *,
+    .o_cp_switch_buttons .btn {
+        margin-top: 0 !important;
+        margin-bottom: 0 !important;
+        top: 0 !important;
+        align-self: center !important;
+        vertical-align: middle;
+    }
+    .o_cp_searchview .o_searchview_facet > * {
+        height: 28px !important;
+        min-height: 0 !important;
+        margin-top: 0 !important;
+        margin-bottom: 0 !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        line-height: 1 !important;
+    }
+}
+
+// =====================================================================================
+// Una sola medida de separación en la barra: 12 px (la misma del relleno superior).
+// Relleno de la tarjeta, separación entre filas, entre columnas y entre cada botón.
+// =====================================================================================
+body.o_web_client.o_nodus .o_control_panel {
+    padding: 12px !important;
+
+    .o_control_panel_main {
+        column-gap: 12px !important;
+        row-gap: 12px !important;
+        gap: 12px !important;
+    }
+    .o_control_panel_main_buttons,
+    .o_cp_buttons,
+    .o_control_panel_navigation,
+    .o_cp_pager,
+    .o_pager,
+    .o_cp_switch_buttons,
+    .o_breadcrumb {
+        gap: 12px !important;
+    }
+    .o_cp_buttons > div,
+    .o_control_panel_main_buttons > div {
+        display: flex;
+        gap: 12px !important;
+    }
+    .o_control_panel_main_buttons .btn,
+    .o_cp_buttons .btn,
+    .o_pager .btn,
+    .o_pager_counter,
+    .o_pager_value,
+    .o_cp_switch_buttons .btn,
+    .o_cp_switch_buttons > * {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+    }
+    .o_pager .btn-group,
+    .o_pager > span,
+    .o_pager > div {
+        display: inline-flex;
+        gap: 12px;
+    }
+    .o_cp_switch_buttons .btn {
+        border-radius: 8px !important;
+    }
+}
+@media (max-width: 767.98px) {
+    body.o_web_client.o_nodus .o_control_panel {
+        padding: 12px !important;
+    }
+}
+
+// El contador del paginador ("1-11 / 11") va junto, sin la separación de los botones
+body.o_web_client.o_nodus .o_control_panel .o_pager_counter {
+    display: inline-block !important;
+    gap: 0 !important;
+    align-items: center;
+    white-space: nowrap;
+
+    * {
+        margin: 0 !important;
+        gap: 0 !important;
+    }
+    .o_pager_limit::before {
+        content: "";
+    }
+}
+
+// =====================================================================================
+// Usuario: en PC/tablet ya está abajo a la izquierda (lateral), no se repite arriba.
+// =====================================================================================
+@media (min-width: 768px) {
+    body.o_web_client.o_nodus .o_main_navbar .o_menu_systray .o_user_menu {
+        display: none !important;
+    }
+}
+
+// =====================================================================================
+// Formularios: barra de botones y pasos fija, con fondo y degradado al pasar el contenido
+// por debajo (como las listas con desplazamiento). Pasos con estilo Nodus (píldoras).
+// =====================================================================================
+
+body.o_web_client.o_nodus .o_form_view {
+    .o_form_statusbar {
+        position: sticky !important;
+        top: 0;
+        z-index: 20;
+        background: $n-fondo !important;
+        padding: 12px 0 !important;
+
+        &::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 100%;
+            height: 24px;
+            background: linear-gradient(to bottom, rgba(243, 243, 252, 1), rgba(243, 243, 252, 0));
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity .2s ease;
+        }
+        .o_statusbar_buttons .btn {
+            height: 40px !important;
+            padding: 0 16px !important;
+            border-radius: 8px !important;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        .o_statusbar_buttons {
+            gap: 12px !important;
+        }
+        .o_statusbar_buttons .btn + .btn {
+            margin-left: 0 !important;
+        }
+    }
+
+    // Pasos: una cápsula blanca con píldoras; la actual en azul, las demás en gris
+    .o_statusbar_status {
+        flex: 1 1 auto;
+        min-width: 0;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 8px;
+        padding: 0 !important;
+        background: transparent;
+        border: 0;
+        overflow: visible;
+
+        .o_arrow_button,
+        .o_arrow_button.btn,
+        .btn {
+            position: relative;
+            height: 36px !important;
+            min-height: 0 !important;
+            margin: 0 !important;
+            padding: 0 16px !important;
+            display: inline-flex;
+            align-items: center;
+            border: 1px solid $n-borde !important;
+            border-radius: 999px !important;
+            background: #fff !important;
+            color: $n-gris !important;
+            font-size: 13px;
+            font-weight: 600;
+            box-shadow: none !important;
+            outline: none !important;
+            white-space: nowrap;
+            clip-path: none !important;
+            -webkit-mask: none !important;
+            mask: none !important;
+
+            &::before,
+            &::after {
+                display: none !important;
+                content: none !important;
+            }
+            &:hover:not(.o_arrow_button_current):not(:disabled) {
+                background: $n-azul-suave !important;
+                color: $n-azul !important;
+            }
+            &.o_arrow_button_current {
+                background: $n-azul !important;
+                border-color: $n-azul !important;
+                color: #fff !important;
+            }
+            &:disabled,
+            &.disabled {
+                opacity: 1;
+            }
+        }
+        .dropdown-toggle {
+            color: $n-gris !important;
+        }
+    }
+}
+
+// Degradado bajo la barra del formulario: solo cuando el contenido no está arriba del todo
+body.o_web_client.o_nodus .o_content.nodus-desplazado .o_form_view .o_form_statusbar::after,
+body.o_web_client.o_nodus .o_content.nodus-desplazado.o_form_view .o_form_statusbar::after,
+body.o_web_client.o_nodus .o_form_view .o_content.nodus-desplazado .o_form_statusbar::after {
+    opacity: 1;
+}
+
+// Pasos con forma de flecha al estilo Nodus: chevrones sólidos, el actual en azul
+body.o_web_client.o_nodus .o_form_view .o_statusbar_status {
+    gap: 3px !important;
+
+    .o_arrow_button:not(.dropdown-toggle),
+    .o_arrow_button.btn:not(.dropdown-toggle) {
+        border: 0 !important;
+        border-radius: 0 !important;
+        height: 36px !important;
+        padding: 0 22px 0 26px !important;
+        background: #E6EAF2 !important;
+        color: $n-texto2 !important;
+        clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 50%, calc(100% - 12px) 100%, 0 100%, 12px 50%) !important;
+
+        &.o_arrow_button_current {
+            background: $n-azul !important;
+            color: #fff !important;
+        }
+        &:hover:not(.o_arrow_button_current):not(:disabled) {
+            background: $n-azul-suave !important;
+            color: $n-azul !important;
+        }
+    }
+    // El primer paso (a la izquierda) empieza recto y redondeado
+    .o_arrow_button.nodus-paso-inicio:not(.dropdown-toggle),
+    .o_arrow_button.btn.nodus-paso-inicio:not(.dropdown-toggle) {
+        padding-left: 18px !important;
+        border-radius: 999px 0 0 999px !important;
+        clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 50%, calc(100% - 12px) 100%, 0 100%) !important;
+    }
+}
+
+// =====================================================================================
+// Orden final de la barra con buscador (pedido 2026-11-13):
+//   Fila 1: título + engranaje (izquierda)            paginador (derecha)
+//   Fila 2: buscador (izquierda)          Nuevo + selector de vistas (derecha)
+// =====================================================================================
+@media (min-width: 768px) {
+    body.o_web_client.o_nodus .o_control_panel:has(.o_cp_searchview) {
+        .o_control_panel_main {
+            grid-template-columns: minmax(0, 1fr) auto auto !important;
+            grid-template-rows: auto auto !important;
+        }
+        .o_control_panel_navigation {
+            display: contents !important;
+        }
+        .o_control_panel_breadcrumbs > *,
+        .o_breadcrumb {
+            grid-column: 1 !important;
+            grid-row: 1 !important;
+        }
+        .o_control_panel_actions > .o_cp_searchview,
+        .o_control_panel_actions > :not(.o_cp_searchview) {
+            grid-column: 1 !important;
+            grid-row: 2 !important;
+        }
+        .o_control_panel_navigation > * {
+            grid-column: 3 !important;
+            grid-row: 2 !important;
+            justify-self: end;
+        }
+        .o_cp_pager {
+            grid-column: 2 / 4 !important;
+            grid-row: 1 !important;
+            justify-self: end;
+        }
+        .o_control_panel_main_buttons {
+            grid-column: 2 !important;
+            grid-row: 2 !important;
+            justify-self: end;
+        }
+    }
+}
+// Ancho medio: el buscador ocupa toda su fila y Nuevo + vistas bajan a la tercera, a la derecha
+@media (min-width: 768px) and (max-width: 1099.98px) {
+    body.o_web_client.o_nodus .o_control_panel:has(.o_cp_searchview) {
+        .o_control_panel_main {
+            grid-template-rows: auto auto auto !important;
+        }
+        .o_control_panel_actions > .o_cp_searchview,
+        .o_control_panel_actions > :not(.o_cp_searchview) {
+            grid-column: 1 / -1 !important;
+        }
+        .o_control_panel_navigation > * {
+            grid-row: 3 !important;
+        }
+        .o_control_panel_main_buttons {
+            grid-row: 3 !important;
+        }
+        .o_control_panel_navigation > .o_cp_pager {
+            grid-row: 1 !important;
+        }
+    }
+}
+
+// Fila de arriba compacta (32 px): título, engranaje y paginador del mismo alto,
+// para que el espacio de arriba, el del medio y el de abajo midan lo mismo (12 px).
+@media (min-width: 768px) {
+    body.o_web_client.o_nodus .o_control_panel:has(.o_cp_searchview) {
+        .o_breadcrumb {
+            height: 32px !important;
+            min-height: 0 !important;
+            align-items: center !important;
+        }
+        .o_breadcrumb .btn,
+        .o_cp_action_menus .btn,
+        .o_control_panel_breadcrumbs_actions .btn {
+            height: 32px !important;
+            width: 32px;
+            min-height: 0 !important;
+            padding: 0 !important;
+            justify-content: center;
+            border: 0 !important;
+            background: transparent !important;
+            color: $n-texto2 !important;
+
+            &:hover {
+                background: $n-azul-suave !important;
+                color: $n-azul !important;
+            }
+        }
+        .o_cp_pager,
+        .o_pager {
+            height: 32px !important;
+            align-items: center !important;
+        }
+        .o_pager .btn {
+            width: 32px !important;
+            height: 32px !important;
+        }
+    }
+}
+
+// =====================================================================================
+// Listas: la tarjeta de la lista se ajusta al alto disponible y es la única que se desplaza
+// (sin una segunda barra de desplazamiento por fuera). Los tableros de arriba (Compras,
+// Ventas...) quedan fijos y la lista ocupa el resto.
+// =====================================================================================
+@media (min-width: 768px) {
+    body.o_web_client.o_nodus .o_view_controller.o_list_view > .o_content {
+        display: flex !important;
+        flex-direction: column;
+        overflow: hidden !important;
+        min-height: 0;
+
+        > * {
+            flex: 0 0 auto;
+        }
+        > .o_list_renderer {
+            flex: 1 1 auto !important;
+            min-height: 0;
+            overflow: auto !important;
+            margin-bottom: 24px;
+        }
+        > .o_view_nocontent {
+            flex: 1 1 auto;
+        }
+    }
+}
+
+// Menú lateral: se desplaza sin mostrar barra (gana sobre la barra fina general)
+body.o_web_client.o_nodus .o_nodus_lateral .o_nodus_lat_lista,
+body.o_web_client.o_nodus .o_nodus_lateral .o_nodus_lat_lista * {
+    scrollbar-width: none !important;
+}
+body.o_web_client.o_nodus .o_nodus_lateral .o_nodus_lat_lista::-webkit-scrollbar {
+    display: none !important;
+    width: 0 !important;
+}
+
+// =====================================================================================
+// Tableros: misma barra que el resto (estilo definido):
+//   Fila 1: título (izquierda)              Compartir + estrella (derecha), alto 32 px
+//   Fila 2: buscador (izquierda)            filtro de fechas y flechas (derecha), alto 40 px
+// Separación única de 12 px.
+// =====================================================================================
+body.o_web_client.o_nodus .o_spreadsheet_dashboard_action .o_control_panel {
+    padding: 12px !important;
+
+    .o_control_panel_main {
+        display: grid !important;
+        grid-template-columns: minmax(0, 1fr) auto;
+        grid-template-rows: auto auto;
+        gap: 12px !important;
+        align-items: center;
+    }
+    .o_control_panel_breadcrumbs {
+        grid-column: 1;
+        grid-row: 1;
+        height: 32px;
+        min-height: 0 !important;
+    }
+    .o_breadcrumb {
+        height: 32px;
+        align-items: center;
+    }
+    .o_control_panel_navigation {
+        grid-column: 2;
+        grid-row: 1;
+        height: 32px;
+        margin: 0 !important;
+        gap: 12px !important;
+        align-items: center !important;
+        flex-wrap: nowrap !important;
+
+        .btn {
+            height: 32px !important;
+            padding: 0 12px !important;
+            font-size: 13px;
+        }
+        .o_dashboard_star {
+            display: inline-flex;
+            align-items: center;
+            height: 32px;
+            color: $n-gris;
+        }
+    }
+    .o_control_panel_actions {
+        grid-column: 1 / -1;
+        grid-row: 2;
+        display: block !important;
+        width: 100%;
+
+        > div {
+            width: 100% !important;
+        }
+    }
+    .o_sp_dashboard_search {
+        display: flex !important;
+        flex-wrap: nowrap !important;
+        align-items: center;
+        gap: 12px !important;
+        width: 100%;
+
+        > .input-group {
+            flex: 1 1 auto !important;
+            max-width: 460px;
+            height: 40px;
+            min-height: 0;
+            flex-wrap: nowrap !important;
+            align-items: center;
+            background: $n-campo;
+            border: 1px solid $n-borde;
+            border-radius: 8px !important;
+            overflow: hidden;
+            padding: 0 4px 0 12px;
+
+            &:focus-within {
+                border-color: $n-azul;
+                box-shadow: 0 0 0 2px rgba(0, 71, 171, .10);
+            }
+            > *,
+            .form-control,
+            .input-group-text,
+            .btn,
+            .o_searchview,
+            input {
+                height: 38px !important;
+                min-height: 0 !important;
+                border: 0 !important;
+                border-radius: 0 !important;
+                background: transparent !important;
+                box-shadow: none !important;
+                margin: 0 !important;
+            }
+            .btn,
+            .dropdown-toggle {
+                flex: 0 0 auto;
+                width: 32px;
+                height: 32px !important;
+                padding: 0 !important;
+                border-radius: 6px !important;
+                color: $n-gris;
+
+                &:hover {
+                    background: $n-azul-suave !important;
+                    color: $n-azul;
+                }
+            }
+        }
+        .o_sp_date_filter_button {
+            margin-left: auto;
+            gap: 12px !important;
+            flex-wrap: nowrap;
+            align-items: center;
+
+            .btn {
+                height: 40px !important;
+                min-width: 40px;
+                margin: 0 !important;
+                border-radius: 8px !important;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                gap: 8px;
+            }
+        }
+    }
+}
+@media (max-width: 767.98px) {
+    body.o_web_client.o_nodus .o_spreadsheet_dashboard_action .o_control_panel .o_sp_dashboard_search {
+        flex-wrap: wrap !important;
+
+        > .input-group {
+            max-width: none;
+            flex: 1 1 100% !important;
+        }
+        .o_sp_date_filter_button {
+            margin-left: 0;
+        }
+    }
+}
+
+// =====================================================================================
+// Barras que no tocan las esquinas curvas: la pista se separa de los extremos lo que mide la curva.
+// =====================================================================================
+body.o_web_client.o_nodus {
+    *::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+    }
+    *::-webkit-scrollbar-thumb {
+        background: #C3C6D5;
+        border-radius: 8px;
+        border: 2px solid transparent;
+        background-clip: padding-box;
+    }
+    *::-webkit-scrollbar-thumb:hover {
+        background: #A9AEC2;
+        background-clip: padding-box;
+    }
+    // Separación = radio de la esquina (js/nodus_radio_barras.js); sin radio, barra completa.
+    // Vertical: arriba = esquina sup. derecha, abajo = inf. derecha. Horizontal: izq. = inf. izquierda, der. = inf. derecha.
+    *::-webkit-scrollbar-track {
+        background: transparent;
+        margin: var(--nodus-r-tr, 0px) var(--nodus-r-br, 0px) var(--nodus-r-br, 0px) var(--nodus-r-bl, 0px);
+    }
+    *::-webkit-scrollbar-corner {
+        background: transparent;
+    }
+
+}
+
+// Tableros: el buscador a la izquierda y el filtro de fechas pegado a la derecha
+body.o_web_client.o_nodus .o_spreadsheet_dashboard_action .o_control_panel_actions > div {
+    width: 100% !important;
+    flex: 1 1 100% !important;
+}
+body.o_web_client.o_nodus .o_spreadsheet_dashboard_action .o_control_panel .o_sp_dashboard_search {
+    flex: 1 1 100% !important;
+    width: 100% !important;
+
+    > .o_sp_date_filter_button {
+        margin-left: auto !important;
+    }
+    > .input-group > .input-group-text,
+    > .input-group > span:first-child {
+        padding: 0 8px 0 0 !important;
+        width: auto !important;
+    }
+}
+
+// Tableros en teléfono: una sola columna, nada se sale de la tarjeta
+@media (max-width: 767.98px) {
+    body.o_web_client.o_nodus .o_spreadsheet_dashboard_action .o_control_panel {
+        .o_control_panel_main {
+            grid-template-columns: minmax(0, 1fr) !important;
+        }
+        .o_control_panel_breadcrumbs,
+        .o_control_panel_navigation,
+        .o_control_panel_actions {
+            grid-column: 1 !important;
+            min-width: 0;
+            max-width: 100%;
+        }
+        .o_control_panel_navigation {
+            grid-row: auto !important;
+            height: auto !important;
+            flex-wrap: wrap !important;
+            justify-content: flex-start;
+            gap: 8px !important;
+        }
+        .o_control_panel_actions {
+            grid-row: auto !important;
+        }
+        .o_sp_dashboard_search,
+        .o_sp_date_filter_button {
+            flex-wrap: wrap !important;
+            gap: 8px !important;
+            max-width: 100%;
+        }
+        .o_sp_dashboard_search > .o_sp_date_filter_button {
+            margin-left: 0 !important;
+        }
+    }
+}
+@media (max-width: 767.98px) {
+    // En teléfono el título ya está arriba ("Tableros"): la fila vacía del título se quita
+    body.o_web_client.o_nodus .o_spreadsheet_dashboard_action .o_control_panel .o_control_panel_breadcrumbs {
+        display: none !important;
+    }
+}
+
+// =====================================================================================
+// Kanban por columnas (Nueva solicitud, Por ordenar...): cada columna es una tarjeta
+// blanca de 16 px como las de hadeon_ui; encabezado fijo, contador en píldora, barra de
+// progreso fina y fichas con borde suave. En PC/tablet cada columna se desplaza por dentro.
+// =====================================================================================
+body.o_web_client.o_nodus .o_kanban_renderer.o_kanban_grouped {
+    gap: 12px !important;
+    padding: 0 24px 24px !important;
+    background: transparent !important;
+
+    .o_kanban_group {
+        flex: 0 0 300px;
+        width: 300px;
+        margin: 0 !important;
+        padding: 0 12px 12px !important;
+        background: #fff !important;
+        border: 0 !important;
+        border-radius: 16px;
+        box-shadow: 0 1px 3px rgba(16, 24, 40, .06);
+    }
+    .o_kanban_group.o_column_folded {
+        flex: 0 0 auto;
+        width: auto;
+    }
+    .o_kanban_header {
+        background: #fff !important;
+        padding: 12px 0 10px !important;
+        margin: 0 !important;
+        border-radius: 16px 16px 0 0;
+        z-index: 2;
+    }
+    .o_kanban_header_title {
+        align-items: center;
+        min-height: 32px;
+    }
+    .o_column_title {
+        font-family: 'Poppins', sans-serif;
+        font-size: 15px;
+        font-weight: 600;
+        color: $n-texto;
+    }
+    .o_kanban_quick_add,
+    .o_group_config .btn {
+        width: 32px;
+        height: 32px;
+        padding: 0 !important;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 8px !important;
+        color: $n-gris;
+
+        &:hover {
+            background: $n-azul-suave;
+            color: $n-azul;
+        }
+    }
+    .o_kanban_counter {
+        gap: 10px;
+        margin-top: 6px;
+    }
+    .o_column_progress.progress {
+        height: 6px;
+        border-radius: 999px;
+        background: $n-borde-suave !important;
+        overflow: hidden;
+
+        .progress-bar {
+            border-radius: 999px;
+        }
+        .progress-bar.bg-200 {
+            background: #D7DCE8 !important;
+        }
+    }
+    .o_animated_number {
+        min-width: 26px;
+        height: 22px;
+        padding: 0 8px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 999px;
+        background: $n-azul-suave;
+        color: $n-azul !important;
+        font-size: 12px;
+
+        b {
+            font-weight: 700;
+        }
+    }
+    .o_kanban_record {
+        margin: 0 0 8px !important;
+        padding: 12px !important;
+        background: #fff;
+        border: 1px solid $n-borde-suave !important;
+        border-radius: 12px !important;
+        box-shadow: none !important;
+        transition: border-color .2s ease, box-shadow .2s ease, transform .2s ease;
+
+        &:hover {
+            border-color: #C9D6F2 !important;
+            box-shadow: 0 6px 16px rgba(16, 24, 40, .08) !important;
+            transform: translateY(-1px);
+        }
+        &:last-child {
+            margin-bottom: 0 !important;
+        }
+        .fs-5 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 14px !important;
+            color: $n-texto;
+        }
+        .o_field_image img {
+            border-radius: 8px;
+            object-fit: contain;
+        }
+    }
+    // Columna vacía: un recuadro punteado suave en vez de vacío
+    .o_kanban_group:not(.o_column_folded):not(:has(.o_kanban_record)) .o_kanban_header::after {
+        content: "Sin registros";
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 72px;
+        margin-top: 12px;
+        border: 1px dashed $n-borde;
+        border-radius: 12px;
+        color: #9CA3AF;
+        font-size: 13px;
+        font-weight: 500;
+    }
+    .o_kanban_group:not(.o_column_folded):not(:has(.o_kanban_record)) .o_kanban_header {
+        position: relative !important;
+    }
+}
+// PC y tablet: la fila de columnas se ajusta al alto disponible y cada columna se desplaza por dentro
+@media (min-width: 768px) {
+    body.o_web_client.o_nodus .o_view_controller.o_kanban_view > .o_content:has(> .o_kanban_renderer.o_kanban_grouped) {
+        display: flex !important;
+        flex-direction: column;
+        overflow: hidden !important;
+        min-height: 0;
+
+        > .o_kanban_renderer {
+            flex: 1 1 auto;
+            min-height: 0;
+            overflow-x: auto !important;
+            overflow-y: hidden !important;
+            align-items: stretch;
+        }
+        .o_kanban_group:not(.o_column_folded) {
+            overflow-y: auto;
+            max-height: 100%;
+        }
+    }
+}
+// Al desplazar hasta la última columna queda el mismo margen derecho que el izquierdo
+body.o_web_client.o_nodus .o_kanban_renderer.o_kanban_grouped::after {
+    content: "";
+    flex: 0 0 12px;
+}
+
+// =====================================================================================
+// Barra con buscador, versión final con 4 columnas para que nada se monte:
+//   Fila 1: título | avisos ("Cambios sin guardar", etc.) |          paginador
+//   Fila 2: buscador (ocupa 1-2)                          | Nuevo | vistas
+// =====================================================================================
+@media (min-width: 768px) {
+    body.o_web_client.o_nodus .o_control_panel:has(.o_cp_searchview) {
+        .o_control_panel_main {
+            grid-template-columns: auto minmax(0, 1fr) auto auto !important;
+        }
+        .o_breadcrumb {
+            grid-column: 1 !important;
+            grid-row: 1 !important;
+        }
+        .o_control_panel_breadcrumbs > :not(.o_breadcrumb):not(.o_control_panel_main_buttons) {
+            grid-column: 2 !important;
+            grid-row: 1 !important;
+            justify-self: start;
+            align-self: center;
+            min-width: 0;
+        }
+        .o_dirty_warning {
+            margin-left: 0 !important;
+            padding: 4px 10px;
+            border-radius: 999px;
+            background: #FEF3C7;
+            color: #92400E !important;
+            font-size: 12px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+        .o_control_panel_actions > .o_cp_searchview,
+        .o_control_panel_actions > :not(.o_cp_searchview) {
+            grid-column: 1 / 3 !important;
+            grid-row: 2 !important;
+        }
+        .o_control_panel_main_buttons {
+            grid-column: 3 !important;
+            grid-row: 2 !important;
+        }
+        .o_control_panel_navigation > * {
+            grid-column: 4 !important;
+            grid-row: 2 !important;
+        }
+        .o_control_panel_navigation > .o_cp_pager {
+            grid-column: 3 / 5 !important;
+            grid-row: 1 !important;
+            justify-self: end;
+        }
+    }
+}
+@media (min-width: 768px) and (max-width: 1099.98px) {
+    body.o_web_client.o_nodus .o_control_panel:has(.o_cp_searchview) {
+        .o_control_panel_actions > .o_cp_searchview,
+        .o_control_panel_actions > :not(.o_cp_searchview) {
+            grid-column: 1 / -1 !important;
+        }
+        .o_control_panel_main_buttons,
+        .o_control_panel_navigation > * {
+            grid-row: 3 !important;
+        }
+        .o_control_panel_navigation > .o_cp_pager {
+            grid-row: 1 !important;
+        }
+    }
+}
+
+// Sin la línea clara que Odoo pone encima del kanban (y de las listas) bajo la barra
+body.o_web_client.o_nodus .o_kanban_renderer,
+body.o_web_client.o_nodus .o_list_renderer {
+    border-top: 0 !important;
+}
+
+// Teléfono: las columnas del kanban (Nueva solicitud, Por ordenar...) van una debajo de otra
+@media (max-width: 767.98px) {
+    body.o_web_client.o_nodus .o_kanban_renderer.o_kanban_grouped {
+        flex-direction: column !important;
+        flex-wrap: nowrap !important;
+        overflow-x: hidden !important;
+        overflow-y: visible !important;
+        padding: 0 12px 12px !important;
+        gap: 12px !important;
+        scroll-snap-type: none !important;
+
+        .o_kanban_group {
+            flex: 0 0 auto !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            min-width: 0 !important;
+            min-height: 0 !important;
+            height: auto !important;
+            max-height: none !important;
+            overflow: visible !important;
+            scroll-snap-align: none !important;
+        }
+        .o_kanban_group.o_column_folded {
+            width: 100% !important;
+        }
+        .o_kanban_header {
+            position: static !important;
+        }
+        &::after {
+            display: none;
+        }
+    }
+}

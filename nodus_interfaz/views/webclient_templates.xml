@@ -56,6 +56,160 @@
         <xpath expr="//t[@t-call='web.login_oauth']" position="replace"/>
     </template>
 
+    <!-- Pantalla "Sin conexión" (la que sale cuando se cae el internet o el servidor): estilo Nodus.
+         Además de reintentar al volver el internet, revisa cada 5 s si el servidor ya responde. -->
+    <template id="webclient_offline_nodus" inherit_id="web.webclient_offline" name="Nodus: sin conexión">
+        <xpath expr="//t[@t-set='title']" position="replace">
+            <t t-set="title">Sin conexión</t>
+        </xpath>
+        <xpath expr="//style" position="after">
+            <style>
+                html, body { height: 100%; }
+                body {
+                    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+                    background: radial-gradient(900px 600px at 15% 10%, #1763d1 0%, rgba(23,99,209,0) 60%),
+                                radial-gradient(800px 600px at 90% 95%, #0a3f94 0%, rgba(10,63,148,0) 60%),
+                                linear-gradient(160deg, #0047AB 0%, #002a6b 100%) !important;
+                    color: #fff !important;
+                }
+                .card {
+                    width: min(92vw, 440px) !important;
+                    padding: 40px 32px 34px !important;
+                    box-sizing: border-box;
+                    border-radius: 28px;
+                    background: rgba(255, 255, 255, .12);
+                    border: 1px solid rgba(255, 255, 255, .28);
+                    box-shadow: 0 24px 60px rgba(0, 20, 60, .35);
+                    backdrop-filter: blur(18px);
+                    -webkit-backdrop-filter: blur(18px);
+                }
+                .card img.nodus-marca { width: 150px; max-width: 70%; height: auto; filter: none; margin-bottom: 8px; }
+                .card h1 { margin: 18px 0 8px; font-size: 26px; font-weight: 700; color: #fff; }
+                .card p { margin: 0 0 24px; font-size: 15px; line-height: 1.5; color: rgba(255, 255, 255, .86); }
+                .card button {
+                    background-color: #fff !important; color: #0047AB !important; border: 0 !important;
+                    border-radius: 14px !important; padding: 12px 26px !important; font-size: 16px !important; font-weight: 700 !important;
+                    font-family: inherit; cursor: pointer; box-shadow: 0 8px 20px rgba(0, 20, 60, .25);
+                }
+                .card button:hover { background-color: #eaf1ff !important; }
+                .nodus-estado { margin-top: 16px; font-size: 12.5px; color: rgba(255, 255, 255, .7); }
+            </style>
+            <script type="text/javascript">
+                /* Si el servidor vuelve, entra solo (sin esperar a que se toque el botón) */
+                setInterval(() => {
+                    fetch('/web/login', { method: 'HEAD', cache: 'no-store' })
+                        .then((r) => { if (r.ok) location.reload(); })
+                        .catch(() => {});
+                }, 5000);
+            </script>
+        </xpath>
+        <xpath expr="//div[hasclass('card')]" position="replace">
+            <div class="card">
+                <img class="nodus-marca" src="/nodus_interfaz/static/src/img/nodus_marca_blanca.png" alt="Nodus"/>
+                <h1>Sin conexión</h1>
+                <p>No pudimos comunicarnos con Nodus. Revisa tu internet y vuelve a intentarlo: entrarás de nuevo en cuanto regrese la conexión.</p>
+                <button onclick="location.reload()">Reintentar</button>
+                <div class="nodus-estado">Reintentando automáticamente…</div>
+            </div>
+        </xpath>
+    </template>
+
+    <!-- Pantalla de carga al abrir o recargar Nodus: la misma del indicador de carga (nodus_cargando.xml),
+         pero desde el primer instante, antes de que se descargue el código de Odoo. Las piezas del logo
+         llegan y se unen, se quedan quietas mientras arranca y se separan al terminar. Mientras está,
+         el indicador normal queda oculto para no poner dos velos. Va en línea (estilo y script) porque
+         los paquetes de Odoo todavía no han cargado. Sin "&", "<" ni ">" en el script: es XML. -->
+    <template id="webclient_arranque_nodus" inherit_id="web.webclient_bootstrap" name="Nodus: pantalla de carga al abrir">
+        <xpath expr="//t[@t-set='head_web']/meta[1]" position="before">
+            <style id="nodus_arranque_css">
+                #nodus_arranque {
+                    position: fixed; inset: 0; z-index: 100001;
+                    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px;
+                    background: rgba(0, 28, 90, .82);
+                    -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+                    transition: opacity .55s ease;
+                }
+                #nodus_arranque.nodus-arr-fuera { opacity: 0; pointer-events: none; }
+                #nodus_arranque .nodus-arr-logo { position: relative; width: 150px; aspect-ratio: 660 / 253; }
+                #nodus_arranque .nodus-arr-pieza {
+                    position: absolute; inset: 0; width: 100%; height: 100%; opacity: 1;
+                    will-change: transform, opacity;
+                    transition: transform .55s cubic-bezier(.65, 0, .35, 1), opacity .45s ease;
+                }
+                #nodus_arranque.nodus-arr-fuera .nodus-arr-izq { transform: translate(-90px, 90px); opacity: 0; }
+                #nodus_arranque.nodus-arr-fuera .nodus-arr-der { transform: translate(90px, -90px); opacity: 0; }
+                #nodus_arranque .nodus-arr-texto {
+                    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+                    font-size: 16px; font-weight: 500; letter-spacing: .02em; color: #fff;
+                }
+                #nodus_arranque .nodus-arr-punto { display: inline-block; width: .5em; opacity: 0; animation: nodus-arr-punto 1.4s infinite; }
+                #nodus_arranque .nodus-arr-punto:nth-child(2) { animation-delay: .25s; }
+                #nodus_arranque .nodus-arr-punto:nth-child(3) { animation-delay: .5s; }
+                @keyframes nodus-arr-punto { 0%, 15% { opacity: 0; } 30%, 70% { opacity: 1; } 90%, 100% { opacity: 0; } }
+                html.nodus-arrancando .o_nodus_cargando { display: none !important; }
+                @media (prefers-reduced-motion: reduce) {
+                    #nodus_arranque .nodus-arr-pieza { transition: none; }
+                }
+            </style>
+            <script type="text/javascript" id="nodus_arranque_js">
+                (function () {
+                    "use strict";
+                    var ENTRADA = 600, MAXIMO = 20000, SALIDA = 600;
+                    var raiz = document.documentElement;
+                    var capa = document.createElement("div");
+                    capa.id = "nodus_arranque";
+                    capa.className = "nodus-arr-fuera";
+                    capa.setAttribute("role", "status");
+                    capa.setAttribute("aria-live", "polite");
+                    function nuevo(etiqueta, clase, padre) {
+                        var e = document.createElement(etiqueta);
+                        e.className = clase;
+                        padre.appendChild(e);
+                        return e;
+                    }
+                    var logo = nuevo("div", "nodus-arr-logo", capa);
+                    logo.setAttribute("aria-hidden", "true");
+                    ["izq", "der"].forEach(function (lado) {
+                        var img = nuevo("img", "nodus-arr-pieza nodus-arr-" + lado, logo);
+                        img.alt = "";
+                        img.src = "/nodus_interfaz/static/src/img/nodus_pieza_" + lado + ".png";
+                    });
+                    var texto = nuevo("div", "nodus-arr-texto", capa);
+                    texto.appendChild(document.createTextNode("Cargando"));
+                    for (var i = 0; i !== 3; i++) { nuevo("span", "nodus-arr-punto", texto).textContent = "."; }
+                    raiz.classList.add("nodus-arrancando");
+                    raiz.appendChild(capa);
+                    /* Entrada: el velo aparece y las piezas llegan hasta unirse */
+                    capa.getBoundingClientRect();
+                    requestAnimationFrame(function () { capa.classList.remove("nodus-arr-fuera"); });
+                    var inicio = Date.now();
+                    function listo() {
+                        if (document.readyState !== "complete") { return false; }
+                        if (!document.querySelector(".o_web_client .o_main_navbar, .o_action_manager .o_view_controller, .o_action_manager .o_action")) { return false; }
+                        var ind = document.querySelector(".o_nodus_cargando");
+                        return !ind || ind.classList.contains("o-fade-leave");
+                    }
+                    /* alMenos(a, b): a es mayor o igual que b */
+                    function alMenos(a, b) { return Math.max(a, b) === a; }
+                    (function vigilar() {
+                        var pasado = Date.now() - inicio;
+                        var unido = alMenos(pasado, ENTRADA + 300);
+                        if (!unido || !(listo() || alMenos(pasado, MAXIMO))) {
+                            setTimeout(vigilar, 100);
+                            return;
+                        }
+                        /* Salida: las piezas se separan por su diagonal y el velo se va */
+                        capa.classList.add("nodus-arr-fuera");
+                        setTimeout(function () {
+                            if (capa.parentNode) { capa.parentNode.removeChild(capa); }
+                            raiz.classList.remove("nodus-arrancando");
+                        }, SALIDA);
+                    })();
+                })();
+            </script>
+        </xpath>
+    </template>
+
     <!-- "Powered by Odoo" del portal y los correos -->
     <template id="brand_promotion_message_nodus" inherit_id="web.brand_promotion_message" name="Nodus: marca">
         <xpath expr="//t[@t-set='final_message']" position="replace">

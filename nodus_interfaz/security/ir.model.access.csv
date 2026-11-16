@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_nodus_comanda_user,nodus.comanda usuario,model_nodus_comanda,base.group_user,1,1,1,0
+access_nodus_comanda_line_user,nodus.comanda.line usuario,model_nodus_comanda_line,base.group_user,1,1,1,0
+access_nodus_cuenta_user,nodus.cuenta usuario,model_nodus_cuenta,base.group_user,1,1,1,0
+access_nodus_cuenta_line_user,nodus.cuenta.line usuario,model_nodus_cuenta_line,base.group_user,1,1,1,1
+access_nodus_cobro_user,nodus.cobro usuario,model_nodus_cobro,base.group_user,1,1,1,1

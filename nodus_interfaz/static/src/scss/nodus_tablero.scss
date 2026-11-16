@@ -528,7 +528,6 @@
         flex: 1 1 auto;
         min-height: 0;
         overflow-y: auto;
-        scrollbar-width: thin;
     }
     .o_nodus_ver_todas {
         flex: none;
@@ -612,4 +611,9 @@
         margin-top: 8px;
         font-size: 12px;
     }
+}
+
+/* La barra de navegación flotante (teléfono y tablet) no debe tapar el final del tablero */
+@media (max-width: 767px) {
+    .o_action.o_nodus_tablero { padding-bottom: 120px !important; }
 }

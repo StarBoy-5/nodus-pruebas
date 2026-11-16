@@ -8,6 +8,10 @@ from odoo.http import request
 PAGINAS = {
     "inventario": "nodus_interfaz.ui_inventario",
     "contactos": "nodus_interfaz.ui_contactos",
+    "contabilidad": "nodus_interfaz.ui_facturacion",
+    "configuracion": "nodus_interfaz.ui_configuracion",
+    "punto-de-venta": "nodus_interfaz.ui_punto_de_venta",
+    "comandas": "nodus_interfaz.ui_comandas",
 }
 
 

@@ -283,17 +283,11 @@
         background: rgba(255, 255, 255, 0.05) !important;
     }
 
-    @media (min-width: 1024px) { .hadeon-vault-container { display: none !important; } }
-    /* En tablet (768-1024px) el dock de vidrio y el menú lateral se
-       turnan según la orientación: vertical = dock (como en teléfono),
-       horizontal = lateral (como en PC). */
-    @media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
-      .hadeon-vault-container { display: none !important; }
-    }
+    @media (min-width: 768px) { .hadeon-vault-container { display: none !important; } }
 
 /* ===== Ajustes de Nodus para que la bóveda viva dentro de Odoo ===== */
 .dock-item img.o_nodus_ic_odoo { filter: none !important; border-radius: 10px; }
-@media (min-width: 1024px), (min-width: 768px) and (orientation: landscape) {
+@media (min-width: 768px) {
     .hadeon-vault-container { display: none !important; }
 }
 /* Se aparta con el teclado, la búsqueda móvil y los chats a pantalla completa */

@@ -1,0 +1,78 @@
+// Indicador de carga de Nodus (reemplaza el cuadrito "Loading" de Odoo).
+// Sobre un velo azul con desenfoque, el logo se une en el centro, se sostiene y se separa:
+// la pieza izquierda sale hacia abajo-izquierda y la derecha hacia arriba-derecha, por la
+// inclinación que tiene cada una. Debajo, "Cargando" con tres puntos que aparecen y se van.
+.o_nodus_cargando {
+    position: fixed;
+    inset: 0;
+    z-index: 100000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    background: rgba(0, 28, 90, .82);
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+    pointer-events: none;
+    transition: opacity .55s ease;
+
+    &.o-fade-leave,
+    &.o-fade-enter {
+        opacity: 0;
+    }
+}
+
+.o_nodus_cargando_logo {
+    position: relative;
+    width: 150px;
+    aspect-ratio: 660 / 253;
+}
+
+.o_nodus_pieza {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    will-change: transform, opacity;
+}
+
+// Mientras carga, el logo está unido y quieto. Solo se mueven las piezas al entrar
+// (llegan desde fuera hasta unirse) y al salir (se separan por su diagonal).
+.o_nodus_pieza {
+    transition: transform .55s cubic-bezier(.65, 0, .35, 1), opacity .45s ease;
+}
+.o_nodus_cargando.o-fade-enter .o_nodus_pieza_izq,
+.o_nodus_cargando.o-fade-leave .o_nodus_pieza_izq { transform: translate(-90px, 90px); opacity: 0; }
+.o_nodus_cargando.o-fade-enter .o_nodus_pieza_der,
+.o_nodus_cargando.o-fade-leave .o_nodus_pieza_der { transform: translate(90px, -90px); opacity: 0; }
+.o_nodus_pieza { opacity: 1; }
+
+.o_nodus_cargando_texto {
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: .02em;
+    color: #fff;
+}
+
+// Los tres puntos aparecen uno a uno y se van
+.o_nodus_punto {
+    display: inline-block;
+    width: .5em;
+    opacity: 0;
+    animation: nodus-punto 1.4s infinite;
+
+    &:nth-child(1) { animation-delay: 0s; }
+    &:nth-child(2) { animation-delay: .25s; }
+    &:nth-child(3) { animation-delay: .5s; }
+}
+@keyframes nodus-punto {
+    0%, 15%   { opacity: 0; }
+    30%, 70%  { opacity: 1; }
+    90%, 100% { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .o_nodus_pieza { transition: none; }
+}

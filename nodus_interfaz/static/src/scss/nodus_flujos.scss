@@ -1,0 +1,159 @@
+// Flujos sin protocolo (models/nodus_flujos.py): cédula/RIF en ventas y compras y el selector de cobro/pago.
+
+$n-azul: #0047AB;
+$n-azul-osc: #00327D;
+$n-texto: #1A1A24;
+$n-gris: #6B7280;
+$n-borde: #E5E7EB;
+$n-campo: #F9FAFB;
+$n-fondo: #F3F3FC;
+
+body.o_web_client.o_nodus {
+    // ---------- Cédula / RIF: tipo angosto + número ----------
+    .o_nodus_documento {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        width: 100%;
+
+        > .o_nodus_doc_tipo {
+            flex: 0 0 64px;
+            width: 64px;
+            margin: 0 !important;
+        }
+        > .o_field_widget:not(.o_nodus_doc_tipo) {
+            flex: 1 1 auto;
+            min-width: 0;
+            margin: 0 !important;
+        }
+    }
+
+    // ---------- Selector de cobro / pago ----------
+    .o_nodus_cobro {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+
+        .o_nodus_cobro_totales {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+        .o_nodus_cobro_total {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            padding: 16px;
+            border-radius: 12px;
+            background: $n-fondo;
+
+            > span {
+                font-size: 12px;
+                font-weight: 600;
+                letter-spacing: .04em;
+                text-transform: uppercase;
+                color: $n-gris;
+            }
+            .o_field_widget {
+                font-family: 'Poppins', sans-serif;
+                font-size: 22px;
+                font-weight: 600;
+                line-height: 1.2;
+                color: $n-azul;
+                overflow-wrap: anywhere;
+            }
+        }
+        .o_nodus_cobro_tasa {
+            font-size: 13px;
+            color: $n-gris;
+
+            .o_field_widget {
+                display: inline;
+            }
+        }
+        .o_nodus_cobro_titulo {
+            margin-top: 4px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            color: $n-texto;
+        }
+        // Formas de pago como botones grandes en cuadrícula
+        .o_nodus_cobro_formas {
+            width: 100%;
+
+            > div {
+                display: grid !important;
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                gap: 8px !important;
+                margin: 0 !important;
+            }
+
+            .o_selection_badge {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                min-height: 48px;
+                margin: 0 !important;
+                padding: 8px 12px;
+                border: 1px solid $n-borde;
+                border-radius: 12px;
+                background: #fff;
+                color: $n-texto;
+                font-size: 14px;
+                font-weight: 500;
+                text-align: center;
+                white-space: normal;
+                cursor: pointer;
+                transition: border-color .15s ease, background-color .15s ease, color .15s ease;
+
+                &:hover {
+                    border-color: $n-azul;
+                    color: $n-azul;
+                }
+                &.active {
+                    border-color: $n-azul;
+                    background: $n-azul;
+                    color: #fff;
+                }
+            }
+        }
+        .o_nodus_cobro_monto {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 12px 16px;
+            border-radius: 12px;
+            background: $n-campo;
+            border: 1px solid $n-borde;
+            color: $n-gris;
+
+            .o_field_widget {
+                font-family: 'Poppins', sans-serif;
+                font-size: 18px;
+                font-weight: 600;
+                color: $n-texto;
+            }
+        }
+    }
+    // Pie del selector: botones del mismo alto; en teléfono ocupan todo el ancho
+    .modal:has(.o_nodus_cobro) .modal-footer {
+        gap: 8px;
+
+        > .btn {
+            margin: 0;
+            min-height: 40px;
+        }
+    }
+    @media (max-width: 767.98px) {
+        .o_nodus_cobro .o_nodus_cobro_formas > div {
+            grid-template-columns: 1fr 1fr;
+        }
+        .o_nodus_cobro .o_nodus_cobro_total .o_field_widget {
+            font-size: 18px;
+        }
+        .modal:has(.o_nodus_cobro) .modal-footer > .btn {
+            flex: 1 1 auto;
+        }
+    }
+}

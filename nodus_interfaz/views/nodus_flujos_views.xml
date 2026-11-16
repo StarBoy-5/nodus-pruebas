@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Flujos sin protocolo de Nodus (ver models/nodus_flujos.py) -->
+<odoo>
+    <!-- ============================================================ Ventas -->
+    <record id="nodus_sale_order_form" model="ir.ui.view">
+        <field name="name">nodus.sale.order.form.flujos</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <!-- Primeros en la cabecera: en teléfono Odoo solo deja visible el primer botón -->
+            <xpath expr="//header/button[1]" position="before">
+                <field name="nodus_por_cobrar" invisible="1"/>
+                <button name="action_nodus_vender" string="Vender" type="object" class="btn-primary"
+                        invisible="state not in ('draft', 'sent') and not (state == 'sale' and invoice_status == 'to invoice')"
+                        data-hotkey="v"/>
+                <button name="action_nodus_cobrar" string="Cobrar" type="object" class="btn-primary"
+                        invisible="not nodus_por_cobrar" data-hotkey="c"/>
+                <button name="action_nodus_cotizar" string="Cotizar" type="object"
+                        invisible="state not in ('draft', 'sent')" data-hotkey="i"/>
+            </xpath>
+            <xpath expr="//group[@name='partner_details']/field[@name='partner_id']" position="before">
+                <label for="nodus_doc_numero" string="Cédula / RIF"/>
+                <div class="o_row o_nodus_documento">
+                    <field name="nodus_doc_tipo" nolabel="1" class="o_nodus_doc_tipo"
+                           readonly="state in ['cancel', 'sale']"/>
+                    <field name="nodus_doc_numero" nolabel="1" placeholder="Ej. 12345678"
+                           readonly="state in ['cancel', 'sale']"/>
+                </div>
+                <field name="nodus_doc_nuevo" invisible="1"/>
+                <field name="nodus_doc_nombre" string="Cliente nuevo" invisible="not nodus_doc_nuevo"
+                       placeholder="No está registrado: escribe su nombre"/>
+            </xpath>
+            <xpath expr="//group[@name='partner_details']/field[@name='partner_id']" position="attributes">
+                <attribute name="string">Cliente</attribute>
+                <attribute name="placeholder">O búscalo por nombre…</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- ============================================================ Compras -->
+    <record id="nodus_purchase_order_form" model="ir.ui.view">
+        <field name="name">nodus.purchase.order.form.flujos</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header/button[1]" position="before">
+                <field name="nodus_por_pagar" invisible="1"/>
+                <button name="action_nodus_comprar" string="Comprar" type="object" class="btn-primary"
+                        invisible="state not in ('draft', 'sent', 'to approve') and not (state == 'purchase' and invoice_status == 'to invoice')"
+                        data-hotkey="v"/>
+                <button name="action_nodus_pagar" string="Pagar" type="object" class="btn-primary"
+                        invisible="not nodus_por_pagar" data-hotkey="c"/>
+            </xpath>
+            <xpath expr="//field[@name='partner_id'][@widget='res_partner_many2one']" position="before">
+                <label for="nodus_doc_numero" string="Cédula / RIF"/>
+                <div class="o_row o_nodus_documento">
+                    <field name="nodus_doc_tipo" nolabel="1" class="o_nodus_doc_tipo"
+                           readonly="state in ['cancel', 'purchase']"/>
+                    <field name="nodus_doc_numero" nolabel="1" placeholder="Ej. J-12345678-9"
+                           readonly="state in ['cancel', 'purchase']"/>
+                </div>
+                <field name="nodus_doc_nuevo" invisible="1"/>
+                <field name="nodus_doc_nombre" string="Proveedor nuevo" invisible="not nodus_doc_nuevo"
+                       placeholder="No está registrado: escribe su nombre"/>
+            </xpath>
+            <xpath expr="//field[@name='partner_id'][@widget='res_partner_many2one']" position="attributes">
+                <attribute name="placeholder">O búscalo por nombre…</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- ============================================================ Facturas: Cobrar / Pagar -->
+    <record id="nodus_account_move_form" model="ir.ui.view">
+        <field name="name">nodus.account.move.form.flujos</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header/button[1]" position="before">
+                <button name="action_nodus_cobrar" string="Cobrar" type="object" class="btn-primary"
+                        invisible="state != 'posted' or payment_state not in ('not_paid', 'partial') or move_type != 'out_invoice'"/>
+                <button name="action_nodus_cobrar" string="Pagar" type="object" class="btn-primary"
+                        invisible="state != 'posted' or payment_state not in ('not_paid', 'partial') or move_type != 'in_invoice'"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- ============================================================ Selector de cobro / pago -->
+    <record id="nodus_cobro_form" model="ir.ui.view">
+        <field name="name">nodus.cobro.form</field>
+        <field name="model">nodus.cobro</field>
+        <field name="arch" type="xml">
+            <form class="o_nodus_cobro">
+                <field name="tipo" invisible="1"/>
+                <field name="move_ids" invisible="1"/>
+                <field name="company_id" invisible="1"/>
+                <field name="moneda_bs" invisible="1"/>
+                <field name="moneda_usd" invisible="1"/>
+                <field name="moneda_diario" invisible="1"/>
+                <field name="diarios_permitidos" invisible="1"/>
+                <div class="o_nodus_cobro_totales">
+                    <div class="o_nodus_cobro_total">
+                        <span>Total en Bs</span>
+                        <field name="total_bs"/>
+                    </div>
+                    <div class="o_nodus_cobro_total">
+                        <span>Total en $</span>
+                        <field name="total_usd"/>
+                    </div>
+                </div>
+                <div class="o_nodus_cobro_tasa">Tasa BCV: 1 $ = <field name="tasa" class="d-inline"/> Bs</div>
+                <div class="o_nodus_cobro_titulo" invisible="tipo != 'cobro'">¿Con qué paga?</div>
+                <div class="o_nodus_cobro_titulo" invisible="tipo != 'pago'">¿Con qué pagaste?</div>
+                <field name="journal_id" widget="selection_badge" nolabel="1" class="o_nodus_cobro_formas"
+                       options="{'no_create': True}"/>
+                <div class="o_nodus_cobro_monto" invisible="not journal_id">
+                    <span invisible="tipo != 'cobro'">Monto a recibir</span>
+                    <span invisible="tipo != 'pago'">Monto a pagar</span>
+                    <field name="monto"/>
+                </div>
+                <footer>
+                    <button name="action_confirmar" string="Cobrar" type="object" class="btn-primary"
+                            invisible="tipo != 'cobro'"/>
+                    <button name="action_confirmar" string="Pagar" type="object" class="btn-primary"
+                            invisible="tipo != 'pago'"/>
+                    <button name="action_despues" string="A crédito" type="object" class="btn-secondary"
+                            invisible="tipo != 'cobro'"/>
+                    <button name="action_despues" string="Pagar después" type="object" class="btn-secondary"
+                            invisible="tipo != 'pago'"/>
+                    <button special="cancel" string="Cancelar" class="btn-secondary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>
