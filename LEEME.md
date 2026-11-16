@@ -17,7 +17,7 @@ Va encima de **Odoo-basico**, que trae `hadeon_standard` (localización venezola
 
    ```
    mi-carpeta/
-   ├── nodus-odoo      ← este repo
+   ├── nodus-pruebas   ← este repo (git@github.com:StarBoy-5/nodus-pruebas.git)
    ├── Odoo-basico     ← git@github.com:Rese4248/Odoo-basico.git
    └── Nodus_Taller    ← git@github.com:Rese4248/Nodus_Taller.git
    ```
