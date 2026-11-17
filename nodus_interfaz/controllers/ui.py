@@ -19,7 +19,8 @@ PAGINAS = {
 # Primer script de cada pantalla: cuenta sus peticiones de red pendientes (fetch y XHR). La pantalla de
 # carga de Nodus (webclient_arranque_nodus) no se quita mientras haya alguna o mientras acabe de llegar
 # una respuesta: estas pantallas piden sus datos DESPUÉS de cargar y las fotos aparecen al llegar.
-CONTADOR_RED = r"""<script>(function () {
+CONTADOR_RED = r"""<style>/* iPhone agranda el texto por su cuenta en algunas páginas y descuadra las tarjetas */
+html { -webkit-text-size-adjust: 100% !important; text-size-adjust: 100% !important; }</style><script>(function () {
     var w = window;
     w.__nodusPendientes = 0;
     function fin() { w.__nodusPendientes--; w.__nodusUltimaRed = Date.now(); }
