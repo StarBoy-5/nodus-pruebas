@@ -154,7 +154,8 @@
             <script type="text/javascript" id="nodus_arranque_js">
                 (function () {
                     "use strict";
-                    var ENTRADA = 600, MAXIMO = 20000, SALIDA = 600;
+                    /* MAXIMO: tope por si la red está muy mal; ESTABLE: ms sin cambios en la página */
+                    var ENTRADA = 600, MAXIMO = 30000, SALIDA = 600, ESTABLE = 500;
                     var raiz = document.documentElement;
                     var capa = document.createElement("div");
                     capa.id = "nodus_arranque";
@@ -183,14 +184,69 @@
                     capa.getBoundingClientRect();
                     requestAnimationFrame(function () { capa.classList.remove("nodus-arr-fuera"); });
                     var inicio = Date.now();
-                    function listo() {
-                        if (document.readyState !== "complete") { return false; }
-                        if (!document.querySelector(".o_web_client .o_main_navbar, .o_action_manager .o_view_controller, .o_action_manager .o_action")) { return false; }
-                        var ind = document.querySelector(".o_nodus_cargando");
-                        return !ind || ind.classList.contains("o-fade-leave");
-                    }
                     /* alMenos(a, b): a es mayor o igual que b */
                     function alMenos(a, b) { return Math.max(a, b) === a; }
+
+                    /* La pantalla de carga tapa todo lo que se acomoda por rendimiento o mala red: solo se va
+                       cuando la interfaz está completa y quieta. Se mira la página y, si la hay, la pantalla
+                       de hadeon_ui que va en un iframe. */
+                    var ultimoCambio = Date.now();
+                    var observados = [];
+                    function observar(doc) {
+                        if (observados.indexOf(doc) !== -1) { return; }
+                        observados.push(doc);
+                        new MutationObserver(function () { ultimoCambio = Date.now(); })
+                            .observe(doc.documentElement, { childList: true, subtree: true, attributes: true });
+                    }
+                    observar(document);
+                    function enPantalla(el, ventana) {
+                        var r = el.getBoundingClientRect();
+                        if (r.width === 0 || r.height === 0) { return false; }
+                        if (alMenos(0, r.bottom) || alMenos(r.top, ventana.innerHeight)) { return false; }
+                        return true;
+                    }
+                    /* Documento cargado, tipografías listas e imágenes visibles descargadas */
+                    function documentoListo(doc, ventana) {
+                        if (doc.readyState !== "complete") { return false; }
+                        if (doc.fonts) {
+                            if (doc.fonts.status !== "loaded") { return false; }
+                        }
+                        var imgs = doc.images;
+                        for (var k = 0; k !== imgs.length; k++) {
+                            var im = imgs[k];
+                            if (im.closest("#nodus_arranque")) { continue; }
+                            if (!enPantalla(im, ventana)) { continue; }
+                            if (!im.complete) { return false; }
+                        }
+                        return true;
+                    }
+                    function listo() {
+                        /* 1. La pantalla abierta ya está dibujada (no basta con la barra de arriba) */
+                        if (!document.querySelector(".o_action_manager .o_view_controller, .o_action_manager .o_action, .o_nodus_menu_principal, .o_action_manager iframe")) { return false; }
+                        /* 2. Sin peticiones pendientes (indicadores de carga de Odoo y de Nodus) */
+                        if (document.querySelector(".o_loading_indicator, .o_nodus_cargando:not(.o-fade-leave)")) { return false; }
+                        /* 3. Página, tipografías e imágenes visibles */
+                        if (!documentoListo(document, window)) { return false; }
+                        /* 4. Pantallas de hadeon_ui (iframe): igual, y se vigilan sus cambios */
+                        var marcos = document.querySelectorAll(".o_action_manager iframe");
+                        for (var m = 0; m !== marcos.length; m++) {
+                            try {
+                                var d = marcos[m].contentDocument;
+                                if (!d || d.URL === "about:blank") { return false; }
+                                if (d.documentElement) { observar(d); }
+                                var w = marcos[m].contentWindow;
+                                /* Sus peticiones de datos (controllers/ui.py las cuenta): ninguna pendiente
+                                   y la última respuesta llegó hace un momento */
+                                if (w.__nodusPendientes) { return false; }
+                                if (w.__nodusUltimaRed) {
+                                    if (!alMenos(Date.now() - w.__nodusUltimaRed, ESTABLE)) { return false; }
+                                }
+                                if (!documentoListo(d, w)) { return false; }
+                            } catch (e) { /* otro origen: no se puede mirar */ }
+                        }
+                        /* 5. Nada cambió en la página durante un momento: ya no se está acomodando */
+                        return alMenos(Date.now() - ultimoCambio, ESTABLE);
+                    }
                     (function vigilar() {
                         var pasado = Date.now() - inicio;
                         var unido = alMenos(pasado, ENTRADA + 300);
