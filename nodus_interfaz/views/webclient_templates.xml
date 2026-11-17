@@ -5,6 +5,17 @@
         <xpath expr="//link[@rel='shortcut icon']" position="attributes">
             <attribute name="t-att-href">x_icon or '/nodus_interfaz/static/src/img/favicon.png'</attribute>
         </xpath>
+        <!-- Color de la barra del navegador en el teléfono (inicio de sesión y demás páginas): azul de Nodus -->
+        <xpath expr="//link[@rel='shortcut icon']" position="before">
+            <meta name="theme-color" content="#0047AB"/>
+        </xpath>
+    </template>
+
+    <!-- En la aplicación Odoo trae su morado como color de la barra del navegador: azul de Nodus -->
+    <template id="webclient_color_nodus" inherit_id="web.webclient_bootstrap" name="Nodus: color de la barra del navegador">
+        <xpath expr="//meta[@name='theme-color']" position="attributes">
+            <attribute name="content">#0047AB</attribute>
+        </xpath>
     </template>
 
     <!-- Inicio de sesión: la tarjeta de vidrio de Nodus en vez de la de Odoo -->
