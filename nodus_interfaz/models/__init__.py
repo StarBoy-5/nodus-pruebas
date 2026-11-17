@@ -5,3 +5,4 @@ from . import nodus_comanda
 from . import nodus_cuenta
 from . import res_users
 from . import nodus_flujos
+from . import product_template

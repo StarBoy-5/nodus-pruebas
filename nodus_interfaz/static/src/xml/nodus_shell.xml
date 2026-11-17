@@ -142,15 +142,19 @@
                     </button>
                 </div>
             </header>
-            <div class="o_nodus_mp_grid">
-                <t t-foreach="modulos" t-as="m" t-key="m.id">
-                    <button type="button" class="hadeon-module-card" t-on-click="() => this.abrir(m)" t-att-aria-label="m.nombre">
-                        <span class="o_nodus_mp_cristal">
-                            <img t-att-src="m.icono" alt="" t-att-class="{ o_nodus_ic_odoo: !m.propio }"/>
-                        </span>
-                        <span class="o_nodus_mp_nombre" t-esc="m.nombre"/>
-                    </button>
-                </t>
+            <!-- Zona con scroll propia (lleva el degradado). El encabezado de cristal queda fuera, encima:
+                 una máscara en un antepasado le impide desenfocar las tarjetas que pasan por debajo. -->
+            <div class="o_nodus_mp_scroll">
+                <div class="o_nodus_mp_grid">
+                    <t t-foreach="modulos" t-as="m" t-key="m.id">
+                        <button type="button" class="hadeon-module-card" t-on-click="() => this.abrir(m)" t-att-aria-label="m.nombre">
+                            <span class="o_nodus_mp_cristal">
+                                <img t-att-src="m.icono" alt="" t-att-class="{ o_nodus_ic_odoo: !m.propio }"/>
+                            </span>
+                            <span class="o_nodus_mp_nombre" t-esc="m.nombre"/>
+                        </button>
+                    </t>
+                </div>
             </div>
         </div>
     </t>

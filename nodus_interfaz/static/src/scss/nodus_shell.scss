@@ -572,26 +572,52 @@ body.o_web_client.o_nodus.o_nodus_inicio {
 body.o_web_client.o_nodus.o_nodus_inicio .o_action_manager {
     background: $nodus-degradado-inicio !important;
 }
+// El contenedor no se desplaza: lo hace .o_nodus_mp_scroll, que pasa por DEBAJO del encabezado
+// (alto --nodus-mp-cab). Así el cristal desenfoca las tarjetas; con el encabezado dentro de la zona
+// con máscara de degradado, el navegador no puede desenfocarlas.
 .o_nodus_menu_principal {
+    --nodus-mp-cab: 91px;
     position: relative;
     height: 100%;
-    overflow-y: auto;
+    overflow: hidden;
     background: transparent;
     color: #fff;
 }
+.o_nodus_mp_scroll {
+    height: 100%;
+    overflow-y: auto;
+    padding-top: var(--nodus-mp-cab);
+}
 
 .hadeon-dash-header {
-    position: sticky;
+    position: absolute;
     top: 0;
+    left: 0;
+    right: 0;
     z-index: 20;
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 18px 40px;
-    background: rgba(255, 255, 255, .08);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid rgba(255, 255, 255, .15);
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, .15);
+    isolation: isolate;
+    // Cristal MATE: velo blanco con desenfoque fuerte (lo de abajo se ve difuso), grano fino
+    // encima (::before) y sin brillos; borde inferior suave y sombra difusa.
+    background: linear-gradient(180deg, rgba(255, 255, 255, .17) 0%, rgba(255, 255, 255, .11) 100%);
+    -webkit-backdrop-filter: blur(24px) saturate(135%);
+    backdrop-filter: blur(24px) saturate(135%);
+    border-bottom: 1px solid rgba(255, 255, 255, .2);
+    box-shadow: 0 10px 30px -8px rgba(0, 12, 45, .35);
+
+    &::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        pointer-events: none;
+        opacity: .22;
+        mix-blend-mode: overlay;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+    }
 }
 
 .hadeon-dash-header-inicio {
@@ -735,6 +761,9 @@ body.o_web_client.o_nodus.o_nodus_inicio .o_action_manager {
 @media (max-width: 767px) {
     .hadeon-dash-header {
         padding: 14px 20px;
+    }
+    .o_nodus_menu_principal {
+        --nodus-mp-cab: 83px;
     }
     .hadeon-dash-header-inicio,
     .hadeon-dash-usuario-texto {
@@ -1069,7 +1098,8 @@ body.o_nodus_colapsado .o_nodus_usuario_btn.show::before {
 }
 
 // Menú Principal: se desplaza sin mostrar barra
-body.o_web_client.o_nodus .o_nodus_menu_principal {
+body.o_web_client.o_nodus .o_nodus_menu_principal,
+body.o_web_client.o_nodus .o_nodus_mp_scroll {
     scrollbar-width: none !important;
 
     &::-webkit-scrollbar {

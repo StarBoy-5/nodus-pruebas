@@ -51,6 +51,7 @@
             "nodus_interfaz/static/src/js/nodus_degradado.js",
             "nodus_interfaz/static/src/js/nodus_radio_barras.js",
             "nodus_interfaz/static/src/js/nodus_botones_estadistica.js",
+            "nodus_interfaz/static/src/js/nodus_vacio.js",
             "nodus_interfaz/static/src/xml/nodus_shell.xml",
             "nodus_interfaz/static/src/xml/nodus_cargando.xml",
             "nodus_interfaz/static/src/xml/nodus_tablero.xml",
