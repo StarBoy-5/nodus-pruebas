@@ -220,7 +220,20 @@
                         }
                         return true;
                     }
+                    /* Momento desde el que las condiciones 1 a 4 se cumplen sin interrupción (0 = no se cumplen) */
+                    var listoDesde = 0, LISTO_FIJO = 1500;
                     function listo() {
+                        if (!condiciones()) {
+                            listoDesde = 0;
+                            return false;
+                        }
+                        if (!listoDesde) { listoDesde = Date.now(); }
+                        /* 5. Nada cambió en la página durante un momento: ya no se está acomodando.
+                           Si algo se redibuja solo todo el tiempo (p. ej. las mesas del Punto de Venta),
+                           basta con que lo demás lleve LISTO_FIJO ms cumplido. */
+                        return alMenos(Date.now() - ultimoCambio, ESTABLE) || alMenos(Date.now() - listoDesde, LISTO_FIJO);
+                    }
+                    function condiciones() {
                         /* 1. La pantalla abierta ya está dibujada (no basta con la barra de arriba) */
                         if (!document.querySelector(".o_action_manager .o_view_controller, .o_action_manager .o_action, .o_nodus_menu_principal, .o_action_manager iframe")) { return false; }
                         /* 2. Sin peticiones pendientes (indicadores de carga de Odoo y de Nodus) */
@@ -244,8 +257,7 @@
                                 if (!documentoListo(d, w)) { return false; }
                             } catch (e) { /* otro origen: no se puede mirar */ }
                         }
-                        /* 5. Nada cambió en la página durante un momento: ya no se está acomodando */
-                        return alMenos(Date.now() - ultimoCambio, ESTABLE);
+                        return true;
                     }
                     (function vigilar() {
                         var pasado = Date.now() - inicio;
