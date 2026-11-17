@@ -1,0 +1,212 @@
+// Comandas (estilos propios de Nodus). Todo va dentro de .nd-comandas para no tocar el resto de Odoo.
+.nd-comandas {
+  .comandas-app { margin-top: 40px; }
+  .comandas-btn-avanzar:active, .comandas-btn-repicar:active, .comandas-btn-primario:active { transform: scale(.98); }
+
+.comandas-app {
+    font-family: 'Inter', sans-serif;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    height: 100%;
+    box-sizing: border-box;
+    color: #1a1a24;
+  }
+  .comandas-app * { box-sizing: border-box; }
+  .comandas-app h1, .comandas-app h2, .comandas-app h3,
+  .comandas-app button, .comandas-tab-btn { font-family: 'Poppins', sans-serif; }
+
+  /* ===================================================
+     ENCABEZADO
+     =================================================== */
+  .comandas-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .comandas-header-titulo { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .comandas-header-titulo h2 {
+    font-size: 20px;
+    font-weight: 600;
+    color: #1a1a24;
+    margin: 0;
+  }
+  .comandas-chip-live {
+    display: inline-flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 600;
+    padding: 4px 10px; border-radius: 9999px; background: #ecfdf5; color: #059669;
+    border: 1px solid rgba(5,150,105,0.18);
+  }
+  .comandas-chip-live-dot { width: 6px; height: 6px; border-radius: 50%; background: #059669; animation: comandas-pulse 1.4s ease-in-out infinite; }
+  @keyframes comandas-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
+
+  .comandas-header-acciones { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .comandas-kpis { display: flex; align-items: center; gap: 20px; padding-right: 16px; border-right: 1px solid rgba(217,217,226,0.6); }
+  .comandas-kpi { display: flex; flex-direction: column; gap: 2px; }
+  .comandas-kpi-label { font-size: 12px; line-height: 16px; font-weight: 500; color: #8d909e; white-space: nowrap; }
+  .comandas-kpi-valor { font-size: 20px; line-height: 24px; font-weight: 600; color: #1a1a24; font-family: 'Poppins', sans-serif; font-variant-numeric: tabular-nums; }
+
+  .comandas-btn-outline {
+    display: flex; align-items: center; gap: 6px; padding: 9px 16px; border-radius: 9999px;
+    border: 1px solid rgba(217, 217, 226, 0.8); background: #ffffff; color: #5c5c6b; font-size: 13px;
+    font-weight: 500; cursor: pointer; transition: background-color .15s cubic-bezier(.22,1,.36,1), color .15s cubic-bezier(.22,1,.36,1); white-space: nowrap;
+    box-shadow: none; outline: none; text-transform: none; letter-spacing: normal; line-height: normal;
+  }
+  .comandas-btn-outline:hover { background: #f3f3fc; }
+  .comandas-btn-primario {
+    display: flex; align-items: center; gap: 8px; height: 40px; padding: 0 20px; border-radius: 9999px; border: none;
+    background: #0047ab; color: #ffffff; font-size: 13px; font-weight: 600; cursor: pointer;
+    transition: background-color .15s cubic-bezier(.22,1,.36,1), color .15s cubic-bezier(.22,1,.36,1); box-shadow: 0 1px 2px rgba(0,0,0,0.08); white-space: nowrap;
+    outline: none; text-transform: none; letter-spacing: normal; line-height: normal;
+  }
+  .comandas-btn-primario:hover { background: #003a8c; }
+
+  /* ===================================================
+     PESTAÑAS En Cocina / Completados
+     =================================================== */
+  .comandas-tabs { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 2px; scrollbar-width: none; }
+  .comandas-tabs::-webkit-scrollbar { display: none; }
+  .comandas-tab-btn { flex-shrink: 0; }
+  .comandas-tab-btn {
+    height: 40px; padding: 0 20px; border-radius: 9999px; border: none; background: rgba(217, 217, 226, 0.4);
+    color: #1a1a24; font-size: 14px; font-weight: 500; cursor: pointer; white-space: nowrap;
+    transition: background-color .15s cubic-bezier(.22,1,.36,1), color .15s cubic-bezier(.22,1,.36,1); display: flex; align-items: center; gap: 8px;
+    box-shadow: none; outline: none; text-transform: none; letter-spacing: normal; line-height: normal;
+  }
+  .comandas-tab-btn:hover:not(.activo) { background: rgba(217, 217, 226, 0.6); }
+  .comandas-tab-btn.activo { background: #0047ab; color: #ffffff; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
+  .comandas-tab-count { font-size: 11px; font-weight: 600; padding: 2px 8px; font-variant-numeric: tabular-nums; border-radius: 9999px; background: rgba(255,255,255,0.25); color: inherit; }
+  .comandas-tab-btn:not(.activo) .comandas-tab-count { background: rgba(255,255,255,0.7); color: #5c5c6b; }
+
+  /* ===================================================
+     TOOLBAR — filtro de estación
+     =================================================== */
+  .comandas-toolbar { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; font-size: 12px; }
+  .comandas-toolbar span.comandas-toolbar-label { color: #8d909e; font-weight: 500; margin-right: 4px; }
+  .comandas-app .comandas-filtro-pill {
+    height: 28px; padding: 0 12px; border-radius: 9999px; background: rgba(217,217,226,0.4); color: #5c5c6b;
+    font-weight: 500; font-size: 12px; font-family: 'Inter', sans-serif; border: none; cursor: pointer; transition: background-color .15s cubic-bezier(.22,1,.36,1), color .15s cubic-bezier(.22,1,.36,1);
+    box-shadow: none; outline: none; text-transform: none; letter-spacing: normal; line-height: normal;
+  }
+  .comandas-filtro-pill.activo { background: #0047ab; color: #ffffff; }
+  .comandas-filtro-pill:hover:not(.activo) { background: rgba(217,217,226,0.7); }
+
+  /* ===================================================
+     GRID DE PEDIDOS
+     =================================================== */
+  .comandas-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; align-content: start;
+  }
+
+  .comandas-orden {
+    background: #ffffff; border-radius: 16px; padding: 20px; position: relative; overflow: hidden;
+    display: flex; flex-direction: column; gap: 14px; box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+    border: 1px solid rgba(26,26,36,0.08);
+  }
+  .comandas-orden-barra { position: absolute; top: 0; left: 0; right: 0; height: 4px; }
+  .comandas-orden[data-estado="nuevo"] .comandas-orden-barra { background: #b8860b; }
+  .comandas-orden[data-estado="preparando"] .comandas-orden-barra { background: #0047ab; }
+  .comandas-orden[data-estado="retrasado"] .comandas-orden-barra { background: #dc2626; }
+  .comandas-orden[data-estado="listo"] .comandas-orden-barra { background: #059669; }
+  .comandas-orden[data-estado="retrasado"] { border-color: rgba(220,38,38,0.24); }
+  .comandas-orden[data-estado="listo"] { opacity: 0.72; }
+
+  .comandas-orden-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; padding-top: 4px; }
+  .comandas-orden-estacion { display: flex; align-items: center; gap: 6px; margin-bottom: 2px; }
+  .comandas-orden-estacion-txt { font-size: 20px; font-weight: 600; color: #1a1a24; font-family: 'Poppins', sans-serif; line-height: 1; }
+  .comandas-orden-vip { color: #b8860b; flex-shrink: 0; }
+  .comandas-orden-meta { font-size: 12px; line-height: 16px; margin-top: 4px; color: #8d909e; }
+
+  .comandas-orden-tiempo-wrap { display: flex; flex-direction: column; align-items: flex-end; gap: 3px; }
+  .comandas-orden-tiempo { font-size: 24px; line-height: 28px; font-weight: 600; font-family: 'Poppins', sans-serif; color: #0047ab; font-variant-numeric: tabular-nums; }
+  .comandas-orden[data-estado="nuevo"] .comandas-orden-tiempo { color: #b8860b; }
+  .comandas-orden[data-estado="retrasado"] .comandas-orden-tiempo { color: #dc2626; }
+  .comandas-orden[data-estado="listo"] .comandas-orden-tiempo { color: #059669; }
+  .comandas-orden-estado-badge {
+    font-size: 12px; line-height: 16px; font-weight: 500;
+    padding: 2px 8px; border-radius: 6px; white-space: nowrap;
+  }
+  .comandas-orden[data-estado="nuevo"] .comandas-orden-estado-badge { background: #fff7e6; color: #b8860b; }
+  .comandas-orden[data-estado="preparando"] .comandas-orden-estado-badge { background: #f0f5ff; color: #0047ab; }
+  .comandas-orden[data-estado="retrasado"] .comandas-orden-estado-badge { background: rgba(220,38,38,0.1); color: #dc2626; }
+  .comandas-orden[data-estado="listo"] .comandas-orden-estado-badge { background: #ecfdf5; color: #059669; }
+
+  .comandas-items { display: flex; flex-direction: column; gap: 10px; flex: 1 1 auto; }
+  .comandas-item {
+    display: flex; gap: 10px; align-items: flex-start; padding-bottom: 10px;
+    border-bottom: 1px solid rgba(217,217,226,0.4); cursor: pointer; transition: opacity .15s ease;
+  }
+  .comandas-item:last-child { border-bottom: none; padding-bottom: 0; }
+  .comandas-item-num {
+    width: 24px; height: 24px; border-radius: 50%; background: #f3f3fc; color: #5c5c6b;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-weight: 600;
+    font-size: 12px; font-family: 'Poppins', sans-serif; font-variant-numeric: tabular-nums; transition: background-color .15s cubic-bezier(.22,1,.36,1);
+  }
+  .comandas-item.listo { opacity: 0.45; }
+  .comandas-item.listo .comandas-item-num { background: #e2e2eb; text-decoration: line-through; }
+  .comandas-item.listo .comandas-item-nombre { text-decoration: line-through; }
+  .comandas-item-texto { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+  .comandas-item-nombre { font-size: 14px; font-weight: 600; color: #1a1a24; }
+  .comandas-item-mod { font-size: 12px; line-height: 16px; padding-left: 8px; border-left: 2px solid rgba(217,217,226,0.7); color: #5c5c6b; }
+  .comandas-item-mod.alergia { color: #dc2626; border-left-color: #dc2626; font-weight: 600; }
+  .comandas-item-mod.nota { color: #b45309; border-left-color: #d97706; font-weight: 500; }
+  .comandas-item-listo-txt { font-size: 12px; color: #059669; font-weight: 600; }
+
+  .comandas-orden-footer { display: flex; gap: 8px; margin-top: 2px; }
+  .comandas-btn-repicar {
+    flex: 1 1 0; height: 40px; padding: 0 12px; border-radius: 10px; border: 1px solid rgba(26,26,36,0.12);
+    background: #ffffff; color: #1a1a24; font-size: 13px; font-weight: 500; cursor: pointer;
+    transition: background-color .15s cubic-bezier(.22,1,.36,1), color .15s cubic-bezier(.22,1,.36,1); font-family: 'Poppins', sans-serif; box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+    outline: none; text-transform: none; letter-spacing: normal; line-height: normal;
+  }
+  .comandas-btn-repicar:hover { background: #f3f3fc; }
+  .comandas-btn-avanzar {
+    flex: 1 1 0; height: 40px; padding: 0 12px; border-radius: 10px; border: none; color: #ffffff;
+    font-size: 13px; font-weight: 500; cursor: pointer; transition: background-color .15s cubic-bezier(.22,1,.36,1), color .15s cubic-bezier(.22,1,.36,1); font-family: 'Poppins', sans-serif;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    outline: none; text-transform: none; letter-spacing: normal; line-height: normal;
+  }
+  .comandas-orden[data-estado="nuevo"] .comandas-btn-avanzar,
+  .comandas-orden[data-estado="preparando"] .comandas-btn-avanzar { background: #0047ab; }
+  .comandas-orden[data-estado="nuevo"] .comandas-btn-avanzar:hover,
+  .comandas-orden[data-estado="preparando"] .comandas-btn-avanzar:hover { background: #003a8c; }
+  .comandas-orden[data-estado="retrasado"] .comandas-btn-avanzar { background: #0047ab; }
+  .comandas-orden[data-estado="retrasado"] .comandas-btn-avanzar:hover { background: #003a8c; }
+  .comandas-orden[data-estado="listo"] .comandas-btn-avanzar { background: #8d909e; cursor: default; }
+
+  .comandas-vacio {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; padding: 64px 24px; color: #8d909e; gap: 8px; grid-column: 1 / -1;
+  }
+  .comandas-vacio svg { margin-bottom: 6px; opacity: 0.5; }
+  .comandas-vacio h3 { font-size: 16px; font-weight: 600; color: #5c5c6b; margin: 0; }
+  .comandas-vacio p { font-size: 13px; font-family: 'Inter', sans-serif; margin: 0; max-width: 320px; }
+
+  @media (max-width: 860px) {
+    .comandas-kpis { display: none; }
+  }
+  @media (max-width: 640px) {
+    .comandas-header { flex-direction: column; align-items: flex-start; }
+    .comandas-header-acciones { width: 100%; }
+    .comandas-btn-primario, .comandas-btn-outline { flex: 1 1 auto; justify-content: center; }
+  }
+
+
+
+  /* Pulido: la acción principal ocupa más que Repicar y nunca parte su texto */
+  .comandas-orden-footer { gap: 8px; }
+  .comandas-btn-repicar { flex: 1 1 0; white-space: nowrap; }
+  .comandas-btn-avanzar { flex: 1.6 1 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  /* Notas y alergias empiezan con mayúscula aunque vengan en minúscula */
+  .comandas-item-mod::first-letter { text-transform: uppercase; }
+  /* Comanda cancelada desde el Punto de Venta */
+.comandas-orden[data-cancel] .comandas-orden-barra { background: #dc2626; }
+.comandas-orden[data-cancel] .comandas-orden-estado-badge { background: #fee2e2; color: #991b1b; }
+.comandas-orden[data-cancel]:not([data-estado="listo"]) .comandas-item-nombre { color: #b91c1c; text-decoration: line-through; }
+.comandas-orden[data-cancel] .comandas-btn-repicar { display: none; }
+.comandas-orden[data-cancel] .comandas-orden-tiempo { visibility: hidden; }
+}
+@media (max-width: 767.98px) {
+  .nd-comandas .comandas-app { margin-top: 32px; }
+}

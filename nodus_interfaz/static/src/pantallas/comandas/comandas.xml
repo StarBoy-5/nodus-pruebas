@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="nodus_interfaz.Comandas">
+        <div class="o_action nd-pant nd-comandas">
+            <div class="nd-pant-cuerpo">
+                <header class="nd-pant-cab">
+                    <h1 class="nd-pant-titulo">Comandas</h1>
+                    <p class="nd-pant-sub">Gestión de pedidos en cocina, en tiempo real desde el Punto de Venta</p>
+                </header>
+
+                <div class="comandas-app">
+                    <div class="comandas-header">
+                        <div class="comandas-header-titulo">
+                            <div class="comandas-chip-live"><span class="comandas-chip-live-dot"/>En vivo</div>
+                        </div>
+                        <div class="comandas-header-acciones">
+                            <div class="comandas-kpis">
+                                <div class="comandas-kpi">
+                                    <span class="comandas-kpi-label">Tiempo promedio</span>
+                                    <span class="comandas-kpi-valor" t-esc="promedio"/>
+                                </div>
+                                <div class="comandas-kpi">
+                                    <span class="comandas-kpi-label">Pendientes</span>
+                                    <span class="comandas-kpi-valor" t-esc="activas.length"/>
+                                </div>
+                            </div>
+                            <button class="comandas-btn-primario" type="button" t-on-click="marcarTodas">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                                Marcar todas listas
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="comandas-tabs" role="tablist">
+                        <button type="button" role="tab" t-att-aria-selected="estado.tab === 'cocina' ? 'true' : 'false'"
+                                t-attf-class="comandas-tab-btn {{ estado.tab === 'cocina' ? 'activo' : '' }}"
+                                t-on-click="() => this.estado.tab = 'cocina'">
+                            En cocina <span class="comandas-tab-count" t-esc="activas.length"/>
+                        </button>
+                        <button type="button" role="tab" t-att-aria-selected="estado.tab === 'completados' ? 'true' : 'false'"
+                                t-attf-class="comandas-tab-btn {{ estado.tab === 'completados' ? 'activo' : '' }}"
+                                t-on-click="() => this.estado.tab = 'completados'">
+                            Completados <span class="comandas-tab-count" t-esc="completadas.length"/>
+                        </button>
+                    </div>
+
+                    <div class="comandas-toolbar">
+                        <span class="comandas-toolbar-label">Estación:</span>
+                        <button type="button" t-attf-class="comandas-filtro-pill {{ estado.estacion === 'todas' ? 'activo' : '' }}"
+                                t-on-click="() => this.estado.estacion = 'todas'">Todas</button>
+                        <t t-foreach="estado.estaciones" t-as="est" t-key="est.id">
+                            <button type="button" t-attf-class="comandas-filtro-pill {{ estado.estacion === est.id ? 'activo' : '' }}"
+                                    t-on-click="() => this.estado.estacion = est.id" t-esc="est.nombre"/>
+                        </t>
+                    </div>
+
+                    <div class="comandas-grid">
+                        <div t-if="!filtradas.length" class="comandas-vacio">
+                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 2l1.578 17.919A2 2 0 0 0 6.57 22h10.86a2 2 0 0 0 1.991-2.08L21 2"/><path d="M3.515 9h16.97"/></svg>
+                            <h3 t-esc="estado.tab === 'cocina' ? 'No hay pedidos activos' : 'Nada completado todavía'"/>
+                            <p t-esc="estado.tab === 'cocina' ? 'Los nuevos pedidos enviados desde el Punto de Venta aparecerán aquí automáticamente.' : 'Los pedidos marcados como listos aparecerán en esta pestaña.'"/>
+                        </div>
+                        <t t-foreach="filtradas" t-as="o" t-key="o.id">
+                            <t t-set="vis" t-value="estadoVisual(o)"/>
+                            <article class="comandas-orden" t-att-data-estado="vis" t-att-data-cancel="o.cancelacion ? '1' : undefined">
+                                <div class="comandas-orden-barra"/>
+                                <div class="comandas-orden-header">
+                                    <div>
+                                        <div class="comandas-orden-estacion">
+                                            <span class="comandas-orden-estacion-txt" t-esc="o.mesa"/>
+                                            <svg t-if="o.vip" class="comandas-orden-vip" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3L22 9l-5 5 1.3 7L12 17.8 5.7 21 7 14 2 9l7.1-.7z"/></svg>
+                                        </div>
+                                        <div class="comandas-orden-meta">Pedido <t t-esc="o.pedido"/> · Mesero: <t t-esc="o.mesero"/></div>
+                                    </div>
+                                    <div class="comandas-orden-tiempo-wrap">
+                                        <span class="comandas-orden-tiempo" t-esc="formato(tiempoDe(o))"/>
+                                        <span class="comandas-orden-estado-badge" t-esc="insignia(o)"/>
+                                    </div>
+                                </div>
+                                <div class="comandas-items">
+                                    <t t-foreach="o.items" t-as="it" t-key="it.id">
+                                        <div t-attf-class="comandas-item {{ it.listo ? 'listo' : '' }}" t-on-click="() => this.marcarItem(o, it)">
+                                            <div class="comandas-item-num" t-esc="it.listo ? '✓' : it_index + 1"/>
+                                            <div class="comandas-item-texto">
+                                                <span class="comandas-item-nombre" t-esc="it.nombre"/>
+                                                <t t-foreach="it.mods || []" t-as="m" t-key="m_index">
+                                                    <span t-attf-class="comandas-item-mod {{ m.tipo }}" t-esc="m.t"/>
+                                                </t>
+                                                <span t-if="it.listo" class="comandas-item-listo-txt">Listo</span>
+                                            </div>
+                                        </div>
+                                    </t>
+                                </div>
+                                <div class="comandas-orden-footer">
+                                    <button class="comandas-btn-repicar" type="button" t-att-disabled="estado.ocupadas[o.id]"
+                                            t-on-click="() => this.accion(o, 'repicar')">Repicar</button>
+                                    <button class="comandas-btn-avanzar" type="button" t-att-disabled="vis === 'listo' or estado.ocupadas[o.id]"
+                                            t-on-click="() => this.accion(o, 'avanzar')" t-esc="textoBoton(o)"/>
+                                </div>
+                            </article>
+                        </t>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+</templates>

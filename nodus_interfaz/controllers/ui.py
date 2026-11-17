@@ -13,7 +13,6 @@ PAGINAS = {
     "contabilidad": "nodus_interfaz.ui_facturacion",
     "configuracion": "nodus_interfaz.ui_configuracion",
     "punto-de-venta": "nodus_interfaz.ui_punto_de_venta",
-    "comandas": "nodus_interfaz.ui_comandas",
 }
 
 # Primer script de cada pantalla: cuenta sus peticiones de red pendientes (fetch y XHR). La pantalla de

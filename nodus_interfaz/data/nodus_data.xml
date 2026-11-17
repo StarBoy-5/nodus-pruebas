@@ -87,8 +87,7 @@
     </record>
     <record id="action_ui_comandas" model="ir.actions.client">
         <field name="name">Comandas</field>
-        <field name="tag">nodus_pagina_ui</field>
-        <field name="params" eval="{'pagina': 'comandas'}"/>
+        <field name="tag">nodus_comandas</field>
         <field name="path">comandas</field>
     </record>
     <menuitem id="menu_comandas" name="Comandas" action="action_ui_comandas"

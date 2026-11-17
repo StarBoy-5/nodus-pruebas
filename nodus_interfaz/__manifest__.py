@@ -22,7 +22,6 @@
         "views/ui/facturacion.xml",
         "views/ui/configuracion.xml",
         "views/ui/punto_de_venta.xml",
-        "views/ui/comandas.xml",
     ],
     "assets": {
         "web._assets_primary_variables": [
@@ -55,6 +54,12 @@
             "nodus_interfaz/static/src/xml/nodus_shell.xml",
             "nodus_interfaz/static/src/xml/nodus_cargando.xml",
             "nodus_interfaz/static/src/xml/nodus_tablero.xml",
+            # Pantallas propias de Nodus (componentes OWL, sin iframe)
+            "nodus_interfaz/static/src/pantallas/comun.scss",
+            "nodus_interfaz/static/src/pantallas/comun.js",
+            "nodus_interfaz/static/src/pantallas/comandas/comandas.scss",
+            "nodus_interfaz/static/src/pantallas/comandas/comandas.js",
+            "nodus_interfaz/static/src/pantallas/comandas/comandas.xml",
         ],
         # Documentos (PDF y vista previa): formato Nodus en todos
         "web.report_assets_common": [

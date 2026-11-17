@@ -1,0 +1,64 @@
+// Base de las pantallas propias de Nodus (Comandas, Inventario, ...): contenedor que se desplaza,
+// encabezado con título y subtítulo, letras y barras de desplazamiento.
+
+.o_action.nd-pant {
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    background: #F3F3FC;
+    color: #1a1a24;
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    color-scheme: light only;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+
+    *, *::before, *::after { box-sizing: border-box; }
+    h1, h2, h3, h4, p { margin: 0; }
+    button { font-family: inherit; }
+
+    &::-webkit-scrollbar { width: 8px; height: 8px; }
+    &::-webkit-scrollbar-thumb { background: #C3C6D5; border-radius: 8px; border: 2px solid transparent; background-clip: padding-box; }
+    &::-webkit-scrollbar-thumb:hover { background: #A9AEC2; background-clip: padding-box; }
+    &::-webkit-scrollbar-track { background: transparent; margin: 33px 0; }
+}
+
+// Contenido: 52 px a los lados y arriba en PC (36 px en teléfono), como el Nodus diseñado
+.nd-pant-cuerpo {
+    padding: 52px 42px 32px;
+}
+.nd-pant-cab {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 0 10px;
+}
+.nd-pant-titulo {
+    font: 600 30px/30px 'Poppins', sans-serif;
+    color: #0047AB;
+}
+.nd-pant-sub {
+    font: 500 14px/14px 'Poppins', sans-serif;
+    color: #6B7280;
+}
+
+@media (max-width: 767.98px) {
+    .nd-pant-cuerpo { padding: 36px 26px 120px; }
+    .nd-pant-sub { line-height: 14px; }
+}
+
+// Aviso flotante (errores y confirmaciones)
+.nd-aviso {
+    position: fixed;
+    left: 50%;
+    bottom: 28px;
+    transform: translateX(-50%);
+    z-index: 100000;
+    padding: 12px 18px;
+    border-radius: 12px;
+    background: #111827;
+    color: #fff;
+    font: 500 14px 'Inter', sans-serif;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, .25);
+}
