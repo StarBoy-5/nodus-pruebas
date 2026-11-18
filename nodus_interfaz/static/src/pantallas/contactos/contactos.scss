@@ -1,0 +1,476 @@
+// Contactos (estilos de Nodus). Todo va dentro de .nd-contactos para no tocar el resto de Odoo.
+.nd-contactos {
+
+
+
+
+.nodus-ayuda {
+  position: relative; display: inline-flex; align-items: center; justify-content: center;
+  width: 16px; height: 16px; margin-left: 4px; border-radius: 50%;
+  background: #e5e7eb; color: #6b7280; font: 600 10px/1 'Inter', sans-serif;
+  cursor: help; vertical-align: middle; user-select: none; outline: none; text-align: center;
+}
+.nodus-ayuda:hover, .nodus-ayuda:focus { background: #0047AB; color: #fff; }
+.nodus-ayuda::after {
+  content: attr(data-ayuda); position: absolute; left: 50%; bottom: calc(100% + 8px);
+  transform: translateX(-50%) translateY(4px); width: max-content; max-width: 240px;
+  padding: 8px 10px; border-radius: 8px; background: #111827; color: #fff;
+  font: 500 12px/1.4 'Inter', sans-serif; text-transform: none; letter-spacing: 0; white-space: normal; text-align: left;
+  box-shadow: 0 8px 20px rgba(0,0,0,.18); opacity: 0; pointer-events: none;
+  transition: opacity .15s ease, transform .15s ease; z-index: 10;
+}
+.nodus-ayuda:hover::after, .nodus-ayuda:focus::after, .nodus-ayuda.forzar::after { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* Las ventanas heredan text-align:center de un widget de el diseño anterior: deben ir a la izquierda */
+.contactos-overlay { text-align: left; }
+.contactos-campo label, .contactos-detalle-campo label { text-align: left; }
+.contactos-campo { min-width: 0; }
+/* El globo de la primera fila se abre hacia abajo (arriba lo cortaría el borde de la ventana)
+   y el de la columna derecha hacia la izquierda */
+.contactos-form-grid > .contactos-campo:nth-child(-n+2) .nodus-ayuda::after { bottom: auto; top: calc(100% + 8px); transform: translateX(-50%) translateY(-4px); }
+.contactos-form-grid > .contactos-campo:nth-child(even) .nodus-ayuda::after { left: auto; right: -10px; transform: translateY(4px); }
+.contactos-form-grid > .contactos-campo:nth-child(2) .nodus-ayuda::after { transform: translateY(-4px); }
+.contactos-form-grid > .contactos-campo:nth-child(even) .nodus-ayuda:hover::after,
+.contactos-form-grid > .contactos-campo:nth-child(even) .nodus-ayuda:focus::after,
+.contactos-form-grid > .contactos-campo:nth-child(even) .nodus-ayuda.forzar::after { transform: translateY(0); }
+/* Tipo de documento + número, lado a lado */
+.nodus-doc { display: grid; grid-template-columns: 74px minmax(0, 1fr); gap: 8px; }
+.nodus-error-form { min-height: 18px; margin: 10px 0 0; color: #dc2626; font: 500 13px 'Inter', sans-serif; }
+/* ===== Nodus: aprovechar el ancho (PC y tablet). Antes: marco 32 + contenedor 10 + panel 24 por lado ===== */
+@media (min-width: 768px) {
+  .el diseño anterior-element-contactosapp { padding-left: 0 !important; padding-right: 0 !important; padding-bottom: 0 !important; }
+  .contactos-panel { padding: 16px !important; }
+  .contactos-tabla thead th { padding-left: 6px !important; padding-right: 6px !important; }
+  .contactos-tabla tbody td { padding-left: 6px !important; padding-right: 6px !important; }
+  .contactos-tabla th:first-child, .contactos-tabla td:first-child { padding-left: 12px !important; }
+  .contactos-tabla th:last-child, .contactos-tabla td:last-child { padding-right: 12px !important; }
+  /* Textos largos (nombre, dirección, correo) se recortan con "..." en vez de ensanchar la tabla */
+  .contactos-tabla tbody td { max-width: 200px; overflow: hidden; text-overflow: ellipsis; }
+  .contactos-tabla tbody td * { overflow: hidden; text-overflow: ellipsis; }
+}
+
+
+
+
+
+
+  
+
+  #contactos-app {
+    font-family: 'Inter', sans-serif;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    height: 100%;
+    box-sizing: border-box;
+    color: #1a1a24;
+  }
+  #contactos-app * { box-sizing: border-box; }
+  #contactos-app h1, #contactos-app h2, #contactos-app h3,
+  #contactos-app button, .contactos-tab-btn { font-family: 'Poppins', sans-serif; }
+
+  .contactos-overlay, .contactos-overlay * {
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+  }
+  .contactos-overlay h1, .contactos-overlay h2, .contactos-overlay h3,
+  .contactos-overlay button { font-family: 'Poppins', sans-serif; }
+
+  /* ===================================================
+     ENCABEZADO
+     =================================================== */
+  .contactos-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .contactos-header-titulo h2 {
+    font-size: 20px;
+    font-weight: 600;
+    color: #1a1a24;
+    margin: 0 0 2px 0;
+  }
+  .contactos-header-titulo p {
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    color: #5c5c6b;
+    margin: 0;
+  }
+  .contactos-chip-crm {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: none;
+    letter-spacing: 0;
+    padding: 3px 9px;
+    border-radius: 9999px;
+    background: #f0f5ff;
+    color: #0047ab;
+    border: 1px solid rgba(0,71,171,0.18);
+    margin-left: 8px;
+    vertical-align: middle;
+  }
+
+  /* ===================================================
+     PESTAÑAS Clientes / Proveedores
+     =================================================== */
+  .contactos-tabs {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 2px;
+    scrollbar-width: none;
+  }
+  .contactos-tabs::-webkit-scrollbar { display: none; }
+  .contactos-tab-btn {
+    padding: 10px 20px !important;
+    border-radius: 9999px !important;
+    border: none !important;
+    background: rgba(217, 217, 226, 0.4) !important;
+    color: #1a1a24 !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    cursor: pointer !important;
+    white-space: nowrap !important;
+    transition: color 0.2s cubic-bezier(.22,1,.36,1), background-color 0.2s cubic-bezier(.22,1,.36,1), border-color 0.2s cubic-bezier(.22,1,.36,1) !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    box-shadow: none !important; outline: none !important; text-transform: none !important; letter-spacing: normal !important; line-height: normal !important;
+  }
+  .contactos-tab-btn:hover:not(.activo) { background: rgba(217, 217, 226, 0.6) !important; }
+  .contactos-tab-btn.activo {
+    background: #0047ab !important;
+    color: #ffffff !important;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05) !important;
+  }
+  .contactos-tab-count {
+    font-size: 12px;
+    font-weight: 600;
+    padding: 1px 7px;
+    border-radius: 9999px;
+    background: rgba(255,255,255,0.25) !important;
+    color: inherit !important;
+  }
+  .contactos-tab-btn:not(.activo) .contactos-tab-count { background: rgba(255,255,255,0.7) !important; color: #5c5c6b !important; }
+
+  /* ===================================================
+     PANEL
+     =================================================== */
+  .contactos-panel {
+    background: #ffffff;
+    border-radius: 16px;
+    border: 1px solid rgba(217, 217, 226, 0.3);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    padding: 24px;
+    min-height: 400px;
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+  }
+  .contactos-vista { display: none; flex-direction: column; flex: 1 1 auto; }
+  .contactos-vista.activa { display: flex; }
+
+  /* Toolbar */
+  .contactos-toolbar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 18px; }
+  .contactos-buscador { position: relative; width: 280px; max-width: 100%; }
+  .contactos-buscador svg { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #8d909e; pointer-events: none !important; }
+  .contactos-buscador input {
+    width: 100% !important; background: #f6f7fb !important; border: 1px solid rgba(217,217,226,0.9) !important; border-radius: 9999px !important;
+    padding: 9px 14px 9px 34px !important; font-size: 12px !important; outline: none !important; font-family: 'Inter', sans-serif !important; transition: color .15s cubic-bezier(.22,1,.36,1), background-color .15s cubic-bezier(.22,1,.36,1), border-color .15s cubic-bezier(.22,1,.36,1) !important;
+    box-shadow: none !important; color: #1a1a24 !important; pointer-events: auto !important; user-select: text !important; cursor: text !important;
+  }
+  .contactos-buscador input:focus { background: #fff !important; border-color: #0047ab !important; }
+  .contactos-filtros { display: flex; align-items: center; gap: 6px; font-size: 12px; flex-wrap: wrap; }
+  .contactos-filtros span { color: #8d909e; font-weight: 500; margin-right: 4px; }
+  .contactos-filtro-pill {
+    padding: 6px 14px !important; border-radius: 9999px !important; background: rgba(217,217,226,0.4) !important; color: #5c5c6b !important;
+    font-weight: 500 !important; font-size: 12px !important; border: none !important; cursor: pointer !important; transition: color 0.15s cubic-bezier(.22,1,.36,1), background-color 0.15s cubic-bezier(.22,1,.36,1), border-color 0.15s cubic-bezier(.22,1,.36,1) !important; font-family: 'Poppins', sans-serif !important;
+    box-shadow: none !important; outline: none !important; text-transform: none !important; letter-spacing: normal !important; line-height: normal !important;
+  }
+  .contactos-filtro-pill.activo { background: #0047ab !important; color: #ffffff !important; }
+  .contactos-filtro-pill:hover:not(.activo) { background: rgba(217,217,226,0.7) !important; }
+
+  /* Selector de tipo de vista: Lista / Tarjetas */
+  .contactos-vista-switch {
+    display: flex; align-items: center; gap: 2px; background: #f3f3fc !important; border-radius: 9999px; padding: 3px; flex-shrink: 0;
+  }
+  .contactos-vista-switch-btn {
+    display: flex !important; align-items: center !important; justify-content: center !important; width: 32px !important; height: 32px !important; border-radius: 9999px !important;
+    border: none !important; background: transparent !important; color: #8d909e !important; cursor: pointer !important; transition: color .15s cubic-bezier(.22,1,.36,1), background-color .15s cubic-bezier(.22,1,.36,1), border-color .15s cubic-bezier(.22,1,.36,1) !important;
+    box-shadow: none !important; outline: none !important; padding: 0 !important;
+  }
+  .contactos-vista-switch-btn:hover:not(.activo) { color: #1a1a24 !important; }
+  .contactos-vista-switch-btn.activo { background: #ffffff !important; color: #0047ab !important; box-shadow: 0 1px 2px rgba(0,0,0,0.08) !important; }
+
+  .contactos-btn-primario {
+    display: flex !important; align-items: center !important; gap: 6px !important; padding: 9px 18px !important; border-radius: 9999px !important; border: none !important;
+    background: #0047ab !important; color: #ffffff !important; font-size: 13px !important; font-weight: 600 !important; cursor: pointer !important;
+    transition: color 0.15s cubic-bezier(.22,1,.36,1), background-color 0.15s cubic-bezier(.22,1,.36,1), border-color 0.15s cubic-bezier(.22,1,.36,1) !important; box-shadow: 0 1px 2px rgba(0,0,0,0.08) !important; white-space: nowrap !important; margin-left: auto !important;
+    outline: none !important; text-transform: none !important; letter-spacing: normal !important; line-height: normal !important;
+  }
+  .contactos-btn-primario:hover { background: #003a8c !important; }
+  .contactos-btn-outline {
+    display: flex !important; align-items: center !important; gap: 6px !important; padding: 9px 16px !important; border-radius: 9999px !important;
+    border: 1px solid rgba(217, 217, 226, 0.8) !important; background: #ffffff !important; color: #5c5c6b !important; font-size: 13px !important;
+    font-weight: 500 !important; cursor: pointer !important; transition: color 0.15s cubic-bezier(.22,1,.36,1), background-color 0.15s cubic-bezier(.22,1,.36,1), border-color 0.15s cubic-bezier(.22,1,.36,1) !important; white-space: nowrap !important;
+    box-shadow: none !important; outline: none !important; text-transform: none !important; letter-spacing: normal !important; line-height: normal !important;
+  }
+  .contactos-btn-outline:hover { background: #f3f3fc !important; }
+  .contactos-btn-texto {
+    padding: 9px 14px !important; border-radius: 9999px !important; border: none !important; background: transparent !important; color: #5c5c6b !important;
+    font-size: 13px !important; font-weight: 500 !important; cursor: pointer !important;
+    box-shadow: none !important; outline: none !important; text-transform: none !important; letter-spacing: normal !important; line-height: normal !important;
+  }
+  .contactos-btn-texto:hover { color: #1a1a24 !important; }
+
+  /* Contenedores de vista (lista vs. tarjetas) */
+  .contactos-contenedor-vista { display: none; flex: 1 1 auto; }
+  .contactos-contenedor-vista.activa { display: flex; flex-direction: column; }
+
+  /* Tabla */
+  /* overflow-x antes era "hidden": con la tabla en min-width:760px eso
+     recortaba columnas enteras (p.ej. el teléfono) sin ninguna forma de
+     llegar a verlas en pantallas angostas. auto en los dos ejes deja
+     deslizar horizontal cuando no entra, igual que el resto de tablas
+     anchas del proyecto (Facturación, Mensualidad). */
+  .contactos-tabla-wrap { overflow: auto !important; flex: 1 1 auto; border: 1px solid rgba(217,217,226,0.5) !important; border-radius: 14px !important; box-shadow: none !important; -webkit-overflow-scrolling: touch !important; }
+  .contactos-tabla-wrap { scrollbar-width: auto;  }
+  .contactos-tabla-wrap::-webkit-scrollbar { width: 6px; height: 6px; }
+  .contactos-tabla-wrap::-webkit-scrollbar-track { background: transparent; }
+  .contactos-tabla-wrap::-webkit-scrollbar-thumb { background: #0047ab; border-radius: 10px; }
+  .contactos-tabla-wrap.arrastrando-scroll, .contactos-tabla-wrap.arrastrando-scroll * { cursor: grabbing !important; user-select: none !important; }
+  table.contactos-tabla, table.contactos-tabla thead, table.contactos-tabla tbody, table.contactos-tabla tr, table.contactos-tabla th, table.contactos-tabla td {
+    border: none !important; outline: none !important; box-shadow: none !important;
+  }
+  table.contactos-tabla { width: 100% !important; min-width: 760px !important; border-collapse: collapse !important; }
+  .contactos-tabla thead th {
+    text-align: left !important; font-size: 12px !important; font-weight: 600 !important; text-transform: none !important;
+    letter-spacing: 0 !important; color: #8d909e !important; padding: 10px 8px !important; border-bottom: 1px solid rgba(217,217,226,0.5) !important;
+    white-space: nowrap !important;
+  }
+  .contactos-tabla tbody td { padding: 12px 8px !important; border-bottom: 1px solid rgba(217,217,226,0.35) !important; font-size: 13px !important; vertical-align: middle !important; white-space: nowrap !important; text-align: left !important; }
+  .contactos-tabla tbody tr:last-child td { border-bottom: none !important; }
+  .contactos-tabla tbody tr { cursor: pointer; transition: background .1s ease; }
+  .contactos-tabla tbody tr:hover { background: #fafbfe !important; }
+  .contactos-tabla td[colspan] { white-space: normal !important; }
+
+  /* Solo "Acciones" (la última columna) queda fija al borde derecho en
+     teléfono, mientras el resto de la tabla desliza — así siempre se
+     puede editar/eliminar sin llegar al final del scroll. "Estado" se
+     probó fija también, pero se revirtió a pedido: ahora desliza normal
+     junto con Email/ID Fiscal/Facturas/Total, igual que el resto de
+     columnas. Necesita su propio background (no hereda el de la fila)
+     porque position:sticky la saca del flujo normal de pintado. */
+  @media (max-width: 767px) {
+    .contactos-tabla th:last-child, .contactos-tabla td:last-child:not([colspan]) {
+      position: sticky !important; right: 0 !important; z-index: 2 !important;
+      background: #ffffff !important;
+      box-shadow: -6px 0 8px -6px rgba(0,0,0,0.08) !important;
+    }
+    .contactos-tabla thead th:last-child { z-index: 3 !important; background: #ffffff !important; }
+    .contactos-tabla tbody tr:hover td:last-child:not([colspan]) { background: #fafbfe !important; }
+  }
+
+  .contactos-nombre-cell { display: flex; align-items: center; gap: 10px; min-width: 0; }
+  .contactos-avatar {
+    width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    font-weight: 600; font-size: 12px; flex-shrink: 0; color: #ffffff;
+  }
+  .contactos-nombre-txt { font-weight: 600; color: #1a1a24; max-width: 180px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .contactos-nombre-sub { font-size: 12px; color: #8d909e; max-width: 180px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+  .contactos-badge {
+    font-size: 12px; font-weight: 600; padding: 2px 8px; border-radius: 6px; white-space: nowrap;
+    text-transform: none; letter-spacing: 0;
+  }
+  .contactos-badge.activo { background: #ecfdf5; color: #059669; border: 1px solid rgba(5,150,105,0.15); }
+  .contactos-badge.inactivo { background: #f3f3fc; color: #8d909e; border: 1px solid rgba(141,144,158,0.15); }
+
+  .contactos-total-facturado { font-weight: 600; color: #1a1a24; }
+  .contactos-num-facturas { font-size: 12px; color: #8d909e; }
+
+  .contactos-acciones-fila { display: flex; align-items: center; gap: 2px; justify-content: flex-end; }
+  .contactos-icon-btn {
+    width: 30px !important; height: 30px !important; border-radius: 8px !important; border: none !important; background: transparent !important;
+    color: #8d909e !important; display: flex !important; align-items: center !important; justify-content: center !important; cursor: pointer !important; transition: color 0.15s cubic-bezier(.22,1,.36,1), background-color 0.15s cubic-bezier(.22,1,.36,1), border-color 0.15s cubic-bezier(.22,1,.36,1) !important;
+    box-shadow: none !important; outline: none !important; padding: 0 !important;
+  }
+  .contactos-icon-btn:hover { background: #e9ebf5 !important; color: #1a1a24 !important; }
+  .contactos-icon-btn.peligro:hover { background: #fde8e8 !important; color: #dc2626 !important; }
+
+  /* Vista de tarjetas */
+  .contactos-tarjetas-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px; flex: 1 1 auto; align-content: start;
+  }
+  .contactos-tarjeta {
+    background: #fafbfe; border: 1px solid rgba(217,217,226,0.5); border-radius: 14px; padding: 16px;
+    display: flex; flex-direction: column; gap: 10px; cursor: pointer; transition: color .15s cubic-bezier(.22,1,.36,1), background-color .15s cubic-bezier(.22,1,.36,1), border-color .15s cubic-bezier(.22,1,.36,1);
+  }
+  .contactos-tarjeta:hover { border-color: rgba(0,71,171,0.3); box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+  .contactos-tarjeta-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
+  .contactos-tarjeta-id { display: flex; align-items: flex-start; gap: 10px; min-width: 0; flex: 1 1 auto; }
+  .contactos-tarjeta-id .contactos-avatar { flex-shrink: 0; }
+  .contactos-tarjeta-top .contactos-badge { flex-shrink: 0; margin-top: 1px; }
+  .contactos-tarjeta-id .contactos-avatar { width: 38px; height: 38px; font-size: 12px; }
+  .contactos-tarjeta-nombre {
+    font-weight: 600; color: #1a1a24; font-size: 13.5px; line-height: 1.3;
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+  }
+  .contactos-tarjeta-fiscal { font-size: 12px; color: #8d909e; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .contactos-tarjeta-datos { display: flex; flex-direction: column; gap: 5px; font-size: 12px; color: #5c5c6b; }
+  .contactos-tarjeta-datos div { display: flex; align-items: center; gap: 7px; }
+  .contactos-tarjeta-datos svg { flex-shrink: 0; color: #8d909e; width: 13px; height: 13px; }
+  .contactos-tarjeta-datos span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .contactos-tarjeta-footer {
+    display: flex; align-items: center; justify-content: space-between; gap: 8px; padding-top: 10px;
+    border-top: 1px solid rgba(217,217,226,0.5); margin-top: 2px;
+  }
+  .contactos-tarjeta-metricas { display: flex; flex-direction: column; }
+  .contactos-tarjeta-metricas .contactos-total-facturado { font-size: 13px; }
+  .contactos-tarjeta-metricas .contactos-num-facturas { font-size: 12px; }
+  .contactos-tarjeta-acciones { display: flex; align-items: center; gap: 2px; }
+
+  .contactos-vacio {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; padding: 56px 24px; color: #8d909e; gap: 6px; flex: 1 1 auto;
+  }
+  .contactos-vacio svg { margin-bottom: 6px; opacity: 0.5; }
+  .contactos-vacio h3 { font-size: 15px; font-weight: 600; color: #5c5c6b; margin: 0; }
+  .contactos-vacio p { font-size: 13px; font-family: 'Inter', sans-serif; margin: 0; max-width: 300px; }
+
+  /* ===================================================
+     MODAL — overlay compartido (detalle + alta/edición)
+     =================================================== */
+  .contactos-overlay {
+    position: fixed; inset: 0; background: rgba(26,26,36,0.45); backdrop-filter: blur(2px);
+    display: none; align-items: center; justify-content: center; z-index: 100000; padding: 20px;
+  }
+  .contactos-overlay.activo { display: flex; }
+  .contactos-modal {
+    background: #ffffff; border-radius: 18px; width: 100%; max-width: 640px; max-height: 88vh;
+    display: flex; flex-direction: column; box-shadow: 0 12px 40px rgba(0,0,0,0.2); overflow: hidden;
+  }
+  /* En teléfono el dock flotante de abajo (.hadeon-vault-container) vive
+     en z-index:150000, por encima de este overlay (100000) — con
+     max-height:88vh el modal puede terminar más abajo de donde empieza
+     el dock (altura real ~87px + 12px de margen inferior) y queda tapado
+     detrás. Se acorta solo en este breakpoint, dejando aire de sobra; el
+     body del modal ya hace scroll interno (overflow-y:auto), así que
+     ningún campo deja de verse, solo cabe menos por pantalla a la vez. */
+  @media (max-width: 767px) {
+    /* align-items:center (el valor de escritorio) reparte el espacio que
+       se libera mitad arriba, mitad abajo — la mitad de arriba se
+       desperdicia porque ahí no hay ningún dock que evitar. flex-start
+       manda todo ese margen abajo, que es justo donde hace falta. */
+    .contactos-overlay { align-items: flex-start !important; padding-top: 28px !important; }
+    .contactos-modal { max-height: calc(100vh - 170px) !important; }
+  }
+  .contactos-modal-header {
+    display: flex; align-items: flex-start; justify-content: space-between; gap: 12px;
+    padding: 20px 22px; border-bottom: 1px solid rgba(217,217,226,0.5);
+  }
+  .contactos-modal-header-left { display: flex; align-items: center; gap: 12px; min-width: 0; flex: 1 1 auto; }
+  .contactos-modal-header-left > div { min-width: 0; }
+  .contactos-modal-titulo { font-size: 16px; font-weight: 600; color: #1a1a24; margin: 0 0 2px 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .contactos-modal-sub { font-size: 12px; color: #5c5c6b; margin: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .contactos-modal-cerrar {
+    width: 32px !important; height: 32px !important; border-radius: 9999px !important; border: none !important; background: #f3f3fc !important; color: #5c5c6b !important;
+    display: flex !important; align-items: center !important; justify-content: center !important; cursor: pointer !important; flex-shrink: 0 !important; transition: color .15s cubic-bezier(.22,1,.36,1), background-color .15s cubic-bezier(.22,1,.36,1), border-color .15s cubic-bezier(.22,1,.36,1) !important;
+    box-shadow: none !important; outline: none !important; padding: 0 !important;
+  }
+  .contactos-modal-cerrar:hover { background: #e9ebf5 !important; color: #1a1a24 !important; }
+  .contactos-modal-body { padding: 20px 22px; overflow-y: auto; flex: 1 1 auto; }
+  .contactos-modal-body { scrollbar-width: auto;  }
+  .contactos-modal-body::-webkit-scrollbar { width: 6px; height: 6px; }
+  .contactos-modal-body::-webkit-scrollbar-track { background: transparent; }
+  .contactos-modal-body::-webkit-scrollbar-thumb { background: #0047ab; border-radius: 10px; }
+  .contactos-modal-footer {
+    padding: 16px 22px; border-top: 1px solid rgba(217,217,226,0.5);
+    display: flex; align-items: center; justify-content: flex-end; gap: 10px;
+  }
+
+  /* Sub-tabs dentro del modal de detalle */
+  .contactos-modal-tabs { display: flex; gap: 6px; margin-bottom: 18px; }
+  .contactos-modal-tab-btn {
+    padding: 7px 16px !important; border-radius: 9999px !important; border: none !important; background: rgba(217,217,226,0.4) !important;
+    color: #5c5c6b !important; font-size: 13px !important; font-weight: 600 !important; cursor: pointer !important; font-family: 'Poppins', sans-serif !important; transition: color .15s cubic-bezier(.22,1,.36,1), background-color .15s cubic-bezier(.22,1,.36,1), border-color .15s cubic-bezier(.22,1,.36,1) !important;
+    box-shadow: none !important; outline: none !important; text-transform: none !important; letter-spacing: normal !important; line-height: normal !important;
+  }
+  .contactos-modal-tab-btn.activo { background: #0047ab !important; color: #ffffff !important; }
+  .contactos-modal-vista-interna { display: none; }
+  .contactos-modal-vista-interna.activa { display: block; }
+
+  .contactos-detalle-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 20px; margin-bottom: 4px; }
+  @media (max-width: 480px) { .contactos-detalle-grid { grid-template-columns: 1fr; } }
+  .contactos-detalle-campo label { display: block; font-size: 12px; font-weight: 600; text-transform: none; letter-spacing: 0; color: #8d909e; margin-bottom: 4px; }
+  .contactos-detalle-campo p { font-size: 13px; color: #1a1a24; margin: 0; font-weight: 500; }
+
+  .contactos-mini-tabla-wrap { overflow: hidden auto !important; border: 1px solid rgba(217,217,226,0.5) !important; border-radius: 12px !important; }
+  table.contactos-mini-tabla, table.contactos-mini-tabla thead, table.contactos-mini-tabla tbody, table.contactos-mini-tabla tr, table.contactos-mini-tabla th, table.contactos-mini-tabla td {
+    border: none !important; outline: none !important; box-shadow: none !important;
+  }
+  table.contactos-mini-tabla { width: 100% !important; border-collapse: collapse !important; }
+  .contactos-mini-tabla thead th {
+    text-align: left !important; font-size: 12px !important; font-weight: 600 !important; text-transform: none !important; letter-spacing: 0 !important;
+    color: #8d909e !important; padding: 10px 6px !important; border-bottom: 1px solid rgba(217,217,226,0.5) !important; white-space: nowrap !important;
+  }
+  .contactos-mini-tabla tbody td { padding: 9px 6px !important; border-bottom: 1px solid rgba(217,217,226,0.3) !important; font-size: 12px !important; text-align: left !important; color: #1a1a24 !important; }
+  .contactos-mini-tabla tbody tr:last-child td { border-bottom: none !important; }
+  .contactos-estado-factura { font-size: 12px; font-weight: 600; padding: 2px 8px; border-radius: 6px; text-transform: none; }
+  .contactos-estado-factura.pagada { background: #ecfdf5; color: #059669; }
+  .contactos-estado-factura.pendiente { background: #fff7e6; color: #b8860b; }
+  .contactos-estado-factura.vencida { background: #fde8e8; color: #dc2626; }
+  .contactos-resumen-cxc {
+    display: flex; gap: 10px; margin-top: 14px; flex-wrap: wrap;
+  }
+  .contactos-resumen-chip {
+    background: #f6f7fb; border: 1px solid rgba(217,217,226,0.6); border-radius: 12px; padding: 10px 14px; flex: 1 1 140px;
+  }
+  .contactos-resumen-chip-label { font-size: 12px; color: #8d909e; font-weight: 600; text-transform: none; margin-bottom: 3px; }
+  .contactos-resumen-chip-valor { font-size: 15px; font-weight: 600; color: #1a1a24; }
+  .contactos-nota-vinculo {
+    display: flex; align-items: center; gap: 7px; font-size: 12px; color: #8d909e;
+    background: #f6f7fb; border-radius: 10px; padding: 8px 12px; margin-top: 16px;
+  }
+  .contactos-nota-vinculo svg { flex-shrink: 0; color: #0047ab; }
+
+  /* Formulario alta/edición */
+  .contactos-form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px 20px; }
+  @media (max-width: 480px) { .contactos-form-grid { grid-template-columns: 1fr; } }
+  .contactos-form-grid.full { grid-template-columns: 1fr; margin-top: 16px; }
+  .contactos-campo label { display: block; font-size: 12px; font-weight: 600; color: #1a1a24; margin-bottom: 5px; }
+  .contactos-campo label .req { color: #e1493f; }
+  .contactos-campo input, .contactos-campo select, .contactos-campo textarea {
+    width: 100% !important; background: #f6f7fb !important; border: 1px solid rgba(217, 217, 226, 0.9) !important;
+    border-radius: 12px !important; padding: 10px 13px !important; font-size: 13px !important; color: #1a1a24 !important; font-family: 'Inter', sans-serif !important;
+    outline: none !important; transition: color 0.15s cubic-bezier(.22,1,.36,1), background-color 0.15s cubic-bezier(.22,1,.36,1), border-color 0.15s cubic-bezier(.22,1,.36,1) !important; resize: vertical !important; box-shadow: none !important;
+    pointer-events: auto !important; user-select: text !important; cursor: text !important;
+  }
+  .contactos-campo select { cursor: pointer !important; }
+  .contactos-campo input:focus, .contactos-campo select:focus, .contactos-campo textarea:focus {
+    background: #ffffff !important; border-color: #0047ab !important; box-shadow: 0 0 0 3px rgba(0,71,171,0.08) !important;
+  }
+
+  @media (max-width: 767px) {
+    .contactos-header { flex-direction: column; align-items: flex-start; }
+    .contactos-btn-primario { margin-left: 0; width: 100%; justify-content: center; }
+    .contactos-toolbar { flex-direction: column; align-items: stretch; }
+    .contactos-buscador { width: 100%; }
+    .contactos-vista-switch { align-self: flex-start; width: auto; }
+  }
+
+
+}
+
+/* Teléfono: menos relleno anidado para aprovechar el ancho */
+@media (max-width: 767px) {
+  .nd-contactos #contactos-app > div { padding-left: 12px !important; padding-right: 12px !important; }
+}
+
+/* La app va al ras del contenido, como en el diseño */
+.nd-contactos .nd-pant-app { margin-left: -10px; margin-right: -10px; }

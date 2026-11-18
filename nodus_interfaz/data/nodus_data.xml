@@ -53,8 +53,7 @@
 
     <record id="action_ui_contactos" model="ir.actions.client">
         <field name="name">Contactos</field>
-        <field name="tag">nodus_pagina_ui</field>
-        <field name="params" eval="{'pagina': 'contactos'}"/>
+        <field name="tag">nodus_contactos</field>
         <field name="path">contactos</field>
     </record>
     <menuitem id="menu_ui_contactos" name="Contactos" parent="contacts.menu_contacts"

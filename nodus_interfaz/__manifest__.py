@@ -18,7 +18,6 @@
         "views/nodus_flujos_views.xml",
         "views/nodus_reportes.xml",
         "views/ui/inventario.xml",
-        "views/ui/contactos.xml",
         "views/ui/facturacion.xml",
         "views/ui/configuracion.xml",
         "views/ui/punto_de_venta.xml",
@@ -60,6 +59,10 @@
             "nodus_interfaz/static/src/pantallas/comandas/comandas.scss",
             "nodus_interfaz/static/src/pantallas/comandas/comandas.js",
             "nodus_interfaz/static/src/pantallas/comandas/comandas.xml",
+            "nodus_interfaz/static/src/pantallas/contactos/contactos.scss",
+            "nodus_interfaz/static/src/pantallas/contactos/contactos_logica.js",
+            "nodus_interfaz/static/src/pantallas/contactos/contactos.js",
+            "nodus_interfaz/static/src/pantallas/contactos/contactos.xml",
         ],
         # Documentos (PDF y vista previa): formato Nodus en todos
         "web.report_assets_common": [

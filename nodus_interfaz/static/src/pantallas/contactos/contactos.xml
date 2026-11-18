@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="nodus_interfaz.Contactos">
+        <div class="o_action nd-pant nd-contactos" t-ref="raiz">
+            <div class="nd-pant-cuerpo">
+                <header class="nd-pant-cab">
+                    <h1 class="nd-pant-titulo">Contactos</h1>
+                    <p class="nd-pant-sub">Base de clientes y proveedores, alimentada automáticamente desde Punto de Venta</p>
+                </header>
+                <div class="nd-pant-app">
+<div id="contactos-app">
+
+  <!-- ENCABEZADO -->
+  
+
+  <!-- PESTAÑAS -->
+  <div class="contactos-tabs" id="contactos-tabs">
+    <button class="contactos-tab-btn activo" type="button" data-tab="clientes">
+      Clientes <span class="contactos-tab-count" id="contactos-count-clientes">0</span>
+    </button>
+    <button class="contactos-tab-btn" type="button" data-tab="proveedores">
+      Proveedores <span class="contactos-tab-count" id="contactos-count-proveedores">0</span>
+    </button>
+  </div>
+
+  <!-- PANEL -->
+  <div class="contactos-panel">
+
+    <!-- VISTA: CLIENTES -->
+    <div class="contactos-vista activa" id="contactos-vista-clientes" data-tipo="cliente">
+      <div class="contactos-toolbar">
+        <div class="contactos-buscador">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" placeholder="Buscar cliente" data-buscador="cliente"/>
+        </div>
+        <div class="contactos-filtros" data-filtros="cliente">
+          <span>Filtrar:</span>
+          <button class="contactos-filtro-pill activo" type="button" data-filtro="todos">Todos</button>
+          <button class="contactos-filtro-pill" type="button" data-filtro="activo">Activos</button>
+          <button class="contactos-filtro-pill" type="button" data-filtro="inactivo">Inactivos</button>
+        </div>
+        <div class="contactos-vista-switch" data-vista-switch="cliente">
+          <button class="contactos-vista-switch-btn activo" type="button" data-vista-tipo="lista" title="Vista de lista">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+          </button>
+          <button class="contactos-vista-switch-btn" type="button" data-vista-tipo="tarjetas" title="Vista de tarjetas">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          </button>
+        </div>
+        <button class="contactos-btn-primario" type="button" data-nuevo="cliente">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Nuevo cliente
+        </button>
+      </div>
+      <div class="contactos-contenedor-vista activa" data-contenedor="cliente-lista">
+        <div class="contactos-tabla-wrap">
+          <table class="contactos-tabla">
+            <colgroup>
+              <col style="width:26%"/>
+              <col style="width:13%"/>
+              <col style="width:17%"/>
+              <col style="width:13%"/>
+              <col style="width:9%"/>
+              <col style="width:12%"/>
+              <col style="width:7%"/>
+              <col style="width:3%"/>
+            </colgroup>
+            <thead>
+              <tr>
+                <th>Cliente</th>
+                <th>Teléfono</th>
+                <th>Email</th>
+                <th>ID Fiscal</th>
+                <th>Facturas</th>
+                <th>Total facturado</th>
+                <th>Estado</th>
+                <th/>
+              </tr>
+            </thead>
+            <tbody id="contactos-tbody-clientes"/>
+          </table>
+        </div>
+      </div>
+      <div class="contactos-contenedor-vista" data-contenedor="cliente-tarjetas">
+        <div class="contactos-tarjetas-grid" id="contactos-tarjetas-clientes"/>
+      </div>
+    </div>
+
+    <!-- VISTA: PROVEEDORES -->
+    <div class="contactos-vista" id="contactos-vista-proveedores" data-tipo="proveedor">
+      <div class="contactos-toolbar">
+        <div class="contactos-buscador">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" placeholder="Buscar proveedor" data-buscador="proveedor"/>
+        </div>
+        <div class="contactos-filtros" data-filtros="proveedor">
+          <span>Filtrar:</span>
+          <button class="contactos-filtro-pill activo" type="button" data-filtro="todos">Todos</button>
+          <button class="contactos-filtro-pill" type="button" data-filtro="activo">Activos</button>
+          <button class="contactos-filtro-pill" type="button" data-filtro="inactivo">Inactivos</button>
+        </div>
+        <div class="contactos-vista-switch" data-vista-switch="proveedor">
+          <button class="contactos-vista-switch-btn activo" type="button" data-vista-tipo="lista" title="Vista de lista">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+          </button>
+          <button class="contactos-vista-switch-btn" type="button" data-vista-tipo="tarjetas" title="Vista de tarjetas">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          </button>
+        </div>
+        <button class="contactos-btn-primario" type="button" data-nuevo="proveedor">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Nuevo proveedor
+        </button>
+      </div>
+      <div class="contactos-contenedor-vista activa" data-contenedor="proveedor-lista">
+        <div class="contactos-tabla-wrap">
+          <table class="contactos-tabla">
+            <colgroup>
+              <col style="width:26%"/>
+              <col style="width:13%"/>
+              <col style="width:17%"/>
+              <col style="width:13%"/>
+              <col style="width:9%"/>
+              <col style="width:12%"/>
+              <col style="width:7%"/>
+              <col style="width:3%"/>
+            </colgroup>
+            <thead>
+              <tr>
+                <th>Proveedor</th>
+                <th>Teléfono</th>
+                <th>Email</th>
+                <th>ID Fiscal</th>
+                <th>Compras</th>
+                <th>Total comprado</th>
+                <th>Estado</th>
+                <th/>
+              </tr>
+            </thead>
+            <tbody id="contactos-tbody-proveedores"/>
+          </table>
+        </div>
+      </div>
+      <div class="contactos-contenedor-vista" data-contenedor="proveedor-tarjetas">
+        <div class="contactos-tarjetas-grid" id="contactos-tarjetas-proveedores"/>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- MODAL DE DETALLE (datos + historial de facturas) -->
+<div class="contactos-overlay" id="contactos-overlay-detalle">
+  <div class="contactos-modal">
+    <div class="contactos-modal-header">
+      <div class="contactos-modal-header-left">
+        <div class="contactos-avatar" id="contactos-detalle-avatar" style="width:44px;height:44px;font-size:14px;"/>
+        <div>
+          <p class="contactos-modal-titulo" id="contactos-detalle-nombre">—</p>
+          <p class="contactos-modal-sub" id="contactos-detalle-tipo">—</p>
+        </div>
+      </div>
+      <button class="contactos-modal-cerrar" type="button" data-cerrar-modal="detalle">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="contactos-modal-body">
+      <div class="contactos-modal-tabs">
+        <button class="contactos-modal-tab-btn activo" type="button" data-modal-tab="datos">Datos del contacto</button>
+        <button class="contactos-modal-tab-btn" type="button" data-modal-tab="historial">Historial de facturas</button>
+      </div>
+
+      <!-- Sub-vista: datos -->
+      <div class="contactos-modal-vista-interna activa" id="contactos-modal-vista-datos">
+        <div class="contactos-detalle-grid">
+          <div class="contactos-detalle-campo"><label>Teléfono</label><p id="contactos-detalle-telefono">—</p></div>
+          <div class="contactos-detalle-campo"><label>Email</label><p id="contactos-detalle-email">—</p></div>
+          <div class="contactos-detalle-campo"><label>ID Fiscal / RIF</label><p id="contactos-detalle-idfiscal">—</p></div>
+          <div class="contactos-detalle-campo"><label>Estado</label><p id="contactos-detalle-estado">—</p></div>
+          <div class="contactos-detalle-campo"><label>Contribuyente especial</label><p id="contactos-detalle-contribuyente">—</p></div>
+          <div class="contactos-detalle-campo"><label>Días de crédito</label><p id="contactos-detalle-dias">—</p></div>
+          <div class="contactos-detalle-campo" style="grid-column: 1 / -1;"><label>Dirección</label><p id="contactos-detalle-direccion">—</p></div>
+          <div class="contactos-detalle-campo" style="grid-column: 1 / -1;"><label>Notas</label><p id="contactos-detalle-notas">—</p></div>
+        </div>
+      </div>
+
+      <!-- Sub-vista: historial -->
+      <div class="contactos-modal-vista-interna" id="contactos-modal-vista-historial">
+        <div class="contactos-mini-tabla-wrap">
+          <table class="contactos-mini-tabla">
+            <thead>
+              <tr><th>Folio</th><th>Fecha</th><th>Total</th><th>Método de Pago</th><th>Estado</th></tr>
+            </thead>
+            <tbody id="contactos-tbody-historial"/>
+          </table>
+        </div>
+        <div class="contactos-resumen-cxc" id="contactos-resumen-historial"/>
+        <div class="contactos-nota-vinculo">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+          Este historial se llena solo — cada factura cerrada en el Punto de Venta para este contacto aparece aquí automáticamente.
+        </div>
+      </div>
+    </div>
+    <div class="contactos-modal-footer">
+      <button class="contactos-btn-texto" type="button" data-cerrar-modal="detalle">Cerrar</button>
+      <button class="contactos-btn-outline" type="button" id="contactos-btn-editar-desde-detalle">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="12" viewBox="0 0 14 12" fill="none"><path d="M0 7.5V6H5.25V7.5H0V7.5M0 4.5V3H8.25V4.5H0V4.5M0 1.5V0H8.25V1.5H0V1.5M6.75 12V9.69375L10.8938 5.56875C11.0063 5.45625 11.1313 5.375 11.2688 5.325C11.4063 5.275 11.5437 5.25 11.6812 5.25C11.8312 5.25 11.975 5.27812 12.1125 5.33437C12.25 5.39062 12.375 5.475 12.4875 5.5875L13.1812 6.28125C13.2812 6.39375 13.3594 6.51875 13.4156 6.65625C13.4719 6.79375 13.5 6.93125 13.5 7.06875C13.5 7.20625 13.475 7.34687 13.425 7.49062C13.375 7.63437 13.2937 7.7625 13.1812 7.875L9.05625 12H6.75V12M12.375 7.06875V7.06875L11.6812 6.375V6.375L12.375 7.06875V7.06875M7.875 10.875H8.5875L10.8562 8.5875L10.5188 8.23125L10.1625 7.89375L7.875 10.1625V10.875V10.875M10.5188 8.23125L10.1625 7.89375V7.89375L10.8562 8.5875V8.5875L10.5188 8.23125V8.23125" fill="currentColor"/></svg>
+        Editar contacto
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL DE ALTA / EDICIÓN -->
+<div class="contactos-overlay" id="contactos-overlay-form">
+  <div class="contactos-modal" style="max-width: 560px;">
+    <div class="contactos-modal-header">
+      <div>
+        <p class="contactos-modal-titulo" id="contactos-form-titulo">Nuevo cliente</p>
+        <p class="contactos-modal-sub" id="contactos-form-sub">Se agrega a la base de Contactos.</p>
+      </div>
+      <button class="contactos-modal-cerrar" type="button" data-cerrar-modal="form">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="contactos-modal-body">
+      <input type="hidden" id="contactos-form-id"/>
+      <input type="hidden" id="contactos-form-tipo"/>
+      <div class="contactos-form-grid">
+        <div class="contactos-campo">
+          <label>Nombre o Razón Social <span class="req">*</span> <span class="nodus-ayuda" tabindex="0" role="note" aria-label="Nombre completo de la persona o razón social de la empresa, tal como saldrá en las facturas." data-ayuda="Nombre completo de la persona o razón social de la empresa, tal como saldrá en las facturas.">?</span></label>
+          <input type="text" id="contactos-form-nombre" placeholder="Ej. Distribuidora Central"/>
+        </div>
+        <div class="contactos-campo">
+          <label>ID Fiscal / RIF <span class="req">*</span> <span class="nodus-ayuda" tabindex="0" role="note" aria-label="Tipo y número del documento fiscal: V cédula venezolana, E extranjero, J empresa, G gobierno, P pasaporte. Se guarda junto, por ejemplo J-12345678-9." data-ayuda="Tipo y número del documento fiscal: V cédula venezolana, E extranjero, J empresa, G gobierno, P pasaporte. Se guarda junto, por ejemplo J-12345678-9.">?</span></label>
+          <div class="nodus-doc"><select id="contactos-form-tipodoc"><option value="V">V</option><option value="E">E</option><option value="J">J</option><option value="G">G</option><option value="P">P</option></select><input type="text" id="contactos-form-idfiscal" placeholder="12345678-9"/></div>
+        </div>
+        <div class="contactos-campo">
+          <label>Teléfono <span class="nodus-ayuda" tabindex="0" role="note" aria-label="Teléfono principal. Se usa para contactar al cliente o proveedor y para enviarle mensajes." data-ayuda="Teléfono principal. Se usa para contactar al cliente o proveedor y para enviarle mensajes.">?</span></label>
+          <input type="text" id="contactos-form-telefono" placeholder="+58 412-0000000"/>
+        </div>
+        <div class="contactos-campo">
+          <label>Email <span class="nodus-ayuda" tabindex="0" role="note" aria-label="Correo donde recibirá facturas y cotizaciones." data-ayuda="Correo donde recibirá facturas y cotizaciones.">?</span></label>
+          <input type="email" id="contactos-form-email" placeholder="contacto@correo.com"/>
+        </div>
+        <div class="contactos-campo">
+          <label>Estado <span class="nodus-ayuda" tabindex="0" role="note" aria-label="Un contacto inactivo no aparece al vender o comprar, pero conserva todo su historial." data-ayuda="Un contacto inactivo no aparece al vender o comprar, pero conserva todo su historial.">?</span></label>
+          <select id="contactos-form-estado">
+            <option value="activo">Activo</option>
+            <option value="inactivo">Inactivo</option>
+          </select>
+        </div>
+        <div class="contactos-campo">
+          <label>Contribuyente especial <span class="nodus-ayuda" tabindex="0" role="note" aria-label="Marca Sí si el SENIAT lo designó contribuyente especial: en sus ventas o compras aplican retenciones de IVA. Solo marca al contacto; las retenciones las registra Contabilidad." data-ayuda="Marca Sí si el SENIAT lo designó contribuyente especial: en sus ventas o compras aplican retenciones de IVA. Solo marca al contacto; las retenciones las registra Contabilidad.">?</span></label>
+          <select id="contactos-form-contribuyente"><option value="no">No</option><option value="si">Sí</option></select>
+        </div>
+        <div class="contactos-campo">
+          <label>Días de crédito <span class="nodus-ayuda" tabindex="0" role="note" aria-label="Plazo que le das para pagar. Con 0 días paga al momento; con 15, tiene 15 días desde la factura (si es un cliente) o los tienes tú (si es un proveedor)." data-ayuda="Plazo que le das para pagar. Con 0 días paga al momento; con 15, tiene 15 días desde la factura (si es un cliente) o los tienes tú (si es un proveedor).">?</span></label>
+          <input type="number" min="0" step="1" id="contactos-form-dias" placeholder="0"/>
+        </div>
+      </div>
+      <div class="contactos-form-grid full">
+        <div class="contactos-campo">
+          <label>Dirección <span class="nodus-ayuda" tabindex="0" role="note" aria-label="Dirección fiscal. Sale impresa en sus facturas." data-ayuda="Dirección fiscal. Sale impresa en sus facturas.">?</span></label>
+          <input type="text" id="contactos-form-direccion" placeholder="Av. Principal, Local 12, Caracas"/>
+        </div>
+        <div class="contactos-campo">
+          <label>Notas <span class="nodus-ayuda" tabindex="0" role="note" aria-label="Apuntes internos sobre este contacto. Nunca salen en facturas ni se los muestras a él." data-ayuda="Apuntes internos sobre este contacto. Nunca salen en facturas ni se los muestras a él.">?</span></label>
+          <textarea id="contactos-form-notas" rows="2" placeholder="Notas internas sobre este contacto..."/>
+        </div>
+      </div>
+      <p class="nodus-error-form" id="contactos-form-error"></p>
+    </div>
+    <div class="contactos-modal-footer">
+      <button class="contactos-btn-texto" type="button" data-cerrar-modal="form">Cancelar</button>
+      <button class="contactos-btn-primario" type="button" id="contactos-btn-guardar-form" style="margin-left:0;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        Guardar contacto
+      </button>
+    </div>
+  </div>
+</div>
+                </div>
+            </div>
+        </div>
+    </t>
+</templates>
