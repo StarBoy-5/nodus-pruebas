@@ -17,7 +17,6 @@
         "views/res_users_views.xml",
         "views/nodus_flujos_views.xml",
         "views/nodus_reportes.xml",
-        "views/ui/punto_de_venta.xml",
     ],
     "assets": {
         "web._assets_primary_variables": [
@@ -38,7 +37,6 @@
             "nodus_interfaz/static/src/js/nodus_shell.js",
             "nodus_interfaz/static/src/js/nodus_menu_principal.js",
             "nodus_interfaz/static/src/js/nodus_tablero_ventas.js",
-            "nodus_interfaz/static/src/js/nodus_pagina_ui.js",
             "nodus_interfaz/static/src/js/nodus_titulo.js",
             "nodus_interfaz/static/src/js/nodus_marca.js",
             "nodus_interfaz/static/src/js/nodus_texto.js",

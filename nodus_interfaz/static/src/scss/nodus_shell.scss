@@ -865,19 +865,6 @@ body.o_web_client.o_nodus.o_nodus_ui_activa {
         border-radius: 28px 28px 0 0;
     }
 }
-.o_action.o_nodus_pagina_ui {
-    display: block;
-    height: 100%;
-    overflow: hidden;
-    background: #F3F3FC;
-}
-.o_nodus_pagina_marco {
-    display: block;
-    width: 100%;
-    height: 100%;
-    border: 0;
-    background: #F3F3FC;
-}
 
 // ---------- Sesión de usuario: el bloque abre el menú de usuario (hereda el de arriba a la derecha) ----------
 .o_nodus_lateral .user-profile-row > .o-dropdown,

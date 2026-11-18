@@ -326,7 +326,7 @@
 				</div>
 		<div class="pv-7dd390d pv-cf pv-c">
 		<div class="pv-bd189cf pv-cf pv-c" id="Comanda-Pedido">
-				<div class="pv-5f45868 pv-just pv-w" id="btn-generar-comanda">
+				<div class="pv-5f45868 pv-just pv-w pv-w-boton" id="btn-generar-comanda">
 				<div class="pv-wc">
 									<div class="pv-boton-env">
 					<a class="pv-boton" href="#" role="button">
@@ -337,7 +337,7 @@
 				</div>
 								</div>
 				</div>
-				<div class="pv-71e5d7e pv-just pv-w" id="btn-nota-pedido">
+				<div class="pv-71e5d7e pv-just pv-w pv-w-boton" id="btn-nota-pedido">
 				<div class="pv-wc">
 									<div class="pv-boton-env">
 					<a class="pv-boton" href="#" role="button">
@@ -349,7 +349,7 @@
 								</div>
 				</div>
 				</div>
-				<div class="pv-cbdba05 pv-just pv-w" id="btn-confirmar-pedido">
+				<div class="pv-cbdba05 pv-just pv-w pv-w-boton" id="btn-confirmar-pedido">
 				<div class="pv-wc">
 									<div class="pv-boton-env">
 					<a class="pv-boton" href="#" role="button">
@@ -447,7 +447,7 @@
 					<h2 class="pv-h">Propinas</h2>				</div>
 				</div>
 		<div class="pv-4e5457e pv-cf pv-c">
-				<div class="pv-1d06ebb pv-w">
+				<div class="pv-1d06ebb pv-w pv-w-boton">
 				<div class="pv-wc">
 									<div class="pv-boton-env">
 					<a class="pv-boton" href="#" role="button">
@@ -458,7 +458,7 @@
 				</div>
 								</div>
 				</div>
-				<div class="pv-75e6f41 pv-w">
+				<div class="pv-75e6f41 pv-w pv-w-boton">
 				<div class="pv-wc">
 									<div class="pv-boton-env">
 					<a class="pv-boton" href="#" role="button">
@@ -469,7 +469,7 @@
 				</div>
 								</div>
 				</div>
-				<div class="pv-eb6660d pv-w">
+				<div class="pv-eb6660d pv-w pv-w-boton">
 				<div class="pv-wc">
 									<div class="pv-boton-env">
 					<a class="pv-boton" href="#" role="button">
@@ -480,7 +480,7 @@
 				</div>
 								</div>
 				</div>
-				<div class="pv-bb5654e pv-w">
+				<div class="pv-bb5654e pv-w pv-w-boton">
 				<div class="pv-wc">
 									<div class="pv-boton-env">
 					<a class="pv-boton" href="#" role="button">
@@ -565,7 +565,7 @@
 				</div>
 				</div>
 				</div>
-				<div class="pv-b9d111f pv-just pv-w" id="btn-procesar-pago">
+				<div class="pv-b9d111f pv-just pv-w pv-w-boton" id="btn-procesar-pago">
 				<div class="pv-wc">
 									<div class="pv-boton-env">
 					<a class="pv-boton" href="#" role="button">
@@ -686,7 +686,7 @@
 </div>				</div>
 				</div>
 		<div class="pv-e5cfa87 pv-cf pv-c">
-				<div class="pv-7a66f22 pv-just pv-w" id="btn-imprimir-factura">
+				<div class="pv-7a66f22 pv-just pv-w pv-w-boton" id="btn-imprimir-factura">
 				<div class="pv-wc">
 									<div class="pv-boton-env">
 					<a class="pv-boton" href="#" role="button">
@@ -699,7 +699,7 @@
 				</div>
 								</div>
 				</div>
-				<div class="pv-2f43aff pv-just pv-w" id="btn-nueva-venta">
+				<div class="pv-2f43aff pv-just pv-w pv-w-boton" id="btn-nueva-venta">
 				<div class="pv-wc">
 									<div class="pv-boton-env">
 					<a class="pv-boton" href="#" role="button">

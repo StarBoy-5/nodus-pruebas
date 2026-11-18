@@ -2498,7 +2498,7 @@ document.addEventListener("DOMContentLoaded", function () {
       usaPropina = negocio.usa_propina !== false;
     } catch (e) { console.warn('No se pudo leer la configuración de propinas:', e); }
     if (!usaPropina) {
-      document.querySelectorAll('#vista-checkout-pos .el diseño anterior-widget-button').forEach(w => {
+      document.querySelectorAll('#vista-checkout-pos .pv-w-boton').forEach(w => {
         const txt = (w.querySelector('.pv-boton-texto') || {}).innerText || '';
         if (/^\s*\d+(\.\d+)?%\s*$/.test(txt) || txt.trim() === 'Otro') w.style.display = 'none';
       });
@@ -2517,7 +2517,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   })();
 
-  const botonesPropina = document.querySelectorAll('#vista-checkout-pos .el diseño anterior-widget-button');
+  const botonesPropina = document.querySelectorAll('#vista-checkout-pos .pv-w-boton');
   const grupoPropinas = Array.from(botonesPropina).filter(btn => {
     const texto = btn.querySelector('.pv-boton-texto')?.innerText.trim();
     return /^\d+(\.\d+)?%$/.test(texto) || texto === 'Otro';

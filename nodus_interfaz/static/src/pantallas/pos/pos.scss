@@ -34,6 +34,8 @@
     .pv-boton-texto { display: inline-block; }
 }
 .nd-pos .pv-just .pv-boton { width: 100%; }
+.nd-pos .propina-seleccionada .pv-boton { background-color: #0047ab; } /* propina elegida (el original no la marcaba) */
+.nd-pos .propina-seleccionada .pv-boton-texto { color: #fff; }
 @container nd-pos (max-width: 1024px) { .nd-pos .pv-just-tab .pv-boton { width: 100%; } }
 @container nd-pos (max-width: 767px) { .nd-pos .pv-just-tel .pv-boton { width: 100%; } }
 @container nd-pos (min-width: 1025px) { .nd-pos .pv-oc-pc { display: none !important; } }
@@ -229,8 +231,8 @@
 .nd-pos.nodus-bandeja #contenedor-carrito-pos .cart-controles { flex-wrap: nowrap !important; flex: 0 0 auto !important; width: auto !important; gap: 4px !important; padding: 2px 6px !important; }
 .nd-pos.nodus-bandeja #contenedor-carrito-pos .cart-controles > * { width: auto !important; flex: 0 0 auto !important; }
 .nd-pos.nodus-con-dock.nodus-bandeja #hadeon-pos-sidebar { bottom: 92px !important; border-radius: 24px 24px 0 0 !important; }
-.nd-pos.nodus-bandeja ::after { content: "" !important; position: fixed !important; left: 0 !important; right: 0 !important; bottom: 0 !important; height: 13px !important; background: #fff !important; z-index: 60 !important; pointer-events: none !important; }
-.nd-pos.nodus-con-dock.nodus-bandeja ::after { height: 93px !important; }
+.nd-pos.nodus-bandeja::after { content: "" !important; position: fixed !important; left: 0 !important; right: 0 !important; bottom: 0 !important; height: 13px !important; background: #fff !important; z-index: 60 !important; pointer-events: none !important; }
+.nd-pos.nodus-con-dock.nodus-bandeja::after { height: 93px !important; }
 .nd-pos.nodus-bandeja #vista-carrito-pos > .pv-e8460b2 { flex-direction: row !important; flex-wrap: nowrap !important; align-items: center !important; justify-content: space-between !important; gap: 10px !important; padding: 6px 4px !important; min-height: 0 !important; }
 .nd-pos.nodus-bandeja #vista-carrito-pos > .pv-e8460b2 > * { width: auto !important; flex: 0 1 auto !important; margin: 0 !important; }
 .nd-pos.nodus-bandeja #etiqueta-mesa-actual,
