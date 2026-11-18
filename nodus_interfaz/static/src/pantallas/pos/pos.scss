@@ -1387,6 +1387,10 @@
 }
 .nd-pos .nodus-orden-cuadro:hover { background: #d6e3f7; }
 .nd-pos .nodus-orden-cuadro.activa { background: #0047ab; color: #fff; box-shadow: 0 4px 12px rgba(0, 71, 171, .3); }
+/* Mesa con cuenta abierta: mismo cuadro, con la marca de mesa (borde) para distinguirla de las órdenes de mostrador */
+.nd-pos .nodus-orden-mesa { background: #fff; box-shadow: inset 0 0 0 2px #0047ab; font-size: 13px; }
+.nd-pos .nodus-orden-mesa:hover { background: #eaf0fa; }
+.nd-pos .nodus-orden-mesa.activa { background: #0047ab; color: #fff; box-shadow: 0 4px 12px rgba(0, 71, 171, .3); }
 .nd-pos .nodus-orden-nueva { background: transparent; border: 2px dashed #b9c3e4; font-size: 22px; line-height: 1; }
 .nd-pos .nodus-orden-nueva:hover { background: #f3f3fc; }
 /* Teléfono y tablet: la tira es una fila de cuadritos arriba del panel de pasos */

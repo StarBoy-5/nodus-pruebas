@@ -1413,6 +1413,12 @@ document.addEventListener("DOMContentLoaded", function () {
       if (actual) ordenes.push({ clave: servicioActual, n: numeroDeOrden(caja, servicioActual), carrito: [] });
       ordenes.sort((x, y) => x.n - y.n).forEach(o => items.push({ caja, o }));
     });
+    // Las mesas con cuenta abierta (o la mesa que se está atendiendo) también son órdenes de la caja
+    const cajasAbiertas = cajasNodus.filter(c => c.abierta);
+    const cajaBase = cajasAbiertas.find(c => c.id === cajaIdActual) || cajasAbiertas[0];
+    if (cajaBase) {
+      mesasNodus.filter(m => m.ocupada || m.id === mesaIdActual).forEach(m => items.push({ caja: cajaBase, mesa: m }));
+    }
     const hay = items.length > 0;
     tira.classList.toggle('con-ordenes', hay);
     fila.classList.toggle('nodus-hay-ordenes', hay);
@@ -1422,7 +1428,17 @@ document.addEventListener("DOMContentLoaded", function () {
     rotulo.className = 'nodus-tira-rotulo';
     rotulo.textContent = 'ÓRDENES';
     tira.appendChild(rotulo);
-    items.forEach(({ caja, o }) => {
+    items.forEach(({ caja, o, mesa }) => {
+      if (mesa) {
+        const bm = document.createElement('button');
+        bm.type = 'button';
+        bm.className = 'nodus-orden-cuadro nodus-orden-mesa' + (mesa.id === mesaIdActual ? ' activa' : '');
+        bm.textContent = 'M' + (String(mesa.nombre).match(/\d+/) || [''])[0];
+        bm.title = mesa.nombre + (mesa.estado ? ' · ' + mesa.estado : '');
+        bm.addEventListener('click', e => { e.preventDefault(); if (mesa.id !== mesaIdActual) entrarAMesa(mesa); });
+        tira.appendChild(bm);
+        return;
+      }
       const b = document.createElement('button');
       b.type = 'button';
       b.className = 'nodus-orden-cuadro' + (o.clave === servicioActual ? ' activa' : '');
@@ -1432,7 +1448,7 @@ document.addEventListener("DOMContentLoaded", function () {
       b.addEventListener('click', e => { e.preventDefault(); irAVista(vista2, o.clave, { cajaId: caja.id, mesaId: null }); });
       tira.appendChild(b);
     });
-    const abierta = items.find(x => x.caja.id === cajaIdActual) || items[0];
+    const abierta = { caja: cajaBase };
     const mas = document.createElement('button');
     mas.type = 'button';
     mas.className = 'nodus-orden-cuadro nodus-orden-nueva';
