@@ -137,7 +137,8 @@ class WorkshopOrder(models.Model):
             "pendiente": o.has_pending_quotation,
             "aprobada_por": o.approved_by_id.name or "",
             "entrega_firma": o.require_delivery_signature and not o.delivery_signed,
-            "fecha_recibido": fields.Datetime.to_string(o.date_received) if o.date_received else "",
+            "fecha_recibido": fields.Datetime.context_timestamp(o, o.date_received).strftime("%d/%m/%Y %I:%M %p")
+            if o.date_received else "",
         })
         return datos
 
