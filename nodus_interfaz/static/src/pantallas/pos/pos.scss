@@ -1444,3 +1444,10 @@
 .nodus-confirma-si:disabled { opacity: .6; }
 .nd-pos.nodus-bandeja #vista-carrito-pos > .pv-e8460b2 > #nodus-cancelar-orden { margin-left: auto !important; flex: 0 0 34px !important; width: 34px !important; }
 .nd-pos.nodus-bandeja #vista-carrito-pos > .pv-e8460b2 > #nodus-cancelar-orden + #etiqueta-mesa-actual { margin-left: 4px !important; }
+/* Papelera con la forma de los cuadros de órdenes: blanca con borde gris, como los demás botones */
+.nd-pos #vista-carrito-pos #nodus-cancelar-orden {
+  flex: 0 0 40px !important; width: 40px !important; height: 40px !important; box-sizing: border-box;
+  border: 1px solid #d9d9e2 !important; border-radius: 12px !important; background: #fff !important; color: #5c5c6b !important;
+}
+.nd-pos #vista-carrito-pos #nodus-cancelar-orden:hover,
+.nd-pos #vista-carrito-pos #nodus-cancelar-orden:focus-visible { border-color: #c0362c !important; background: #fdecec !important; color: #c0362c !important; }
