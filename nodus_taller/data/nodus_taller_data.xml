@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_nodus_taller" model="ir.actions.client">
+        <field name="name">Taller</field>
+        <field name="tag">nodus_taller</field>
+        <field name="path">taller</field>
+    </record>
+    <!-- Al abrir la app Taller se ve la pantalla propia, no el asistente de recepción -->
+    <record id="auto_repair_workshop.menu_workshop_root" model="ir.ui.menu">
+        <field name="action" eval="'ir.actions.client,%d' % ref('nodus_taller.action_nodus_taller')"/>
+    </record>
+
+    <!-- Servicios de detallado para elegir en el diagnóstico (se editan o agregan más en Ventas > Productos) -->
+    <data noupdate="1">
+        <record id="categ_detallado" model="product.category">
+            <field name="name">Detallado</field>
+        </record>
+        <record id="srv_lavado_exterior" model="product.product">
+            <field name="name">Lavado exterior</field>
+            <field name="type">service</field>
+            <field name="categ_id" ref="categ_detallado"/>
+            <field name="list_price">10</field>
+            <field name="sale_ok" eval="True"/>
+            <field name="purchase_ok" eval="False"/>
+            <field name="description_sale">Lavado a mano, secado y brillo de llantas</field>
+        </record>
+        <record id="srv_lavado_completo" model="product.product">
+            <field name="name">Lavado completo (interior y exterior)</field>
+            <field name="type">service</field>
+            <field name="categ_id" ref="categ_detallado"/>
+            <field name="list_price">25</field>
+            <field name="sale_ok" eval="True"/>
+            <field name="purchase_ok" eval="False"/>
+            <field name="description_sale">Lavado exterior, aspirado y limpieza de interiores</field>
+        </record>
+        <record id="srv_pulido" model="product.product">
+            <field name="name">Pulido de pintura</field>
+            <field name="type">service</field>
+            <field name="categ_id" ref="categ_detallado"/>
+            <field name="list_price">120</field>
+            <field name="sale_ok" eval="True"/>
+            <field name="purchase_ok" eval="False"/>
+            <field name="description_sale">Corrección de pintura y eliminación de marcas finas</field>
+        </record>
+        <record id="srv_encerado" model="product.product">
+            <field name="name">Encerado y sellado</field>
+            <field name="type">service</field>
+            <field name="categ_id" ref="categ_detallado"/>
+            <field name="list_price">40</field>
+            <field name="sale_ok" eval="True"/>
+            <field name="purchase_ok" eval="False"/>
+            <field name="description_sale">Cera o sellante para proteger y dar brillo</field>
+        </record>
+        <record id="srv_ceramico" model="product.product">
+            <field name="name">Tratamiento cerámico</field>
+            <field name="type">service</field>
+            <field name="categ_id" ref="categ_detallado"/>
+            <field name="list_price">350</field>
+            <field name="sale_ok" eval="True"/>
+            <field name="purchase_ok" eval="False"/>
+            <field name="description_sale">Protección cerámica de larga duración</field>
+        </record>
+        <record id="srv_tapiceria" model="product.product">
+            <field name="name">Limpieza profunda de tapicería</field>
+            <field name="type">service</field>
+            <field name="categ_id" ref="categ_detallado"/>
+            <field name="list_price">60</field>
+            <field name="sale_ok" eval="True"/>
+            <field name="purchase_ok" eval="False"/>
+            <field name="description_sale">Asientos, alfombras y techo</field>
+        </record>
+        <record id="srv_descontaminacion" model="product.product">
+            <field name="name">Descontaminación de pintura</field>
+            <field name="type">service</field>
+            <field name="categ_id" ref="categ_detallado"/>
+            <field name="list_price">45</field>
+            <field name="sale_ok" eval="True"/>
+            <field name="purchase_ok" eval="False"/>
+            <field name="description_sale">Clay bar y hierro residual</field>
+        </record>
+        <record id="srv_motor" model="product.product">
+            <field name="name">Limpieza de motor</field>
+            <field name="type">service</field>
+            <field name="categ_id" ref="categ_detallado"/>
+            <field name="list_price">30</field>
+            <field name="sale_ok" eval="True"/>
+            <field name="purchase_ok" eval="False"/>
+        </record>
+        <record id="srv_faros" model="product.product">
+            <field name="name">Restauración de faros</field>
+            <field name="type">service</field>
+            <field name="categ_id" ref="categ_detallado"/>
+            <field name="list_price">35</field>
+            <field name="sale_ok" eval="True"/>
+            <field name="purchase_ok" eval="False"/>
+        </record>
+        <record id="srv_ppf" model="product.product">
+            <field name="name">Película protectora (PPF) por pieza</field>
+            <field name="type">service</field>
+            <field name="categ_id" ref="categ_detallado"/>
+            <field name="list_price">150</field>
+            <field name="sale_ok" eval="True"/>
+            <field name="purchase_ok" eval="False"/>
+        </record>
+    </data>
+</odoo>

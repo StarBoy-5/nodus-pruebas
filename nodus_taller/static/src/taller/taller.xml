@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="nodus_taller.Taller">
+        <div class="o_action nd-pant nd-taller">
+            <div class="nd-pant-cuerpo">
+                <header class="nd-pant-cab">
+                    <h1 class="nd-pant-titulo">Taller</h1>
+                    <p class="nd-pant-sub">Recibe el vehículo, avanza paso a paso y avisa al cliente cuando esté listo</p>
+                </header>
+
+                <div class="nd-pant-app tl-app">
+                    <!-- Cola de órdenes (como las órdenes del Punto de Venta, en horizontal) -->
+                    <section class="tl-cola" aria-label="Órdenes abiertas">
+                        <button type="button" t-attf-class="tl-ficha tl-nueva {{ estado.seleccion === null ? 'activa' : '' }}" t-on-click="nuevoVehiculo">
+                            <span class="tl-ficha-marca">+</span>
+                            <span class="tl-ficha-txt"><b>Recibir vehículo</b><small>Nueva orden</small></span>
+                        </button>
+                        <t t-foreach="estado.cola" t-as="t" t-key="t.id">
+                            <button type="button" t-attf-class="tl-ficha {{ estado.seleccion === t.id ? 'activa' : '' }}" t-on-click="() => this.abrir(t)">
+                                <span class="tl-ficha-marca" t-esc="t.placa.slice(0, 3) || '#'"/>
+                                <span class="tl-ficha-txt">
+                                    <b t-esc="t.placa or t.nombre"/>
+                                    <small t-esc="t.vehiculo or t.cliente"/>
+                                    <em t-attf-class="tl-est tl-est-{{ t.paso }}" t-esc="t.estado_txt"/>
+                                </span>
+                            </button>
+                        </t>
+                        <p t-if="!estado.cola.length" class="tl-cola-vacia">No hay órdenes abiertas. Pulsa «Recibir vehículo».</p>
+                    </section>
+
+                    <!-- Pasos -->
+                    <section class="tl-panel">
+                        <ol class="tl-pasos">
+                            <t t-foreach="pasos" t-as="p" t-key="p.id">
+                                <li t-attf-class="tl-paso {{ p_index &lt; pasoIndice ? 'hecho' : '' }} {{ p.id === estado.paso ? 'actual' : '' }}">
+                                    <span class="tl-paso-n" t-esc="p_index + 1"/>
+                                    <span class="tl-paso-t" t-esc="p.nombre"/>
+                                </li>
+                            </t>
+                        </ol>
+
+                        <p t-if="estado.aviso" class="tl-nota" t-esc="estado.aviso"/>
+
+                        <!-- ============ 1. RECEPCIÓN ============ -->
+                        <div t-if="estado.paso === 'recepcion'" class="tl-vista">
+                            <h2 class="tl-h">Recepción del vehículo</h2>
+                            <p class="tl-sub">Empieza por la placa: si el vehículo ya vino antes, sus datos se cargan solos.</p>
+                            <div class="tl-form">
+                                <label class="tl-campo tl-ancho">
+                                    <span>Placa</span>
+                                    <input class="tl-placa" type="text" t-model="estado.nuevo.placa" t-on-blur="buscarPlaca"
+                                           t-on-keydown="(ev) => ev.key === 'Enter' &amp;&amp; this.buscarPlaca()"
+                                           placeholder="ABC123" autocomplete="off"/>
+                                </label>
+                                <label class="tl-campo">
+                                    <span>Modelo</span>
+                                    <input type="text" list="tl-modelos" t-att-value="estado.nuevo.modelo" t-on-change="cambiaModelo" placeholder="Marca / Modelo"/>
+                                    <datalist id="tl-modelos">
+                                        <t t-foreach="estado.modelos" t-as="m" t-key="m.id"><option t-att-value="m.nombre"/></t>
+                                    </datalist>
+                                </label>
+                                <label class="tl-campo">
+                                    <span>Color</span>
+                                    <input type="text" t-model="estado.nuevo.color"/>
+                                </label>
+                                <label class="tl-campo">
+                                    <span>Cliente</span>
+                                    <input type="text" t-model="estado.nuevo.cliente"/>
+                                </label>
+                                <label class="tl-campo">
+                                    <span>Teléfono (WhatsApp)</span>
+                                    <input type="tel" t-model="estado.nuevo.telefono" placeholder="0412 1234567"/>
+                                </label>
+                                <label class="tl-campo">
+                                    <span>Kilometraje</span>
+                                    <input type="number" min="0" t-model="estado.nuevo.km"/>
+                                </label>
+                                <label class="tl-campo">
+                                    <span>Combustible</span>
+                                    <select t-model="estado.nuevo.combustible">
+                                        <t t-foreach="combustibles" t-as="c" t-key="c[0]"><option t-att-value="c[0]" t-esc="c[1]"/></t>
+                                    </select>
+                                </label>
+                                <label class="tl-campo tl-ancho">
+                                    <span>¿Qué se le va a hacer? (motivo de la visita)</span>
+                                    <textarea rows="3" t-model="estado.nuevo.falla"/>
+                                </label>
+                            </div>
+                            <div class="tl-acciones">
+                                <button type="button" class="tl-btn tl-primario" t-att-disabled="estado.ocupado" t-on-click="recibir">Siguiente: Fotos</button>
+                            </div>
+                        </div>
+
+                        <!-- ============ 2. FOTOS ============ -->
+                        <div t-elif="estado.paso === 'fotos'" class="tl-vista">
+                            <h2 class="tl-h">Fotos de recepción</h2>
+                            <p class="tl-sub"><t t-esc="estado.orden.placa"/> · <t t-esc="estado.orden.vehiculo"/>. Toma una foto de cada lado para dejar constancia del estado.</p>
+                            <div class="tl-fotos">
+                                <t t-foreach="angulos" t-as="a" t-key="a[0]">
+                                    <label class="tl-foto">
+                                        <input type="file" accept="image/*" capture="environment" t-on-change="(ev) => this.subirFoto(a[0], ev)"/>
+                                        <t t-set="f" t-value="fotoDe(a[0])"/>
+                                        <img t-if="f" t-att-src="f.url" alt=""/>
+                                        <span t-else="" class="tl-foto-vacia">
+                                            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+                                        </span>
+                                        <b t-esc="a[1]"/>
+                                    </label>
+                                </t>
+                            </div>
+                            <div class="tl-acciones">
+                                <button t-if="estado.orden.fotos_opcionales" type="button" class="tl-btn" t-att-disabled="estado.ocupado" t-on-click="aDiagnostico">Omitir fotos</button>
+                                <button type="button" class="tl-btn tl-primario" t-att-disabled="estado.ocupado" t-on-click="aDiagnostico">Siguiente: Diagnóstico</button>
+                            </div>
+                            <p t-if="!estado.orden.fotos_opcionales" class="tl-sub">Las fotos hay que enviarlas a firmar al cliente antes de seguir (el paso de fotos es obligatorio en este taller).</p>
+                        </div>
+
+                        <!-- ============ 3. DIAGNÓSTICO ============ -->
+                        <div t-elif="estado.paso === 'diagnostico'" class="tl-vista">
+                            <h2 class="tl-h">Diagnóstico y servicios</h2>
+                            <p class="tl-sub"><t t-esc="estado.orden.placa"/> · <t t-esc="estado.orden.vehiculo"/> · <t t-esc="estado.orden.cliente"/></p>
+                            <div t-if="estado.orden.estado === 'photos_signed'" class="tl-acciones tl-inicio">
+                                <button type="button" class="tl-btn tl-primario" t-att-disabled="estado.ocupado" t-on-click="aDiagnostico">Empezar diagnóstico</button>
+                            </div>
+                            <t t-else="">
+                                <div class="tl-form">
+                                    <label class="tl-campo tl-ancho"><span>Motivo de la visita</span><textarea rows="2" t-model="estado.diag.falla"/></label>
+                                    <label class="tl-campo tl-ancho"><span>Hallazgos</span><textarea rows="3" t-model="estado.diag.hallazgos"/></label>
+                                    <label class="tl-campo tl-ancho"><span>Solución propuesta</span><textarea rows="3" t-model="estado.diag.solucion"/></label>
+                                </div>
+                                <h3 class="tl-h3">Servicios</h3>
+                                <t t-foreach="categorias" t-as="c" t-key="c.nombre">
+                                    <p class="tl-cat" t-esc="c.nombre"/>
+                                    <div class="tl-servicios">
+                                        <t t-foreach="c.items" t-as="s" t-key="s.id">
+                                            <button type="button" t-attf-class="tl-servicio {{ estado.elegidos.includes(s.id) ? 'elegido' : '' }}" t-on-click="() => this.alternar(s.id)">
+                                                <span class="tl-servicio-nom" t-esc="s.nombre"/>
+                                                <span class="tl-servicio-pre" t-esc="'$' + s.precio.toFixed(2)"/>
+                                            </button>
+                                        </t>
+                                    </div>
+                                </t>
+                                <div class="tl-acciones">
+                                    <span class="tl-total-chip">Seleccionado: <b t-esc="'$' + totalElegido.toFixed(2)"/></span>
+                                    <button type="button" class="tl-btn tl-primario" t-att-disabled="estado.ocupado" t-on-click="cotizar">Siguiente: Cotización</button>
+                                </div>
+                            </t>
+                        </div>
+
+                        <!-- ============ 4. COTIZACIÓN ============ -->
+                        <div t-elif="estado.paso === 'cotizacion'" class="tl-vista">
+                            <h2 class="tl-h">Cotización</h2>
+                            <p class="tl-sub"><t t-esc="estado.orden.placa"/> · <t t-esc="estado.orden.vehiculo"/> · <t t-esc="estado.orden.cliente"/></p>
+                            <div t-if="estado.orden.cotizacion" class="tl-cotizacion">
+                                <div class="tl-cot-cab"><b t-esc="estado.orden.cotizacion.nombre"/><span>Cotización de servicio</span></div>
+                                <table class="tl-tabla">
+                                    <thead><tr><th>Servicio</th><th>Cant.</th><th>Precio</th><th>Subtotal</th></tr></thead>
+                                    <tbody>
+                                        <t t-foreach="estado.orden.cotizacion.lineas" t-as="l" t-key="l_index">
+                                            <tr><td t-esc="l.nombre"/><td t-esc="l.cantidad"/><td t-esc="dinero(l.precio)"/><td t-esc="dinero(l.subtotal)"/></tr>
+                                        </t>
+                                    </tbody>
+                                </table>
+                                <div class="tl-cot-tot">
+                                    <p><span>Subtotal</span><b t-esc="dinero(estado.orden.cotizacion.subtotal)"/></p>
+                                    <p><span>Impuestos</span><b t-esc="dinero(estado.orden.cotizacion.impuestos)"/></p>
+                                    <p class="tl-gran"><span>Total</span><b t-esc="dinero(estado.orden.cotizacion.total)"/></p>
+                                </div>
+                            </div>
+                            <p t-if="estado.orden.estado === 'approved'" class="tl-nota">Aprobada por <b t-esc="estado.orden.aprobada_por"/>.</p>
+                            <div class="tl-acciones">
+                                <button type="button" class="tl-btn tl-peligro" t-att-disabled="estado.ocupado or !estado.orden.pendiente" t-on-click="rechazar">Cancelar cotización</button>
+                                <button type="button" class="tl-btn tl-primario" t-att-disabled="estado.ocupado" t-on-click="aprobar">Aprobar y empezar reparación</button>
+                            </div>
+                        </div>
+
+                        <!-- ============ 5. EN REPARACIÓN ============ -->
+                        <div t-elif="estado.paso === 'reparacion'" class="tl-vista">
+                            <h2 class="tl-h">En reparación</h2>
+                            <div class="tl-ticket">
+                                <div class="tl-ticket-auto">
+                                    <b t-esc="estado.orden.placa"/>
+                                    <span><t t-esc="estado.orden.vehiculo"/> <t t-if="estado.orden.color">· <t t-esc="estado.orden.color"/></t></span>
+                                    <span>Cliente: <t t-esc="estado.orden.cliente"/></span>
+                                </div>
+                                <p class="tl-cat">Servicios a realizar</p>
+                                <ul class="tl-lista" t-if="estado.orden.cotizacion">
+                                    <t t-foreach="estado.orden.cotizacion.lineas" t-as="l" t-key="l_index">
+                                        <li><span class="tl-check"/><span t-esc="l.nombre"/><em t-if="l.cantidad !== 1" t-esc="'x' + l.cantidad"/></li>
+                                    </t>
+                                </ul>
+                                <p t-if="estado.orden.solucion" class="tl-sub"><b>Notas: </b><t t-esc="estado.orden.solucion"/></p>
+                            </div>
+                            <div class="tl-acciones">
+                                <button type="button" class="tl-btn tl-primario" t-att-disabled="estado.ocupado" t-on-click="terminar">Terminado: avisar al cliente</button>
+                            </div>
+                        </div>
+
+                        <!-- ============ 6. LISTO / ENTREGA ============ -->
+                        <div t-elif="estado.paso === 'listo'" class="tl-vista">
+                            <h2 class="tl-h" t-esc="entregada ? 'Vehículo entregado' : 'Listo para entregar'"/>
+                            <div class="tl-listo">
+                                <img t-if="estado.orden.foto_cliente" class="tl-dueno" t-att-src="estado.orden.foto_cliente" alt=""/>
+                                <img t-elif="estado.orden.foto" class="tl-dueno" t-att-src="estado.orden.foto" alt=""/>
+                                <dl class="tl-datos">
+                                    <div><dt>Placa</dt><dd t-esc="estado.orden.placa"/></div>
+                                    <div><dt>Vehículo</dt><dd><t t-esc="estado.orden.vehiculo"/> <t t-esc="estado.orden.color"/></dd></div>
+                                    <div><dt>Cliente</dt><dd t-esc="estado.orden.cliente"/></div>
+                                    <div><dt>Teléfono</dt><dd t-esc="estado.orden.telefono"/></div>
+                                    <div><dt>Recibido</dt><dd t-esc="estado.orden.fecha_recibido"/></div>
+                                    <div t-if="estado.orden.cotizacion"><dt>Total</dt><dd t-esc="dinero(estado.orden.cotizacion.total)"/></div>
+                                </dl>
+                            </div>
+                            <p t-if="!entregada" class="tl-nota">Se avisó al cliente por WhatsApp que su vehículo está listo.</p>
+                            <p t-if="!entregada and estado.orden.entrega_firma" class="tl-nota">Falta la firma del acta de entrega del cliente antes de entregar.</p>
+                            <div class="tl-acciones">
+                                <button t-if="!entregada" type="button" class="tl-btn tl-primario" t-att-disabled="estado.ocupado" t-on-click="entregar">Entregar vehículo</button>
+                                <button t-else="" type="button" class="tl-btn tl-primario" t-on-click="nuevoVehiculo">Recibir otro vehículo</button>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </t>
+</templates>
