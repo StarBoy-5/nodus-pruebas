@@ -4,8 +4,16 @@
   button, h2, h3, .tl-btn { font-family: 'Poppins', sans-serif; }
 
   /* ---------- Cola de órdenes (fichas como las del Punto de Venta, en fila) ---------- */
-  .tl-cola { display: flex; gap: 12px; overflow-x: auto; padding: 4px 2px 8px; scroll-snap-type: x proximity; scrollbar-width: none; }
-  .tl-cola::-webkit-scrollbar { display: none; }
+  /* Contenedor blanco como el del panel; las fichas se desplazan en horizontal (rueda, arrastre o barra) */
+  .tl-cola-caja { background: #fff; border-radius: 32px; padding: 16px 20px 10px; box-shadow: rgba(0, 0, 0, 0.05) 0 1px 2px 0, rgba(217, 217, 226, 0.3) 0 0 0 1px; }
+  .tl-cola-tit { display: flex; justify-content: space-between; align-items: center; margin: 0 4px 10px; font: 600 14px 'Poppins', sans-serif; color: #1a1a24; }
+  .tl-cola-tit span { font: 600 11px 'Poppins', sans-serif; color: #5c5c6b; background: #ececf4; padding: 3px 10px; border-radius: 99px; }
+  .tl-cola { display: flex; gap: 12px; overflow-x: auto; overflow-y: hidden; padding: 4px 4px 12px; scroll-snap-type: x proximity; overscroll-behavior-x: contain; cursor: grab; }
+  .tl-cola.arrastrando { cursor: grabbing; scroll-snap-type: none; }
+  .tl-cola::-webkit-scrollbar { height: 8px; }
+  .tl-cola::-webkit-scrollbar-thumb { background: #C3C6D5; border-radius: 8px; }
+  .tl-cola::-webkit-scrollbar-thumb:hover { background: #A9AEC2; }
+  .tl-cola::-webkit-scrollbar-track { background: transparent; margin: 0 24px; }
   .tl-ficha {
     flex: 0 0 auto; display: flex; align-items: center; gap: 12px; min-width: 210px; padding: 10px 14px; border: 1px solid #d9d9e2;
     border-radius: 16px; background: #fff; text-align: left; cursor: pointer; scroll-snap-align: start;
@@ -121,7 +129,23 @@
 }
 
 @container nd-pant (max-width: 767.98px) {
+  .nd-taller .tl-app { gap: 12px; }
+  .nd-taller .tl-cola-caja { padding: 12px 12px 6px; border-radius: 24px; }
+  .nd-taller .tl-ficha { min-width: 180px; padding: 8px 12px; }
   .nd-taller .tl-panel { padding: 18px 16px 22px; border-radius: 24px; }
+  .nd-taller .tl-pasos { margin: 0 -16px 16px; padding: 0 16px 12px; }
+  .nd-taller .tl-paso { flex: 0 0 auto; padding: 6px 10px; }
+  .nd-taller .tl-paso:not(.actual) .tl-paso-t { display: none; }
+  .nd-taller .tl-h { font-size: 18px; }
+  .nd-taller .tl-servicios { grid-template-columns: 1fr; }
+  .nd-taller .tl-cotizacion, .nd-taller .tl-ticket { padding: 14px; border-radius: 16px; }
+  .nd-taller .tl-tabla { font-size: 13px; }
+  .nd-taller .tl-tabla th:nth-child(2), .nd-taller .tl-tabla td:nth-child(2),
+  .nd-taller .tl-tabla th:nth-child(3), .nd-taller .tl-tabla td:nth-child(3) { display: none; }
+  .nd-taller .tl-cot-tot { max-width: none; }
+  .nd-taller .tl-listo { flex-direction: column; align-items: flex-start; }
+  .nd-taller .tl-acciones { flex-direction: column-reverse; align-items: stretch; }
+  .nd-taller .tl-total-chip { margin: 0; text-align: center; }
   .nd-taller .tl-form { grid-template-columns: 1fr; }
   .nd-taller .tl-fotos { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .nd-taller .tl-datos { grid-template-columns: 1fr; }

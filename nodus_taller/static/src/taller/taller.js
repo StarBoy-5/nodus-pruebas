@@ -2,7 +2,7 @@
 // Taller: cola de órdenes arriba y un paso por vista (placa, fotos, diagnóstico, cotización, reparación, listo).
 // Cada botón llama a los métodos del Taller (action_*); nada escribe el estado directamente.
 
-import { Component, onMounted, onWillStart, onWillUnmount, useState } from "@odoo/owl";
+import { Component, onMounted, onWillStart, onWillUnmount, useRef, useState } from "@odoo/owl";
 import { registry } from "@web/core/registry";
 import { useService } from "@web/core/utils/hooks";
 import { avisoNodus, usePantallaNodus } from "@nodus_interfaz/pantallas/comun";
@@ -34,6 +34,7 @@ export class NodusTaller extends Component {
     setup() {
         usePantallaNodus("taller");
         this.orm = useService("orm");
+        this.colaRef = useRef("cola");
         this.pasos = PASOS;
         this.combustibles = COMBUSTIBLE;
         this.angulos = ANGULOS;
@@ -70,6 +71,33 @@ export class NodusTaller extends Component {
         } catch {
             // se reintenta en el próximo refresco
         }
+    }
+    // La rueda del ratón mueve la fila en horizontal; con el ratón también se puede arrastrar
+    desplazarCola(ev) {
+        const el = this.colaRef.el;
+        if (!el || el.scrollWidth <= el.clientWidth || Math.abs(ev.deltaX) > Math.abs(ev.deltaY)) return;
+        ev.preventDefault();
+        el.scrollLeft += ev.deltaY;
+    }
+    arrastrarCola(ev) {
+        const el = this.colaRef.el;
+        if (!el || ev.pointerType !== "mouse" || ev.button !== 0) return;
+        const x0 = ev.clientX, s0 = el.scrollLeft;
+        let movido = false;
+        const mover = (e) => {
+            const dx = e.clientX - x0;
+            if (Math.abs(dx) > 4) { movido = true; el.classList.add("arrastrando"); }
+            if (movido) el.scrollLeft = s0 - dx;
+        };
+        const soltar = () => {
+            window.removeEventListener("pointermove", mover);
+            window.removeEventListener("pointerup", soltar);
+            el.classList.remove("arrastrando");
+            // un arrastre no debe abrir la ficha donde se soltó
+            if (movido) el.addEventListener("click", (e) => { e.stopPropagation(); e.preventDefault(); }, { capture: true, once: true });
+        };
+        window.addEventListener("pointermove", mover);
+        window.addEventListener("pointerup", soltar);
     }
     nuevoVehiculo() {
         Object.assign(this.estado, { seleccion: null, orden: null, paso: "recepcion", aviso: "", elegidos: [] });

@@ -10,7 +10,9 @@
 
                 <div class="nd-pant-app tl-app">
                     <!-- Cola de órdenes (como las órdenes del Punto de Venta, en horizontal) -->
-                    <section class="tl-cola" aria-label="Órdenes abiertas">
+                    <section class="tl-cola-caja">
+                    <div class="tl-cola-tit">Órdenes en el taller <span t-esc="estado.cola.length"/></div>
+                    <div class="tl-cola" aria-label="Órdenes abiertas" t-ref="cola" t-on-wheel="desplazarCola" t-on-pointerdown="arrastrarCola">
                         <button type="button" t-attf-class="tl-ficha tl-nueva {{ estado.seleccion === null ? 'activa' : '' }}" t-on-click="nuevoVehiculo">
                             <span class="tl-ficha-marca">+</span>
                             <span class="tl-ficha-txt"><b>Recibir vehículo</b><small>Nueva orden</small></span>
@@ -26,6 +28,7 @@
                             </button>
                         </t>
                         <p t-if="!estado.cola.length" class="tl-cola-vacia">No hay órdenes abiertas. Pulsa «Recibir vehículo».</p>
+                    </div>
                     </section>
 
                     <!-- Pasos -->
