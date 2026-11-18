@@ -1367,3 +1367,22 @@
 .nd-pos #contenedor-carrito-pos .cart-precio,
 .nd-pos #contenedor-carrito-pos .cart-nombre .pv-h,
 .nd-pos #contenedor-carrito-pos .cart-precio .pv-h { text-align: left !important; align-self: flex-start !important; }
+
+/* Órdenes abiertas: mesas con cuenta y órdenes de la caja, para retomarlas con un toque */
+.nd-pos #nodus-ordenes-abiertas { display: flex; flex-direction: column; gap: 8px; margin: 16px 10px 0; }
+.nd-pos .nodus-ord-titulo { margin: 0 0 4px; font: 600 12px/12px 'Poppins', sans-serif; color: #5c5c6b; }
+.nd-pos .nodus-ord-vacio { margin: 0; font: 400 12px/16px 'Inter', sans-serif; color: #6b7280; }
+.nd-pos .nodus-ord-item {
+  display: flex; align-items: center; gap: 12px; width: 100%; min-height: 56px; padding: 8px 12px; box-sizing: border-box;
+  border: 1px solid #d9d9e2; border-radius: 16px; background: #fff; text-align: left; cursor: pointer;
+  transition: border-color .15s cubic-bezier(.22, 1, .36, 1), background-color .15s cubic-bezier(.22, 1, .36, 1);
+}
+.nd-pos .nodus-ord-item:hover { border-color: #0047ab; background: #f3f3fc; }
+.nd-pos .nodus-ord-marca {
+  flex: 0 0 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 12px;
+  background: #0047ab; color: #fff; font: 600 14px 'Poppins', sans-serif; font-variant-numeric: tabular-nums;
+}
+.nd-pos .nodus-ord-caja .nodus-ord-marca { background: #eaf0fa; color: #0047ab; }
+.nd-pos .nodus-ord-txt { display: flex; flex-direction: column; min-width: 0; gap: 2px; }
+.nd-pos .nodus-ord-txt b { font: 600 14px/16px 'Poppins', sans-serif; color: #1a1a24; }
+.nd-pos .nodus-ord-txt span { font: 400 12px/16px 'Inter', sans-serif; color: #5c5c6b; }

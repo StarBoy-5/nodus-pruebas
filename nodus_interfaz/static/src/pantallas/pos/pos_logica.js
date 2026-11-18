@@ -1029,6 +1029,8 @@ document.addEventListener("DOMContentLoaded", function () {
       vistaDestino.classList.add("vista-animada");
     }
 
+    if (vistaDestino === vista1 && typeof renderizarOrdenesAbiertas === 'function') renderizarOrdenesAbiertas();
+
     // 👉 Bloqueo/difuminado del catálogo fuera de Vista 2 (Carrito)
     if (gridProductos) {
       const debeBloquear = (vistaDestino === vista1 || vistaDestino === vista3 || vistaDestino === vista4);
@@ -1280,9 +1282,12 @@ document.addEventListener("DOMContentLoaded", function () {
       let html = '<div class="nodus-cobro-tarjeta" role="dialog" aria-modal="true">' +
         '<div class="nodus-cobro-cab"><h3>¿A quién le cobras?</h3><p>Elige la venta de mostrador o una mesa con cuenta abierta.</p></div>' +
         '<div class="nodus-cobro-lista"><div class="nodus-cobro-sec">Mostrador</div>' +
-        '<button type="button" class="nodus-cobro-op' + (mesaIdActual ? '' : ' activa') + '" data-tipo="caja">' +
+        '<button type="button" class="nodus-cobro-op" data-tipo="caja">' +
         '<span class="nodus-cobro-ic">' + escCobro(iniciales(caja.nombre)) + '</span>' +
-        '<span class="nodus-cobro-txt"><b>' + escCobro(caja.nombre) + '</b><span>Venta directa en esta caja</span></span></button>' +
+        '<span class="nodus-cobro-txt"><b>' + escCobro(caja.nombre) + '</b><span>Empezar una orden nueva en esta caja</span></span></button>' +
+        ordenesDeCaja(caja).map(o => '<button type="button" class="nodus-cobro-op' + (o.clave === servicioActual ? ' activa' : '') +
+          '" data-tipo="orden" data-clave="' + escCobro(o.clave) + '"><span class="nodus-cobro-ic">#' + o.n + '</span>' +
+          '<span class="nodus-cobro-txt"><b>Orden ' + o.n + '</b><span>' + escCobro(caja.nombre) + ' · $' + totalDeCarrito(o.carrito).toFixed(2) + '</span></span></button>').join('') +
         '<div class="nodus-cobro-sec">Mesas con cuenta abierta</div>';
       if (!abiertas.length) {
         html += '<div class="nodus-cobro-vacio">No hay mesas con cuenta abierta.</div>';
@@ -1306,7 +1311,10 @@ document.addEventListener("DOMContentLoaded", function () {
         const tipo = b.getAttribute('data-tipo');
         cerrarSelectorCobro();
         if (tipo === 'caja') {
-          if (mesaIdActual) irAVista(vista2, caja.nombre, { cajaId: cajaIdActual, mesaId: null });
+          irAVista(vista2, nuevaOrdenDeCaja(caja), { cajaId: cajaIdActual, mesaId: null });
+        } else if (tipo === 'orden') {
+          const clave = b.getAttribute('data-clave');
+          if (clave !== servicioActual) irAVista(vista2, clave, { cajaId: cajaIdActual, mesaId: null });
         } else if (tipo === 'mesa') {
           const mesa = abiertas.find(m => String(m.id) === b.getAttribute('data-id'));
           if (mesa && String(mesa.id) !== String(mesaIdActual)) abrirCuentaMesa(mesa, cajaIdActual);
@@ -1336,6 +1344,89 @@ document.addEventListener("DOMContentLoaded", function () {
     window.hadeonPOS.propinaPct = v; renderizarCarrito();
   });
 
+  // ===== Nodus: órdenes abiertas =====
+  // En la caja se pueden tener varias órdenes a la vez ("Caja Principal · Orden 2"); las mesas con cuenta abierta
+  // también aparecen en la lista. Tocar una orden la retoma donde se dejó.
+  const PREFIJO_ORDEN = ' · Orden ';
+  function totalDeCarrito(carrito) {
+    return carrito.reduce((acc, i) => acc + i.precio * i.cantidad * (1 + (typeof i.iva === 'number' ? i.iva : TASA_IMPUESTO)), 0);
+  }
+  function numeroDeOrden(caja, clave) {
+    return clave === caja.nombre ? 1 : parseInt(clave.slice((caja.nombre + PREFIJO_ORDEN).length), 10) || 0;
+  }
+  function ordenesDeCaja(caja) {
+    return Object.keys(carritosPorServicio)
+      .filter(k => (k === caja.nombre || k.indexOf(caja.nombre + PREFIJO_ORDEN) === 0) && (carritosPorServicio[k] || []).length)
+      .map(k => ({ clave: k, n: numeroDeOrden(caja, k), carrito: carritosPorServicio[k] }))
+      .sort((x, y) => x.n - y.n);
+  }
+  function nuevaOrdenDeCaja(caja) {
+    const usados = Object.keys(carritosPorServicio)
+      .filter(k => k === caja.nombre || k.indexOf(caja.nombre + PREFIJO_ORDEN) === 0)
+      .map(k => numeroDeOrden(caja, k));
+    const n = (usados.length ? Math.max.apply(null, usados) : 0) + 1;
+    return caja.nombre + PREFIJO_ORDEN + n;
+  }
+  function entrarAMesa(mesa) {
+    // nodus_api no liga cada mesa a una caja propia: resuelve una sola "caja_actual" para todo el punto de venta.
+    const cajaDeRespaldo = cajasNodus.length ? cajasNodus[0].id : null;
+    const cajaDeMesa = cajasNodus.find(c => c.id === (cajaActualId || cajaDeRespaldo));
+    if (cajaDeMesa && !cajaDeMesa.abierta) { abrirModalCaja(cajaDeMesa); return; }
+    abrirCuentaMesa(mesa, cajaActualId || cajaDeRespaldo);
+  }
+  function renderizarOrdenesAbiertas() {
+    const vistaMesas = document.getElementById('vista-mesas-pos');
+    if (!vistaMesas) return;
+    let panel = document.getElementById('nodus-ordenes-abiertas');
+    if (!panel) {
+      panel = document.createElement('section');
+      panel.id = 'nodus-ordenes-abiertas';
+      const rotuloMesas = Array.from(vistaMesas.querySelectorAll('.pv-h')).find(h => /mesas disponibles/i.test(h.textContent));
+      const ancla = rotuloMesas && rotuloMesas.closest('.pv-w');
+      if (ancla) ancla.parentNode.insertBefore(panel, ancla); else vistaMesas.appendChild(panel);
+    }
+    const items = [];
+    cajasNodus.filter(c => c.abierta).forEach(caja => {
+      ordenesDeCaja(caja).forEach(o => items.push({
+        tipo: 'caja', titulo: 'Orden ' + o.n, etiqueta: caja.nombre,
+        detalle: o.carrito.reduce((a, i) => a + i.cantidad, 0) + ' productos \u00b7 $' + totalDeCarrito(o.carrito).toFixed(2),
+        activar: () => irAVista(vista2, o.clave, { cajaId: caja.id, mesaId: null }),
+      }));
+    });
+    mesasNodus.filter(m => m.ocupada).forEach(m => items.push({
+      tipo: 'mesa', titulo: m.nombre, etiqueta: 'Mesa', detalle: String(m.estado || '').replace(/^Ocupada \u00b7 /, ''),
+      activar: () => entrarAMesa(m),
+    }));
+    panel.textContent = '';
+    const cab = document.createElement('h3');
+    cab.className = 'nodus-ord-titulo';
+    cab.textContent = 'Órdenes abiertas';
+    panel.appendChild(cab);
+    if (!items.length) {
+      const vacio = document.createElement('p');
+      vacio.className = 'nodus-ord-vacio';
+      vacio.textContent = 'No hay órdenes abiertas. Toca la caja o una mesa para empezar una.';
+      panel.appendChild(vacio);
+      return;
+    }
+    items.forEach(it => {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'nodus-ord-item nodus-ord-' + it.tipo;
+      const marca = document.createElement('span');
+      marca.className = 'nodus-ord-marca';
+      marca.textContent = it.tipo === 'mesa' ? it.titulo.replace(/^\D+/, '') || it.titulo.slice(0, 2) : '#' + it.titulo.replace(/^\D+/, '');
+      const txt = document.createElement('span');
+      txt.className = 'nodus-ord-txt';
+      const t1 = document.createElement('b'); t1.textContent = it.tipo === 'mesa' ? it.titulo : it.titulo + ' \u00b7 ' + it.etiqueta;
+      const t2 = document.createElement('span'); t2.textContent = it.detalle;
+      txt.appendChild(t1); txt.appendChild(t2);
+      b.appendChild(marca); b.appendChild(txt);
+      b.addEventListener('click', e => { e.preventDefault(); it.activar(); });
+      panel.appendChild(b);
+    });
+  }
+
   function renderizarMesasYCajas() {
     if (!contenedorMesas) return;
 
@@ -1361,7 +1452,7 @@ document.addEventListener("DOMContentLoaded", function () {
         nuevaCaja.addEventListener('click', function (e) {
           e.preventDefault();
           if (!caja.abierta) { abrirModalCaja(caja); return; }
-          irAVista(vista2, caja.nombre, { cajaId: caja.id, mesaId: null });
+          irAVista(vista2, nuevaOrdenDeCaja(caja), { cajaId: caja.id, mesaId: null });
         });
 
         ultimoNodoCaja.insertAdjacentElement('afterend', nuevaCaja);
@@ -1383,18 +1474,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
         nuevaMesa.addEventListener('click', function (e) {
           e.preventDefault();
-          // nodus_api no liga cada mesa a una caja propia — /api/v1/mesas
-          // resuelve una sola "caja_actual" para todo el punto de venta.
-          const cajaDeRespaldo = cajasNodus.length ? cajasNodus[0].id : null;
-          const cajaDeMesa = cajasNodus.find(c => c.id === (cajaActualId || cajaDeRespaldo));
-          if (cajaDeMesa && !cajaDeMesa.abierta) { abrirModalCaja(cajaDeMesa); return; }
-          abrirCuentaMesa(mesa, cajaActualId || cajaDeRespaldo);
+          entrarAMesa(mesa);
         });
 
         contenedorMesas.appendChild(nuevaMesa);
       });
     }
 
+    renderizarOrdenesAbiertas();
     actualizarDegradadoMesas();
   }
 
@@ -1786,35 +1873,49 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
+  // El ticket se imprime desde un marco oculto con una copia suya y sus estilos: así sale solo el ticket
+  // (80 mm), sin depender de la pantalla de Odoo que lo rodea. El mismo documento se puede guardar como PDF.
+  function documentoDelTicket(ticket) {
+    let css = '@page { size: 80mm auto; margin: 0; } html, body { margin: 0; background: #fff; }';
+    const recoger = (reglas) => {
+      for (const r of reglas) {
+        if (r.type === CSSRule.FONT_FACE_RULE) css += r.cssText;
+        else if (r.type === CSSRule.STYLE_RULE && /ticket|nd-pos\b(?!\s*[.#\w-])/.test(r.selectorText || '') && !/lienzo/.test(r.selectorText)) css += r.cssText;
+        else if (r.type === CSSRule.MEDIA_RULE && !/print/.test(r.conditionText || r.media.mediaText)) recoger(r.cssRules);
+      }
+    };
+    for (const hoja of document.styleSheets) {
+      try { recoger(hoja.cssRules); } catch (e) { /* hoja de otro origen */ }
+    }
+    css += ' #ticket-imprimible { width: 80mm !important; max-width: 80mm !important; margin: 0 !important; padding: 4mm !important;'
+      + ' box-shadow: none !important; border: 0 !important; border-radius: 0 !important; box-sizing: border-box; }'
+      + ' .fila-oculta { display: none !important; }';
+    return '<!doctype html><html lang="es"><head><meta charset="utf-8"><title>Factura</title><style>' + css + '</style></head>'
+      + '<body><div class="nd-pos">' + ticket.outerHTML + '</div></body></html>';
+  }
+
   function prepararEImprimirTicket() {
     const ticket = document.getElementById('ticket-imprimible');
-    if (!ticket) {
-      setTimeout(() => window.print(), 150);
-      return;
-    }
-
-    const marcador = document.createComment('lugar-original-ticket-imprimible');
-    ticket.parentNode.insertBefore(marcador, ticket);
-    document.body.appendChild(ticket);
-
-    let yaRestaurado = false;
-    function restaurarTicket() {
-      if (yaRestaurado) return;
-      yaRestaurado = true;
-      if (marcador.parentNode) {
-        marcador.parentNode.insertBefore(ticket, marcador);
-        marcador.remove();
-      }
-      window.removeEventListener('afterprint', restaurarTicket);
-    }
-
-    window.addEventListener('afterprint', restaurarTicket);
-    setTimeout(restaurarTicket, 5000);
-
-    setTimeout(() => {
-      window.print();
-    }, 150);
+    if (!ticket) return;
+    const anterior = realDocImprimir.getElementById('nd-ticket-marco');
+    if (anterior) anterior.remove();
+    const marco = realDocImprimir.createElement('iframe');
+    marco.id = 'nd-ticket-marco';
+    marco.setAttribute('aria-hidden', 'true');
+    marco.style.cssText = 'position:fixed;right:0;bottom:0;width:0;height:0;border:0;visibility:hidden';
+    marco.srcdoc = documentoDelTicket(ticket);
+    marco.addEventListener('load', () => {
+      const w = marco.contentWindow;
+      const fuentes = w.document.fonts ? w.document.fonts.ready : Promise.resolve();
+      fuentes.then(() => setTimeout(() => {
+        w.focus();
+        w.print();
+        setTimeout(() => marco.remove(), 60000);
+      }, 200));
+    }, { once: true });
+    realDocImprimir.body.appendChild(marco);
   }
+  const realDocImprimir = globalThis.document;
 
   const btnNuevaVenta = document.getElementById("btn-nueva-venta");
   if (btnNuevaVenta) {
