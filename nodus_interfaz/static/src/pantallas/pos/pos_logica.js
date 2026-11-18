@@ -1389,7 +1389,7 @@ document.addEventListener("DOMContentLoaded", function () {
     cajasNodus.filter(c => c.abierta).forEach(caja => {
       ordenesDeCaja(caja).forEach(o => items.push({
         tipo: 'caja', titulo: 'Orden ' + o.n, etiqueta: caja.nombre,
-        detalle: o.carrito.reduce((a, i) => a + i.cantidad, 0) + ' productos \u00b7 $' + totalDeCarrito(o.carrito).toFixed(2),
+        detalle: (n => n + (n === 1 ? ' producto' : ' productos'))(o.carrito.reduce((a, i) => a + i.cantidad, 0)) + ' \u00b7 $' + totalDeCarrito(o.carrito).toFixed(2),
         activar: () => irAVista(vista2, o.clave, { cajaId: caja.id, mesaId: null }),
       }));
     });
