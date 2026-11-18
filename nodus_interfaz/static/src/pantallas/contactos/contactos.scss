@@ -38,7 +38,6 @@
 .nodus-error-form { min-height: 18px; margin: 10px 0 0; color: #dc2626; font: 500 13px 'Inter', sans-serif; }
 /* ===== Nodus: aprovechar el ancho (PC y tablet). Antes: marco 32 + contenedor 10 + panel 24 por lado ===== */
 @media (min-width: 768px) {
-  .el diseño anterior-element-contactosapp { padding-left: 0 !important; padding-right: 0 !important; padding-bottom: 0 !important; }
   .contactos-panel { padding: 16px !important; }
   .contactos-tabla thead th { padding-left: 6px !important; padding-right: 6px !important; }
   .contactos-tabla tbody td { padding-left: 6px !important; padding-right: 6px !important; }

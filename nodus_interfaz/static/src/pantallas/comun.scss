@@ -43,6 +43,9 @@
     color: #6B7280;
 }
 
+@media (max-width: 1024px) {
+    .nd-pant-cuerpo { padding: 36px 26px 32px; }
+}
 @media (max-width: 767.98px) {
     .nd-pant-cuerpo { padding: 36px 26px 120px; }
     .nd-pant-sub { line-height: 14px; }

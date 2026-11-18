@@ -44,8 +44,7 @@
     <!-- Pantallas diseñadas en hadeon_ui: son la primera opción de su app, así que se abren al entrar -->
     <record id="action_ui_inventario" model="ir.actions.client">
         <field name="name">Inventario</field>
-        <field name="tag">nodus_pagina_ui</field>
-        <field name="params" eval="{'pagina': 'inventario'}"/>
+        <field name="tag">nodus_inventario</field>
         <field name="path">inventario</field>
     </record>
     <menuitem id="menu_ui_inventario" name="Inventario" parent="stock.menu_stock_root"

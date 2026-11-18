@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="nodus_interfaz.Inventario">
+        <div class="o_action nd-pant nd-inventario" t-ref="raiz">
+            <div class="nd-pant-cuerpo">
+                <div class="inv-cab">
+                    <header class="nd-pant-cab">
+                        <h1 class="nd-pant-titulo">Inventario</h1>
+                        <p class="inv-titulo-2">Insumos y productos</p>
+                        <p class="nd-pant-sub">Control de existencias y alertas de reposición</p>
+                    </header>
+                    <button id="Btn-lista-precios" type="button" class="hadeon-btn-lista-precios"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41 11 3.83A2 2 0 0 0 9.59 3.17H4a1 1 0 0 0-1 1v5.59a2 2 0 0 0 .66 1.41l9.58 9.58a2 2 0 0 0 2.830 0l4.52-4.52a2 2 0 0 0 0-2.83Z"/><circle cx="7.5" cy="7.5" r="1.5"/></svg><span>Lista de precios</span></button>
+                </div>
+                <div class="nd-pant-app">
+                    <div class="inv-barra">
+                        <div class="inv-filtros-wrap">
+<div class="hadeon-filters">
+  
+  <div class="hadeon-search-wrapper">
+    <svg class="hadeon-search-icon" fill="none" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="16"><circle cx="11" cy="11" r="8"/><line x1="21" x2="16.65" y1="21" y2="16.65"/></svg>
+    <input type="text" id="buscador-inventario" class="hadeon-input" placeholder="Buscar..."/>
+  </div>
+  
+  <select id="filtro-categoria" class="hadeon-select">
+    <option value="Todas">Categoría: Todas</option>
+  </select>
+
+  <select id="filtro-proveedor" class="hadeon-select">
+    <option value="Todos">Proveedor: Todos</option>
+  </select>
+</div>
+                        </div>
+                        <div class="inv-acciones">
+                            <div class="hadeon-agregar-eliminar-grupo">
+                                <button id="Btn-agregar" type="button" class="inv-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg><span>Agregar</span></button>
+                                <button id="Btn-compra" type="button" class="nodus-btn-compra"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3h2l2.4 12.4a2 2 0 0 0 2 1.6h8.8a2 2 0 0 0 2-1.6L21 7H6"/><circle cx="10" cy="21" r="1"/><circle cx="18" cy="21" r="1"/></svg><span>Registrar compra</span></button>
+                                <button id="Btn-eliminar-modo" type="button" class="hadeon-btn-eliminar-modo">Eliminar</button>
+                            </div>
+                            <button id="Btn-alerta" type="button" class="inv-btn"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg><span class="inv-btn-texto">Alertas <span id="contador-alertas" class="inv-contador">0</span></span></button>
+                        </div>
+                    </div>
+                    <div class="hadeon-toolbar-eliminar">
+                        <button id="Btn-eliminar-confirmar" type="button" class="hadeon-btn-eliminar-confirmar" style="display:none;">Eliminar seleccionados (0)</button>
+                    </div>
+                    <div id="contenedor-tabla-inventario" class="inv-tabla">
+                        <div id="encabezado-columnas-inventario" class="inv-fila inv-fila-cab">
+                            <span class="inv-c-img">Imagen</span>
+                            <span class="inv-c-nombre">Producto</span>
+                            <span class="inv-c-cat">Categoría</span>
+                            <span class="inv-c-num">Existencia</span>
+                            <span class="inv-c-num">Mínimo</span>
+                            <span class="inv-c-num">Precio</span>
+                        </div>
+                        <div id="fila-plantilla" class="inv-fila">
+                            <div id="dato-icono"><img src="/nodus_interfaz/static/src/img/nodus_sin_imagen.png" alt=""/></div>
+                            <div id="dato-nombre"><span class="inv-txt">Producto</span></div>
+                            <div id="dato-categoria"><span class="inv-txt">Categoría</span></div>
+                            <div id="dato-stock"><span class="inv-txt">0</span></div>
+                            <div id="dato-minimo"><span class="inv-txt">0</span></div>
+                            <div id="dato-precio"><span class="inv-txt">$0.00</span></div>
+                        </div>
+                    </div>
+<div id="modal-agregar-overlay">
+  <div id="modal-agregar-tarjeta">
+    <div class="modal-agregar-header">
+      <h3 id="modal-agregar-titulo">Nuevo Insumo / Producto</h3>
+      <button id="modal-agregar-cerrar" type="button" aria-label="Cerrar">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+
+    <div class="modal-agregar-body" id="modal-agregar-body-principal">
+      <div class="modal-agregar-upload">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+        <span>Subir Imagen</span>
+      </div>
+
+      <div class="modal-agregar-grid">
+        <div class="modal-agregar-campo">
+          <label for="agregar-nombre">Nombre del Producto <span class="nodus-ayuda" tabindex="0" role="note" aria-label="Nombre con el que aparece en el punto de venta, las facturas y los reportes." data-ayuda="Nombre con el que aparece en el punto de venta, las facturas y los reportes.">?</span></label>
+          <input type="text" id="agregar-nombre" placeholder="Ej. Tomate, Harina..."/>
+        </div>
+        <div class="modal-agregar-campo">
+          <label for="agregar-categoria">Categoría <span class="nodus-ayuda" tabindex="0" role="note" aria-label="Grupo del producto. Sirve para filtrar y ordenar el inventario." data-ayuda="Grupo del producto. Sirve para filtrar y ordenar el inventario.">?</span></label>
+          <select id="agregar-categoria">
+            <option value="" disabled="disabled" selected="selected">Seleccionar...</option>
+            <option>Perecedero</option>
+            <option>Abarrotes</option>
+            <option>Lácteos</option>
+          </select>
+        </div>
+        <div class="modal-agregar-campo">
+          <label for="agregar-stock-actual">Stock Actual <span class="nodus-ayuda" tabindex="0" role="note" aria-label="Cantidad que hay hoy en el almacén. Si la cambias, queda registrado como un ajuste de inventario." data-ayuda="Cantidad que hay hoy en el almacén. Si la cambias, queda registrado como un ajuste de inventario.">?</span></label>
+          <div class="modal-agregar-stock-grupo">
+            <input type="number" id="agregar-stock-actual" placeholder="0.00"/>
+            <select id="agregar-stock-actual-unidad">
+              <option>kg</option>
+              <option>L</option>
+              <option>un</option>
+            </select>
+          </div>
+        </div>
+        <div class="modal-agregar-campo">
+          <label for="agregar-stock-minimo">Stock Mínimo <span class="nodus-ayuda" tabindex="0" role="note" aria-label="Cuando el stock llegue a este número, el producto aparece en Alertas para que lo repongas." data-ayuda="Cuando el stock llegue a este número, el producto aparece en Alertas para que lo repongas.">?</span></label>
+          <div class="modal-agregar-stock-grupo">
+            <input type="number" id="agregar-stock-minimo" placeholder="0.00"/>
+            <select id="agregar-stock-minimo-unidad">
+              <option>kg</option>
+              <option>L</option>
+              <option>un</option>
+            </select>
+          </div>
+        </div>
+        <div class="modal-agregar-campo">
+          <label for="agregar-estacion">Estación de Preparación <span class="nodus-ayuda" tabindex="0" role="note" aria-label="Dónde se prepara (cocina, barra, parrilla...). Las comandas de este producto llegan a esa estación." data-ayuda="Dónde se prepara (cocina, barra, parrilla...). Las comandas de este producto llegan a esa estación.">?</span></label>
+          <select id="agregar-estacion">
+            <option value="">Sin asignar</option>
+          </select>
+        </div>
+        <div class="modal-agregar-campo">
+          <label for="agregar-iva">IVA <span class="nodus-ayuda" tabindex="0" role="note" aria-label="Impuesto que se cobra al vender este producto. Elige Exento si no lleva IVA." data-ayuda="Impuesto que se cobra al vender este producto. Elige Exento si no lleva IVA.">?</span></label>
+          <select id="agregar-iva">
+            <option value="">Exento</option>
+          </select>
+        </div>
+        <div class="modal-agregar-campo">
+          <label for="agregar-precio">Precio Unitario <span class="nodus-ayuda" tabindex="0" role="note" aria-label="Precio de venta en dólares. El precio en bolívares se calcula solo con la tasa BCV del día." data-ayuda="Precio de venta en dólares. El precio en bolívares se calcula solo con la tasa BCV del día.">?</span></label>
+          <div class="modal-agregar-precio-wrapper">
+            <span>$</span>
+            <input type="number" step="0.01" id="agregar-precio" placeholder="0.00"/>
+          </div>
+        </div>
+        <div class="modal-agregar-campo">
+          <label for="agregar-costo">Costo <span class="nodus-ayuda" tabindex="0" role="note" aria-label="Lo que te cuesta el producto, en dólares. Se usa para calcular tu ganancia y se actualiza solo al registrar una compra." data-ayuda="Lo que te cuesta el producto, en dólares. Se usa para calcular tu ganancia y se actualiza solo al registrar una compra.">?</span></label>
+          <div class="modal-agregar-precio-wrapper">
+            <span>$</span>
+            <input type="number" step="0.01" id="agregar-costo" placeholder="0.00" />
+          </div>
+        </div>
+        <div class="modal-agregar-campo full">
+          <label for="agregar-descripcion">Descripción (producto o servicio) <span class="nodus-ayuda" tabindex="0" role="note" aria-label="Texto que sale en la factura o la cotización debajo del nombre del producto." data-ayuda="Texto que sale en la factura o la cotización debajo del nombre del producto.">?</span></label>
+          <textarea id="agregar-descripcion" rows="3" placeholder="Describe el producto o servicio..."/>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-agregar-footer">
+      <button class="modal-agregar-btn cancelar" id="modal-agregar-cancelar" type="button">Cancelar</button>
+      <button class="modal-agregar-btn guardar" id="modal-agregar-guardar" type="button">Guardar Producto</button>
+    </div>
+  </div>
+</div>
+
+
+<div id="modal-compra-overlay" class="nodus-modal-overlay">
+  <div id="modal-compra-tarjeta" class="nodus-modal-tarjeta">
+    <div class="modal-agregar-header">
+      <h3>Registrar Compra</h3>
+      <button id="modal-compra-cerrar" class="nodus-modal-cerrar" type="button" aria-label="Cerrar">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+    </div>
+    <div class="modal-agregar-body" id="modal-compra-body">
+      <div class="modal-agregar-grid">
+        <div class="modal-agregar-campo">
+          <label for="compra-proveedor">Proveedor <span class="nodus-ayuda" tabindex="0" role="note" aria-label="A quién le compraste. Un mismo producto puede tener varios proveedores: cada compra lo agrega a la lista del producto." data-ayuda="A quién le compraste. Un mismo producto puede tener varios proveedores: cada compra lo agrega a la lista del producto.">?</span></label>
+          <select id="compra-proveedor">
+            <option value="" disabled="disabled" selected="selected">Seleccionar...</option>
+          </select>
+        </div>
+        <div class="modal-agregar-campo">
+          <label for="compra-referencia">N.º de factura del proveedor <span class="nodus-ayuda" tabindex="0" role="note" aria-label="El número de la factura o nota de entrega que te dio el proveedor. Sirve para encontrar la compra después." data-ayuda="El número de la factura o nota de entrega que te dio el proveedor. Sirve para encontrar la compra después.">?</span></label>
+          <input type="text" id="compra-referencia" placeholder="Ej. 000123" />
+        </div>
+        <div class="modal-agregar-campo full nodus-oculto" id="compra-nuevo-proveedor">
+          <label for="compra-proveedor-nombre">Nuevo proveedor <span class="nodus-ayuda" tabindex="0" role="note" aria-label="Se crea como contacto proveedor y queda disponible para las próximas compras." data-ayuda="Se crea como contacto proveedor y queda disponible para las próximas compras.">?</span></label>
+          <div class="nodus-fila-2">
+            <input type="text" id="compra-proveedor-nombre" placeholder="Nombre o razón social" />
+            <input type="text" id="compra-proveedor-rif" placeholder="RIF, ej. J-12345678-9" />
+          </div>
+        </div>
+      </div>
+      <div class="nodus-compra-tabla">
+        <div class="nodus-compra-enc">
+          <span>Producto</span>
+          <span>Cantidad <span class="nodus-ayuda" tabindex="0" role="note" aria-label="Cuántas unidades (o kg, L) recibiste. Se suman al stock del producto." data-ayuda="Cuántas unidades (o kg, L) recibiste. Se suman al stock del producto.">?</span></span>
+          <span>Costo unit. <span class="nodus-ayuda" tabindex="0" role="note" aria-label="Lo que pagaste por cada unidad, en dólares. Pasa a ser el costo del producto." data-ayuda="Lo que pagaste por cada unidad, en dólares. Pasa a ser el costo del producto.">?</span></span>
+          <span>Código de barras <span class="nodus-ayuda" tabindex="0" role="note" aria-label="Escanéalo o escríbelo. Se guarda en el producto para venderlo con el lector en el punto de venta." data-ayuda="Escanéalo o escríbelo. Se guarda en el producto para venderlo con el lector en el punto de venta.">?</span></span>
+          <span></span>
+        </div>
+        <div id="compra-lineas"></div>
+        <button type="button" id="compra-agregar-linea" class="nodus-compra-agregar">+ Agregar producto</button>
+      </div>
+      <label class="nodus-compra-check"><input type="checkbox" id="compra-facturar" /> Crear también la factura del proveedor <span class="nodus-ayuda" tabindex="0" role="note" aria-label="Deja la factura del proveedor lista en Contabilidad para registrar el pago. Si no la marcas, solo entra la mercancía." data-ayuda="Deja la factura del proveedor lista en Contabilidad para registrar el pago. Si no la marcas, solo entra la mercancía.">?</span></label>
+      <div class="nodus-compra-total">Total de la compra: <strong id="compra-total">$0.00</strong></div>
+      <p class="nodus-compra-error" id="compra-error"></p>
+    </div>
+    <div class="modal-agregar-footer">
+      <button class="modal-agregar-btn cancelar" id="modal-compra-cancelar" type="button">Cancelar</button>
+      <button class="modal-agregar-btn guardar" id="modal-compra-guardar" type="button">Registrar Compra</button>
+    </div>
+  </div>
+</div>
+<div class="modal-categoria-overlay" id="modal-categoria-overlay">
+  <div class="modal-categoria-tarjeta">
+    <div class="modal-agregar-header">
+      <h3>Nueva Categoría</h3>
+      <button id="modal-categoria-cerrar" type="button" aria-label="Cerrar">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="modal-agregar-body">
+      <div class="modal-agregar-campo full">
+        <label for="nueva-categoria-nombre">Nombre de la Categoría</label>
+        <input type="text" id="nueva-categoria-nombre" placeholder="Ej. Bebidas, Limpieza..."/>
+      </div>
+    </div>
+    <div class="modal-agregar-footer">
+      <button class="modal-agregar-btn cancelar" id="modal-categoria-cancelar" type="button">Cancelar</button>
+      <button class="modal-agregar-btn guardar" id="modal-categoria-guardar" type="button">Guardar Categoría</button>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+<div id="modal-alertas-overlay">
+  <div id="modal-alertas-tarjeta">
+    <div class="modal-alertas-header">
+      <h3>Alertas de Stock / Reposición</h3>
+      <button id="modal-alertas-cerrar-x" type="button" aria-label="Cerrar">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+
+    <div class="modal-alertas-body" id="modal-alertas-lista"/>
+
+    <div class="modal-alertas-footer">
+      <button id="modal-alertas-cerrar-btn" type="button">Cerrar</button>
+    </div>
+  </div>
+</div>
+                </div>
+            </div>
+        </div>
+    </t>
+</templates>
