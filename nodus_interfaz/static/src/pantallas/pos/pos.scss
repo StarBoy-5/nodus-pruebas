@@ -1417,3 +1417,30 @@
 .nd-pos:not(.nodus-bandeja) #pos-catalogo-y-sidebar > #hadeon-pos-sidebar { flex: 0 0 348px; }
 }
 .nd-pos #pos-catalogo-y-sidebar > .pv-8e60904 { min-width: 0; }
+/* Bandeja del teléfono: la fila de órdenes compacta, pegada al asa y al pedido */
+.nd-pos.nodus-bandeja #nodus-tira-ordenes.nodus-tira-horizontal.con-ordenes { height: 46px; padding: 3px 2px; margin: 0; }
+.nd-pos.nodus-bandeja .nodus-asa { padding-bottom: 4px !important; }
+.nd-pos.nodus-bandeja #hadeon-pos-sidebar:has(#nodus-tira-ordenes.con-ordenes) #vista-carrito-pos { padding-top: 0 !important; }
+
+/* Cancelar orden: papelera junto a la etiqueta de la orden, en la cabecera del pedido */
+.nd-pos #nodus-cancelar-orden {
+  flex: 0 0 34px; width: 34px; height: 34px; margin: 0 0 0 auto; padding: 0; border: 0; border-radius: 10px;
+  display: inline-flex; align-items: center; justify-content: center; background: transparent; color: #9a9aab; cursor: pointer;
+  transition: background-color .15s ease, color .15s ease;
+}
+.nd-pos #nodus-cancelar-orden:hover, .nd-pos #nodus-cancelar-orden:focus-visible { background: #fdecec; color: #c0362c; outline: none; }
+.nd-pos #nodus-cancelar-orden + #etiqueta-mesa-actual { margin-left: 4px; }
+.nodus-confirma {
+  position: fixed; inset: 0; z-index: 9500; display: flex; align-items: center; justify-content: center; padding: 20px;
+  background: rgba(15, 23, 42, .35); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+}
+.nodus-confirma-tarjeta { width: 100%; max-width: 360px; padding: 22px 22px 18px; border-radius: 22px; background: #fff; box-shadow: 0 20px 50px rgba(0, 20, 60, .25); font-family: 'Inter', sans-serif; }
+.nodus-confirma-tarjeta h3 { margin: 0 0 8px; font: 600 18px/24px 'Poppins', sans-serif; color: #1a1a24; }
+.nodus-confirma-tarjeta p { margin: 0; font-size: 14px; line-height: 20px; color: #5c5c6b; }
+.nodus-confirma-botones { display: flex; gap: 10px; margin-top: 18px; }
+.nodus-confirma-botones button { flex: 1 1 0; height: 42px; border-radius: 50px; font: 500 15px 'Poppins', sans-serif; cursor: pointer; }
+.nodus-confirma-volver { border: 1px solid #d9d9e2; background: #fff; color: #0047ab; }
+.nodus-confirma-si { border: 0; background: #c0362c; color: #fff; }
+.nodus-confirma-si:disabled { opacity: .6; }
+.nd-pos.nodus-bandeja #vista-carrito-pos > .pv-e8460b2 > #nodus-cancelar-orden { margin-left: auto !important; flex: 0 0 34px !important; width: 34px !important; }
+.nd-pos.nodus-bandeja #vista-carrito-pos > .pv-e8460b2 > #nodus-cancelar-orden + #etiqueta-mesa-actual { margin-left: 4px !important; }

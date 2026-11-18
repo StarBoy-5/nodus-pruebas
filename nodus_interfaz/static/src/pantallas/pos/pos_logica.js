@@ -144,7 +144,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const mq = window.matchMedia('(max-width: 767px)');
   const PEEK_BASE = 80;
   // Bandeja cerrada: el asa y, si hay órdenes de la caja, también su fila de cuadritos (debajo del asa)
-  const PEEK_F = () => { const t = document.querySelector('#nodus-tira-ordenes.con-ordenes'); return PEEK_BASE + (t && sb.contains(t) ? t.offsetHeight + 16 : 0); };
+  const PEEK_F = () => { const t = document.querySelector('#nodus-tira-ordenes.con-ordenes'); return PEEK_BASE + (t && sb.contains(t) ? t.offsetHeight + 12 : 0); };
   let ABAJO = 92;
   const dock = () => document.documentElement.classList.contains('nodus-con-dock');
   let abierta = false, arrastrando = false;
@@ -948,27 +948,39 @@ document.addEventListener("DOMContentLoaded", function () {
         .catch(err => { libre(); mostrarToast(err.message || "No se pudo enviar la comanda.", "error"); });
       return;
     }
-    // Mostrador (sin mesa): solo se manda lo nuevo
+    // Mostrador (sin mesa): a cocina solo va lo que cambió desde la última comanda
+    // (lo agregado como comanda nueva y lo quitado como aviso de cancelación)
     window.hadeonPOS.comandasEnviadas = window.hadeonPOS.comandasEnviadas || {};
     const clave = servicioActual || '_sin_servicio';
     const enviado = window.hadeonPOS.comandasEnviadas[clave] || {};
     const nuevas = carrito.map(i => ({ producto_id: i.id, cantidad: i.cantidad - (enviado[i.id] || 0) })).filter(l => l.cantidad > 0);
-    if (nuevas.length === 0) {
+    const enCarrito = {};
+    carrito.forEach(i => { enCarrito[i.id] = (enCarrito[i.id] || 0) + i.cantidad; });
+    const quitadas = Object.keys(enviado)
+      .map(k => ({ producto_id: parseInt(k, 10), cantidad: enviado[k] - (enCarrito[k] || 0) }))
+      .filter(l => l.cantidad > 0);
+    if (nuevas.length === 0 && quitadas.length === 0) {
       libre();
       mostrarToast("Esa comanda ya estaba en cocina.", "info");
       if (onExito) onExito();
       return;
     }
     window.hadeonPOS.ventaId = window.hadeonPOS.ventaId || (Date.now() + '-' + Math.random().toString(36).slice(2));
-    nodusFetch('/comandas', { method: 'POST', body: {
+    const envios = [];
+    if (nuevas.length) envios.push(nodusFetch('/comandas', { method: 'POST', body: {
       caja_id: cajaIdActual, servicio: servicioActual, lineas: nuevas, nota: window.hadeonPOS.notaPedido || '',
       token: window.hadeonPOS.ventaId + ':' + nuevas.map(l => l.producto_id + 'x' + l.cantidad).join(',')
-    } })
+    } }));
+    if (quitadas.length) envios.push(nodusFetch('/comandas/cancelar', { method: 'POST', body: {
+      caja_id: cajaIdActual, servicio: servicioActual, lineas: quitadas
+    } }));
+    Promise.all(envios)
       .then(() => {
         libre();
-        carrito.forEach(i => { enviado[i.id] = i.cantidad; });
-        window.hadeonPOS.comandasEnviadas[clave] = enviado;
-        mostrarToast("Comanda enviada.", "info");
+        const ahora = {};
+        carrito.forEach(i => { ahora[i.id] = (ahora[i.id] || 0) + i.cantidad; });
+        window.hadeonPOS.comandasEnviadas[clave] = ahora;
+        mostrarToast(!Object.keys(enviado).length ? "Comanda enviada." : nuevas.length ? "Comanda actualizada en cocina." : "Se avisó a cocina lo que se quitó.", "info");
         if (onExito) onExito();
       })
       .catch(err => { libre(); mostrarToast(err.message || "No se pudo enviar la comanda.", "error"); });
@@ -1460,6 +1472,89 @@ document.addEventListener("DOMContentLoaded", function () {
     if (activa && estrecho) tira.scrollLeft = Math.max(0, activa.offsetLeft - 12);
   }
   window.addEventListener('resize', () => renderizarOrdenesAbiertas());
+
+  // ===== Nodus: cancelar la orden abierta (papelera junto a la etiqueta de la orden) =====
+  function cerrarConfirmaCancelar() {
+    const v = document.getElementById('nodus-confirma-cancelar');
+    if (v) v.remove();
+  }
+  function enviadoACocina() {
+    if (mesaIdActual) return obtenerCarritoActual().some(i => i.enviado > 0);
+    const env = (window.hadeonPOS.comandasEnviadas || {})[servicioActual || '_sin_servicio'] || {};
+    return Object.keys(env).some(k => env[k] > 0);
+  }
+  function pedirCancelarOrden() {
+    if (!servicioActual) return;
+    cerrarConfirmaCancelar();
+    const nombre = mesaIdActual ? servicioActual : servicioActual.replace(/^.* \u00b7 (Orden \d+)$/, '$1');
+    const ov = document.createElement('div');
+    ov.id = 'nodus-confirma-cancelar';
+    ov.className = 'nodus-confirma';
+    const t = document.createElement('div');
+    t.className = 'nodus-confirma-tarjeta';
+    t.setAttribute('role', 'alertdialog');
+    t.setAttribute('aria-modal', 'true');
+    const h = document.createElement('h3');
+    h.textContent = '\u00bfCancelar ' + nombre + '?';
+    const p = document.createElement('p');
+    p.textContent = (mesaIdActual ? 'Se vac\u00eda la cuenta y la mesa queda libre.' : 'Se quitan todos sus productos.')
+      + (enviadoACocina() ? ' Lo que ya sali\u00f3 a cocina se avisar\u00e1 como cancelado.' : '');
+    const fila = document.createElement('div');
+    fila.className = 'nodus-confirma-botones';
+    const volver = document.createElement('button');
+    volver.type = 'button'; volver.className = 'nodus-confirma-volver'; volver.textContent = 'Volver';
+    const si = document.createElement('button');
+    si.type = 'button'; si.className = 'nodus-confirma-si'; si.textContent = 'Cancelar orden';
+    volver.addEventListener('click', cerrarConfirmaCancelar);
+    ov.addEventListener('click', e => { if (e.target === ov) cerrarConfirmaCancelar(); });
+    si.addEventListener('click', () => { si.disabled = true; cancelarOrden().finally(cerrarConfirmaCancelar); });
+    fila.appendChild(volver); fila.appendChild(si);
+    t.appendChild(h); t.appendChild(p); t.appendChild(fila); ov.appendChild(t);
+    document.body.appendChild(ov);
+    si.focus();
+  }
+  async function cancelarOrden() {
+    const clave = servicioActual;
+    try {
+      if (mesaIdActual) {
+        await nodusFetch('/cuentas/' + encodeURIComponent(mesaIdActual), { method: 'POST', body: { lineas: [], caja_id: cajaIdActual } });
+      } else {
+        const env = (window.hadeonPOS.comandasEnviadas || {})[clave] || {};
+        const lineas = Object.keys(env).filter(k => env[k] > 0).map(k => ({ producto_id: parseInt(k, 10), cantidad: env[k] }));
+        if (lineas.length) await nodusFetch('/comandas/cancelar', { method: 'POST', body: { servicio: clave, caja_id: cajaIdActual, lineas } });
+      }
+    } catch (err) {
+      mostrarToast(err.message || 'No se pudo cancelar la orden.', 'error');
+      return;
+    }
+    delete carritosPorServicio[clave];
+    if (window.hadeonPOS.comandasEnviadas) delete window.hadeonPOS.comandasEnviadas[clave];
+    guardarCarritos();
+    window.hadeonPOS.notaPedido = '';
+    window.hadeonPOS.propinaPct = 0;
+    window.hadeonPOS.descuentoPct = 0;
+    window.hadeonPOS.ventaId = null;
+    const eraMesa = !!mesaIdActual;
+    servicioActual = null;
+    cajaIdActual = null;
+    mesaIdActual = null;
+    mostrarToast('Orden cancelada.', 'info');
+    irAVista(vista1);
+    if (eraMesa && typeof cargarMesas === 'function') cargarMesas();
+  }
+  (function () {
+    const tag = document.getElementById('etiqueta-mesa-actual');
+    if (!tag || document.getElementById('nodus-cancelar-orden')) return;
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.id = 'nodus-cancelar-orden';
+    b.title = 'Cancelar orden';
+    b.setAttribute('aria-label', 'Cancelar orden');
+    b.innerHTML = '<svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/></svg>';
+    b.addEventListener('click', e => { e.preventDefault(); e.stopPropagation(); pedirCancelarOrden(); });
+    tag.parentNode.insertBefore(b, tag);
+  })();
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') cerrarConfirmaCancelar(); });
 
   function renderizarMesasYCajas() {
     if (!contenedorMesas) return;

@@ -141,6 +141,23 @@ class NodusComandasAPI(http.Controller):
                 "line_ids": [(0, 0, {"producto_id": p.id, "name": f"{int(q) if float(q).is_integer() else q}× {p.display_name}", "qty": 1, "nota": "CANCELADO"})
                              for p, q in lista]})
 
+    @http.route("/nodus/api/v1/comandas/cancelar", type="http", auth="user", methods=["POST"], csrf=False)
+    def cancelar(self, **kw):
+        """Orden de mostrador cancelada: avisa a cocina lo que ya había salido. Cuerpo: servicio, caja_id, lineas."""
+        env, d = request.env, cuerpo()
+        items = []
+        for l in d.get("lineas") or []:
+            try:
+                q = float(l.get("cantidad") or 0)
+                p = env["product.product"].browse(int(l["producto_id"])).exists()
+            except (TypeError, ValueError, KeyError):
+                continue
+            if p and q > 0:
+                items.append((p, q))
+        if items:
+            self._avisar_cancelacion(d.get("servicio"), d.get("caja_id"), items)
+        return ok({"canceladas": len(items)})
+
     # ------------------------------------------------------------------ avanzar
     def _comanda(self, cid):
         return request.env["nodus.comanda"].sudo().search([("id", "=", cid), ("company_id", "=", request.env.company.id)], limit=1)
