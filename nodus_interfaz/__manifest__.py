@@ -19,7 +19,6 @@
         "views/nodus_reportes.xml",
         "views/ui/inventario.xml",
         "views/ui/facturacion.xml",
-        "views/ui/configuracion.xml",
         "views/ui/punto_de_venta.xml",
     ],
     "assets": {
@@ -59,6 +58,10 @@
             "nodus_interfaz/static/src/pantallas/comandas/comandas.scss",
             "nodus_interfaz/static/src/pantallas/comandas/comandas.js",
             "nodus_interfaz/static/src/pantallas/comandas/comandas.xml",
+            "nodus_interfaz/static/src/pantallas/configuracion/configuracion.scss",
+            "nodus_interfaz/static/src/pantallas/configuracion/configuracion_logica.js",
+            "nodus_interfaz/static/src/pantallas/configuracion/configuracion.js",
+            "nodus_interfaz/static/src/pantallas/configuracion/configuracion.xml",
             "nodus_interfaz/static/src/pantallas/contactos/contactos.scss",
             "nodus_interfaz/static/src/pantallas/contactos/contactos_logica.js",
             "nodus_interfaz/static/src/pantallas/contactos/contactos.js",

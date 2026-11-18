@@ -1,0 +1,665 @@
+// Configuración (estilos de Nodus). Todo va dentro de .nd-configuracion para no tocar el resto de Odoo.
+.nd-configuracion {
+
+
+
+
+.config-lista-editable-item select, .nodus-select-cfg { background: #f6f7fb !important; border: 1px solid rgba(217,217,226,.9) !important; border-radius: 10px !important; padding: 9px 12px !important; font: 500 13px 'Inter', sans-serif !important; color: #191b22 !important; outline: none !important; }
+.config-fila-agregar .nodus-select-cfg { flex: 0 0 230px !important; }
+.nodus-input-mini { width: 76px !important; text-align: center !important; background: #f6f7fb !important; border: 1px solid rgba(217,217,226,.9) !important; border-radius: 10px !important; padding: 7px 6px !important; font: 500 12.5px 'Inter', sans-serif !important; outline: none !important; }
+.nodus-controles { display: flex !important; align-items: center !important; gap: 10px !important; flex-wrap: wrap !important; }
+#config-hka .config-form-seccion-titulo { margin-top: 24px !important; }
+#config-hka .config-fila-agregar { margin-top: 8px !important; }
+.nodus-tarjeta { border: 1px solid rgba(217,217,226,.9) !important; border-radius: 14px !important; padding: 8px 16px 16px !important; margin-bottom: 12px !important; text-align: left !important; }
+.nodus-grid { display: grid !important; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)) !important; gap: 12px !important; }
+.nodus-etiqueta { display: flex !important; flex-direction: column !important; gap: 4px !important; font: 600 11.5px 'Inter', sans-serif !important; color: #424654 !important; text-align: left !important; }
+.nodus-grid .nodus-input-mini, .nodus-grid .nodus-select-cfg { width: 100% !important; text-align: left !important; box-sizing: border-box !important; }
+.nodus-etiqueta input[type=checkbox] { width: 18px !important; height: 18px !important; margin: 6px 0 !important; }
+.nodus-fila-info { display: flex !important; align-items: center !important; justify-content: space-between !important; gap: 12px !important; padding: 12px 0 !important; border-bottom: 1px solid rgba(217,217,226,.6) !important; font: 500 13px 'Inter', sans-serif !important; color: #191b22 !important; text-align: left !important; }
+.nodus-fila-info small { display: block !important; color: #6b7280 !important; font-weight: 500 !important; }
+.nodus-fila-info .nodus-controles { display: flex !important; align-items: center !important; gap: 10px !important; flex-wrap: wrap !important; }
+.config-dropzone { cursor: pointer !important; }
+.config-dropzone:hover { border-color: #0047AB !important; }
+.config-ticket-logo-ph img { max-width: 100% !important; max-height: 100% !important; object-fit: contain !important; }
+@media (max-width: 700px) { .config-fila-agregar { flex-wrap: wrap !important; } .config-fila-agregar .nodus-select-cfg { flex: 1 1 100% !important; } }
+
+
+
+
+
+
+  
+
+  #config-app {
+    font-family: 'Inter', sans-serif;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    box-sizing: border-box;
+    color: #1a1a24;
+  }
+  #config-app * { box-sizing: border-box; }
+  #config-app h1, #config-app h2, #config-app h3,
+  #config-app button, #config-app .config-tab-btn { font-family: 'Poppins', sans-serif; }
+
+  /* ===================================================
+     CUERPO: SUBNAV + PANEL
+     =================================================== */
+  .config-cuerpo {
+    display: flex;
+    gap: 16px;
+    flex: 1 1 auto;
+    min-height: 0;
+    align-items: flex-start;
+  }
+
+  .config-subnav {
+    width: 220px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .config-subnav-scroll {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    width: 100%;
+  }
+  .config-subnav-flecha { display: none; }
+  .config-subnav-grupo-titulo {
+    font-size: 12px;
+    font-weight: 600;
+    color: #8d909e;
+    text-transform: none;
+    letter-spacing: 0;
+    margin: 0 0 8px 2px;
+  }
+  .config-subnav-grupo { display: flex; flex-direction: column; gap: 6px; }
+
+  .config-subnav-item {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 8px !important;
+    padding: 10px 12px !important;
+    border-radius: 12px !important;
+    background: #ffffff !important;
+    border: 1px solid rgba(217, 217, 226, 0.5) !important;
+    color: #5c5c6b !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    font-family: 'Poppins', sans-serif !important;
+    cursor: pointer !important;
+    transition: color 0.15s cubic-bezier(.22,1,.36,1), background-color 0.15s cubic-bezier(.22,1,.36,1), border-color 0.15s cubic-bezier(.22,1,.36,1) !important;
+    width: 100% !important;
+    text-align: left !important;
+    box-shadow: none !important;
+    outline: none !important;
+    text-transform: none !important;
+    letter-spacing: normal !important;
+    line-height: normal !important;
+  }
+  .config-subnav-item:hover { border-color: rgba(0, 71, 171, 0.3) !important; color: #1a1a24 !important; background: #ffffff !important; }
+  .config-subnav-item.activo {
+    background: #f0f5ff !important;
+    border-color: rgba(0, 71, 171, 0.35) !important;
+    color: #0047ab !important;
+    font-weight: 600 !important;
+  }
+  .config-subnav-item-left { display: flex; align-items: center; gap: 9px; }
+  .config-subnav-item svg { flex-shrink: 0; width: 16px; height: 16px; opacity: 0.75; }
+  .config-subnav-item.activo svg { opacity: 1; }
+  .config-subnav-badge {
+    font-size: 12px;
+    font-weight: 600;
+    padding: 1px 7px;
+    border-radius: 9999px;
+    background: rgba(217, 217, 226, 0.5);
+    color: #5c5c6b;
+  }
+  .config-subnav-dot { width: 6px; height: 6px; border-radius: 50%; background: #0047ab; flex-shrink: 0; }
+
+  /* ===================================================
+     PANEL DE CONTENIDO
+     =================================================== */
+  .config-panel {
+    background: #ffffff;
+    border-radius: 16px;
+    border: 1px solid rgba(217, 217, 226, 0.3);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    padding: 24px;
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .config-vista { display: none; flex-direction: column; }
+  .config-vista.activa { display: flex; }
+  /* Un hijo directo de un flex container en columna, sin ancho propio,
+     se dimensiona a su contenido (min/max-content) en vez de respetar el
+     ancho real disponible — así fue como la tabla de Usuarios (y su
+     propio overflow:auto, pensado para activar scroll horizontal) y la
+     grilla de "Guía de Roles" terminaron empujando toda la vista más
+     ancha que la pantalla en teléfono, en vez de quedarse contenidas.
+     min-width:0 en TODOS los hijos directos de .config-vista evita que
+     vuelva a pasar con cualquier sección nueva que se agregue. */
+  .config-vista > * { min-width: 0; }
+
+  .config-breadcrumb {
+    font-size: 12px;
+    font-weight: 600;
+    color: #0047ab;
+    text-transform: none;
+    letter-spacing: 0;
+    margin: 0 0 4px 0;
+  }
+  .config-breadcrumb span { color: #c7c9d4; margin: 0 6px; }
+  .config-vista-titulo { font-size: 17px; font-weight: 600; color: #1a1a24; margin: 0 0 4px 0; }
+  .config-vista-desc { font-size: 13px; color: #5c5c6b; margin: 0 0 20px 0; max-width: 620px; line-height: 1.5; }
+
+  .config-btn-outline {
+    display: flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    padding: 9px 16px !important;
+    border-radius: 9999px !important;
+    border: 1px solid rgba(217, 217, 226, 0.8) !important;
+    background: #ffffff !important;
+    color: #5c5c6b !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    font-family: 'Poppins', sans-serif !important;
+    cursor: pointer !important;
+    transition: color 0.15s cubic-bezier(.22,1,.36,1), background-color 0.15s cubic-bezier(.22,1,.36,1), border-color 0.15s cubic-bezier(.22,1,.36,1) !important;
+    white-space: nowrap !important;
+    box-shadow: none !important;
+    outline: none !important;
+    text-transform: none !important;
+    letter-spacing: normal !important;
+    line-height: normal !important;
+  }
+  .config-btn-outline:hover { background: #f3f3fc !important; }
+  .config-btn-primario {
+    display: flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    padding: 9px 18px !important;
+    border-radius: 9999px !important;
+    border: none !important;
+    background: #0047ab !important;
+    color: #ffffff !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    font-family: 'Poppins', sans-serif !important;
+    cursor: pointer !important;
+    transition: color 0.15s cubic-bezier(.22,1,.36,1), background-color 0.15s cubic-bezier(.22,1,.36,1), border-color 0.15s cubic-bezier(.22,1,.36,1) !important;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.08) !important;
+    white-space: nowrap !important;
+    outline: none !important;
+    text-transform: none !important;
+    letter-spacing: normal !important;
+    line-height: normal !important;
+  }
+  .config-btn-primario:hover { background: #003a8c !important; }
+  .config-btn-texto {
+    padding: 9px 16px !important;
+    border-radius: 9999px !important;
+    border: none !important;
+    background: transparent !important;
+    color: #5c5c6b !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    font-family: 'Poppins', sans-serif !important;
+    cursor: pointer !important;
+    box-shadow: none !important;
+    outline: none !important;
+    text-transform: none !important;
+    letter-spacing: normal !important;
+    line-height: normal !important;
+  }
+  .config-btn-texto:hover { color: #1a1a24 !important; }
+
+  /* ---- Tarjeta Identidad Gráfica (Empresa) ---- */
+  .config-card-identidad {
+    background: #fafbfe;
+    border: 1px solid rgba(217, 217, 226, 0.5);
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 24px;
+    display: grid;
+    grid-template-columns: 180px 1fr 190px;
+    gap: 20px;
+    align-items: center;
+  }
+  @media (max-width: 860px) {
+    /* !important: la tarjeta de "Plan de Cuentas" en Contabilidad trae un
+       style="grid-template-columns: 180px 1fr" inline en el HTML (para su
+       distribución particular de 2 columnas en escritorio) — un inline
+       style sin !important le sigue ganando a esta regla aunque esté dentro
+       del media query correcto, así que en teléfono se quedaba fija en
+       180px+1fr y desbordaba la tarjeta entera. */
+    .config-card-identidad { grid-template-columns: 1fr !important; }
+  }
+  .config-dropzone {
+    position: relative;
+    border: 2px dashed rgba(0, 71, 171, 0.35);
+    border-radius: 14px;
+    background: #f0f5ff;
+    padding: 18px;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.15s ease;
+  }
+  .config-dropzone:hover { border-color: #0047ab; }
+  .config-dropzone-icon {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: #ffffff; display: flex; align-items: center; justify-content: center;
+    color: #0047ab; margin: 0 auto 8px auto;
+  }
+  .config-dropzone-titulo { font-size: 12px; font-weight: 600; color: #1a1a24; }
+  .config-dropzone-sub { font-size: 12px; color: #8d909e; margin-top: 2px; }
+
+  .config-identidad-texto h3 { font-size: 13.5px; font-weight: 600; color: #1a1a24; margin: 0 0 6px 0; }
+  .config-identidad-texto p { font-size: 12px; color: #5c5c6b; line-height: 1.5; margin: 0; }
+  .config-chip-info {
+    display: inline-block; font-size: 12px; font-weight: 600; text-transform: none;
+    letter-spacing: 0; padding: 2px 8px; border-radius: 9999px;
+    background: #fff7e6; color: #b8860b; border: 1px solid rgba(184, 134, 11, 0.2); margin-bottom: 6px;
+  }
+
+  .config-ticket-preview {
+    background: #ffffff; border: 1px solid rgba(217, 217, 226, 0.6); border-radius: 12px;
+    padding: 14px; text-align: center;
+  }
+  .config-ticket-preview-label { font-size: 9px; font-weight: 600; text-transform: none; color: #8d909e; margin-bottom: 8px; }
+  .config-ticket-logo-ph {
+    display: inline-block; border: 1px dashed rgba(217, 217, 226, 0.9); border-radius: 8px;
+    padding: 6px 10px; font-size: 12px; font-weight: 600; color: #0047ab; background: #f3f3fc; margin-bottom: 8px;
+  }
+  .config-ticket-preview-empresa { font-size: 12px; font-weight: 600; color: #1a1a24; }
+  .config-ticket-preview-sub { font-size: 9px; color: #8d909e; margin-top: 2px; }
+
+  /* ---- Formulario ---- */
+  .config-form-seccion-titulo {
+    font-size: 12px; font-weight: 600; color: #1a1a24; text-transform: none;
+    letter-spacing: 0; margin: 0 0 14px 0;
+  }
+  .config-form-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 16px 20px;
+  }
+  @media (max-width: 640px) { .config-form-grid { grid-template-columns: 1fr; } }
+  .config-form-grid.full { grid-template-columns: 1fr; margin-top: 16px; }
+  /* Por defecto, un item de grid no se achica más allá del ancho mínimo de
+     su contenido (min-width:auto implícito) — con un <select> que tiene una
+     opción de texto largo ("Ambos — Dólares como principal..."), eso fuerza
+     a toda la columna del grid a ensancharse para no cortar esa opción,
+     empujando el campo (y toda la tarjeta) fuera de la pantalla en
+     teléfono. min-width:0 permite que el item se achique por debajo de ese
+     mínimo de contenido; el propio <select> ya tiene width:100%, así que
+     el texto largo se corta dentro de su caja en vez de desbordar. */
+  .config-campo { min-width: 0; }
+  .config-campo label { display: block; font-size: 12px; font-weight: 600; color: #1a1a24; margin-bottom: 5px; }
+  .config-campo label .req { color: #e1493f; }
+  .config-campo input, .config-campo select {
+    width: 100% !important; background: #f6f7fb !important; border: 1px solid rgba(217, 217, 226, 0.9) !important;
+    border-radius: 12px !important; padding: 10px 13px !important; font-size: 13px !important; color: #1a1a24 !important; font-family: 'Inter', sans-serif !important;
+    outline: none !important; transition: color 0.15s cubic-bezier(.22,1,.36,1), background-color 0.15s cubic-bezier(.22,1,.36,1), border-color 0.15s cubic-bezier(.22,1,.36,1) !important; box-shadow: none !important;
+    pointer-events: auto !important; user-select: text !important; cursor: text !important;
+  }
+  .config-campo input:focus, .config-campo select:focus {
+    background: #ffffff !important; border-color: #0047ab !important; box-shadow: 0 0 0 3px rgba(0,71,171,0.08) !important;
+  }
+  .config-campo input:disabled, .config-campo select:disabled { background: #f0f0f4 !important; color: #8d909e !important; cursor: not-allowed !important; }
+  .config-campo input:read-only {
+    background: #fafbfe !important; color: #1a1a24 !important; cursor: text !important;
+    pointer-events: auto !important; user-select: text !important;
+  }
+  .config-campo input:read-only:focus { background: #ffffff !important; border-color: rgba(217, 217, 226, 0.9) !important; box-shadow: none !important; }
+  .config-campo-help { font-size: 12px; color: #8d909e; margin-top: 4px; display: block; }
+
+  /* ---- Dropdown flotante (mismo sistema que Inventario: hadeonCrearDropdown) ---- */
+  .hadeon-dropdown { position: relative !important; display: inline-block !important; width: 160px !important; }
+  .hadeon-select-oculto { display: none !important; }
+  .hadeon-dropdown-boton {
+    width: 100% !important; box-sizing: border-box !important; background-color: #f6f7fb !important;
+    border: 1px solid rgba(217, 217, 226, 0.9) !important; border-radius: 12px !important; padding: 10px 13px !important;
+    font-size: 13px !important; color: #1a1a24 !important; height: auto !important; outline: none !important;
+    cursor: pointer !important; font-family: 'Inter', sans-serif !important; display: flex !important;
+    align-items: center !important; justify-content: space-between !important; gap: 8px !important; text-align: left !important;
+    transition: color 0.15s cubic-bezier(.22,1,.36,1), background-color 0.15s cubic-bezier(.22,1,.36,1), border-color 0.15s cubic-bezier(.22,1,.36,1) !important;
+  }
+  .hadeon-dropdown-boton:hover, .hadeon-dropdown-boton:active { background-color: #f6f7fb !important; color: #1a1a24 !important; border-color: rgba(217, 217, 226, 0.9) !important; }
+  .hadeon-dropdown-boton span { overflow: hidden !important; text-overflow: ellipsis !important; white-space: nowrap !important; text-align: left !important; }
+  .hadeon-dropdown-boton svg { flex-shrink: 0 !important; transition: transform 0.15s ease !important; }
+  .hadeon-dropdown-boton.abierto svg { transform: rotate(180deg) !important; }
+  .hadeon-dropdown-boton:focus { border-color: #0047ab !important; box-shadow: 0 0 0 3px rgba(0,71,171,0.08) !important; }
+  .hadeon-dropdown-panel {
+    position: absolute; top: calc(100% + 8px); left: 0; z-index: 100001 !important;
+    background: #ffffff !important; border: 1px solid rgba(217, 217, 226, 0.6) !important; border-radius: 16px !important;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12) !important; padding: 8px !important; min-width: 100%;
+    width: max-content !important; max-width: 240px !important; max-height: 260px !important; overflow-y: auto !important;
+    box-sizing: border-box !important; font-family: 'Inter', sans-serif !important; transform-origin: top left !important;
+    transform: scale(0.92) !important; opacity: 0 !important; pointer-events: none !important;
+    transition: transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.15s ease !important;
+  }
+  .hadeon-dropdown-panel { scrollbar-width: auto;  }
+  .hadeon-dropdown-panel::-webkit-scrollbar { width: 6px; height: 6px; }
+  .hadeon-dropdown-panel::-webkit-scrollbar-track { background: transparent; }
+  .hadeon-dropdown-panel::-webkit-scrollbar-thumb { background: #0047ab; border-radius: 10px; }
+  .hadeon-dropdown-panel.abierto { transform: scale(1) !important; opacity: 1 !important; pointer-events: auto !important; }
+  .hadeon-dropdown-opcion {
+    padding: 8px 10px !important; border-radius: 8px !important; font-size: 13px !important; color: #1a1a24 !important;
+    cursor: pointer !important; white-space: nowrap !important; text-align: left !important;
+  }
+  .hadeon-dropdown-opcion:hover { background: #f3f3fc !important; }
+  .hadeon-dropdown-opcion.seleccionada { background: #0047ab !important; color: #ffffff !important; font-weight: 600 !important; }
+  .config-campo .hadeon-dropdown { width: 100% !important; }
+  .config-tabla td .hadeon-dropdown { width: 100% !important; max-width: 170px !important; }
+  .config-tabla td .hadeon-dropdown-boton { font-size: 12px !important; padding: 7px 10px !important; border-radius: 10px !important; }
+
+  /* ---- Toggle (flags del módulo POS) ---- */
+  .config-toggle-row {
+    display: flex; align-items: flex-start; justify-content: space-between; gap: 16px;
+    padding: 16px 0; border-bottom: 1px solid rgba(217, 217, 226, 0.4);
+  }
+  .config-toggle-row:last-child { border-bottom: none; }
+  .config-toggle-texto h4 { font-size: 13px; font-weight: 600; color: #1a1a24; margin: 0 0 3px 0; }
+  .config-toggle-texto p { font-size: 12px; color: #5c5c6b; margin: 0; max-width: 460px; line-height: 1.5; }
+  .config-toggle-texto .config-soon {
+    display: inline-block; font-size: 9px; font-weight: 600; text-transform: none;
+    background: #f3f3fc; color: #8d909e; padding: 1px 7px; border-radius: 9999px; margin-left: 6px;
+  }
+  .config-switch { position: relative; width: 42px; height: 24px; flex-shrink: 0; }
+  .config-switch input { opacity: 0; width: 0; height: 0; }
+  .config-switch-track {
+    position: absolute; cursor: pointer; inset: 0; background: #d9d9e2; border-radius: 9999px; transition: 0.2s;
+  }
+  .config-switch-track::before {
+    content: ""; position: absolute; height: 18px; width: 18px; left: 3px; top: 3px;
+    background: #ffffff; border-radius: 50%; transition: 0.2s; box-shadow: 0 1px 2px rgba(0,0,0,0.15);
+  }
+  .config-switch input:checked + .config-switch-track { background: #0047ab; }
+  .config-switch input:checked + .config-switch-track::before { transform: translateX(18px); }
+  .config-switch input:disabled + .config-switch-track { background: #e8e9f0; cursor: not-allowed; }
+
+  /* ---- Usuarios: toolbar + tabla ---- */
+  .config-toolbar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 18px; }
+  .config-buscador { position: relative; width: 260px; max-width: 100%; }
+  .config-buscador svg { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #8d909e; pointer-events: none !important; }
+  .config-buscador input {
+    width: 100% !important; background: #f6f7fb !important; border: 1px solid rgba(217,217,226,0.9) !important; border-radius: 9999px !important;
+    padding: 9px 14px 9px 34px !important; font-size: 12px !important; outline: none !important; font-family: 'Inter', sans-serif !important;
+    box-shadow: none !important; pointer-events: auto !important; user-select: text !important; cursor: text !important;
+  }
+  .config-filtros { display: flex; align-items: center; gap: 6px; font-size: 12px; flex-wrap: wrap; }
+  .config-filtros span { color: #8d909e; font-weight: 500; margin-right: 4px; }
+  .config-filtro-pill {
+    padding: 6px 14px !important; border-radius: 9999px !important; background: rgba(217,217,226,0.4) !important; color: #5c5c6b !important;
+    font-weight: 500 !important; font-size: 12px !important; font-family: 'Inter', sans-serif !important; border: none !important; cursor: pointer !important; transition: color 0.15s cubic-bezier(.22,1,.36,1), background-color 0.15s cubic-bezier(.22,1,.36,1), border-color 0.15s cubic-bezier(.22,1,.36,1) !important;
+    box-shadow: none !important; outline: none !important; text-transform: none !important; letter-spacing: normal !important; line-height: normal !important;
+  }
+  .config-filtro-pill.activo { background: #0047ab !important; color: #ffffff !important; }
+  .config-filtro-pill:hover:not(.activo) { background: rgba(217,217,226,0.7) !important; }
+
+  .config-tabla-wrap {
+    /* overflow-x era "hidden": con la tabla más ancha que la tarjeta (rol,
+       acciones, etc. no entran en teléfono) eso recortaba columnas enteras
+       sin ninguna forma de llegar a verlas — mismo bug que tenía la tabla
+       de Contactos. auto en los dos ejes deja deslizar horizontal cuando
+       no entra. */
+    overflow: auto !important; margin-bottom: 20px !important;
+    border: 1px solid rgba(217,217,226,0.5) !important; border-radius: 14px !important;
+    box-shadow: none !important; outline: none !important; -webkit-overflow-scrolling: touch !important;
+    /* .config-vista es flex-direction:column — sin un ancho explícito,
+       un hijo flex se dimensiona a su contenido (acá, la tabla con
+       min-width:560px de más abajo), así que ESTE wrapper terminaba
+       creciendo a 560px+ en vez de quedarse en el ancho de la tarjeta y
+       dejar que su propio overflow:auto hiciera el trabajo — el "scroll"
+       nunca se activaba porque nunca había nada más angosto que el
+       contenido que lo forzara. width:100% + min-width:0 lo fuerza a
+       respetar el ancho real disponible. */
+    width: 100% !important; min-width: 0 !important; box-sizing: border-box !important;
+  }
+  .config-tabla-wrap { scrollbar-width: auto;  }
+  .config-tabla-wrap::-webkit-scrollbar { width: 6px; height: 6px; }
+  .config-tabla-wrap::-webkit-scrollbar-track { background: transparent; }
+  .config-tabla-wrap::-webkit-scrollbar-thumb { background: #0047ab; border-radius: 10px; }
+  .config-tabla-wrap:active { cursor: grabbing; }
+  table.config-tabla, table.config-tabla thead, table.config-tabla tbody, table.config-tabla tr, table.config-tabla th, table.config-tabla td {
+    border: none !important; outline: none !important; box-shadow: none !important;
+  }
+  table.config-tabla { width: 100% !important; border-collapse: collapse !important; table-layout: fixed !important; }
+  /* En teléfono, table-layout:fixed + columnas por porcentaje (ver los
+     <colgroup> de Usuarios y Categorías) aprietan celdas con contenido
+     rico (avatar+nombre+badge+correo, o un <select> de rol) a un ancho
+     inservible — el texto queda truncado a 2-3 letras aunque la tabla en
+     sí no se salga de la tarjeta. Mejor dejar que cada columna mida lo
+     que necesita (table-layout:auto + un ancho mínimo razonable) y que
+     sea la tarjeta (.config-tabla-wrap, ya con overflow:auto) la que
+     deslice horizontal — mismo patrón que las tablas de Facturación. */
+  @media (max-width: 640px) {
+    table.config-tabla { table-layout: auto !important; min-width: 560px !important; }
+  }
+  .config-tabla thead th, .config-tabla tbody td { overflow: hidden !important; text-overflow: ellipsis !important; }
+  .config-tabla thead th {
+    text-align: left !important; font-size: 12px !important; font-weight: 600 !important; text-transform: none !important;
+    letter-spacing: 0 !important; color: #8d909e !important; padding: 10px 8px !important;
+    border-bottom: 1px solid rgba(217,217,226,0.5) !important;
+  }
+  .config-tabla tbody td { padding: 12px 8px !important; border-bottom: 1px solid rgba(217,217,226,0.35) !important; font-size: 13px !important; vertical-align: middle !important; text-align: left !important; }
+  .config-tabla tbody tr:last-child td { border-bottom: none !important; }
+  .config-tabla tbody tr:hover { background: #fafbfe !important; }
+  .config-usuario-cell { display: flex; align-items: center; gap: 10px; }
+  .config-avatar {
+    width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    font-weight: 600; font-size: 12px; flex-shrink: 0;
+  }
+  .config-usuario-nombre { font-weight: 600; color: #1a1a24; display: flex; align-items: center; gap: 6px; }
+  .config-usuario-email { font-size: 12px; color: #8d909e; }
+  .config-badge {
+    font-size: 12px; font-weight: 600; padding: 2px 7px; border-radius: 6px; white-space: nowrap;
+  }
+  .config-badge.propietario { background: #f0f5ff; color: #0047ab; border: 1px solid rgba(0,71,171,0.15); }
+  .config-badge.activo { background: #ecfdf5; color: #059669; border: 1px solid rgba(5,150,105,0.15); }
+  .config-badge.invitado { background: #fff7e6; color: #b8860b; border: 1px solid rgba(184,134,11,0.2); }
+  .config-badge.inactivo { background: #f3f3fc; color: #8d909e; border: 1px solid rgba(141,144,158,0.15); }
+  .config-tabla select {
+    width: 100% !important; max-width: 170px !important; background: #f6f7fb !important; border: 1px solid rgba(217,217,226,0.9) !important;
+    border-radius: 10px !important; padding: 7px 10px !important; font-size: 12px !important; color: #1a1a24 !important; font-family: 'Inter', sans-serif !important; outline: none !important;
+    box-shadow: none !important; pointer-events: auto !important; cursor: pointer !important;
+  }
+  .config-tabla select:focus { border-color: #0047ab !important; }
+
+  .config-guia-roles {
+    background: #f6f7fb; border-radius: 14px; padding: 18px; border: 1px solid rgba(217,217,226,0.5);
+  }
+  .config-guia-roles-titulo { display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 600;
+    text-transform: none; color: #1a1a24; margin-bottom: 14px; }
+  .config-guia-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; }
+  @media (max-width: 760px) { .config-guia-grid { grid-template-columns: 1fr; } }
+  .config-guia-card { background: #ffffff; border: 1px solid rgba(217,217,226,0.5); border-radius: 12px; padding: 13px; }
+  .config-guia-card-titulo { display: flex; align-items: center; gap: 7px; font-size: 12px; font-weight: 600; color: #1a1a24; margin-bottom: 6px; }
+  .config-guia-card p { font-size: 12px; color: #5c5c6b; line-height: 1.6; margin: 0; }
+  .config-guia-card strong { color: #1a1a24; }
+
+  /* ---- Inventario: listas editables (columnas de precio, categorías) ---- */
+  .config-lista-editable { display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px; min-width: 0; }
+  .config-lista-editable-item {
+    display: flex; align-items: center; justify-content: space-between; gap: 10px;
+    padding: 9px 8px 9px 14px; background: #f6f7fb; border: 1px solid rgba(217,217,226,0.7);
+    border-radius: 12px; font-size: 13px; font-weight: 500; color: #1a1a24;
+    min-width: 0; box-sizing: border-box;
+  }
+  .config-lista-editable-item input[type="text"] {
+    /* min-width:0 !important — mismo motivo que .config-campo: sin esto, un
+       nombre de mesa/categoría largo escrito por el usuario puede forzar
+       que toda la fila (y la tarjeta) se desborde en vez de que el texto
+       simplemente haga scroll dentro de su propio input. */
+    flex: 1 !important; min-width: 0 !important; background: transparent !important; border: none !important; font-size: 13px !important; font-weight: 500 !important;
+    color: #1a1a24 !important; outline: none !important; font-family: 'Inter', sans-serif !important; padding: 4px 0 !important;
+    box-shadow: none !important; pointer-events: auto !important; user-select: text !important; cursor: text !important;
+  }
+  .config-item-acciones { display: flex !important; align-items: center !important; justify-content: flex-end !important; gap: 2px !important; flex-shrink: 0 !important; }
+  #config-tabla-categorias td:last-child, #config-tabla-categorias th:last-child { text-align: right !important; }
+  #config-tabla-categorias td:nth-child(2), #config-tabla-categorias th:nth-child(2) { text-align: center !important; }
+  .config-icon-btn {
+    width: 28px !important; height: 28px !important; border-radius: 8px !important; border: none !important; background: transparent !important;
+    color: #8d909e !important; display: flex !important; align-items: center !important; justify-content: center !important; cursor: pointer !important; transition: color 0.15s cubic-bezier(.22,1,.36,1), background-color 0.15s cubic-bezier(.22,1,.36,1), border-color 0.15s cubic-bezier(.22,1,.36,1) !important;
+    box-shadow: none !important; outline: none !important; padding: 0 !important;
+  }
+  .config-icon-btn:hover { background: #e9ebf5 !important; color: #1a1a24 !important; }
+  .config-icon-btn.peligro:hover { background: #fde8e8 !important; color: #dc2626 !important; }
+  .config-fila-agregar { display: flex; gap: 8px; margin-bottom: 6px; min-width: 0; }
+  .config-fila-agregar input {
+    /* min-width:0 !important — un <input type="text"> de ancho por defecto
+       (~170-190px en la mayoría de navegadores) no se achica solo por
+       tener flex:1 en teléfono; sin min-width:0 el input se queda con su
+       ancho mínimo intrínseco y empuja a "Agregar mesa"/"Agregar columna"
+       fuera de la tarjeta en vez de compartir el espacio disponible. */
+    flex: 1 !important; min-width: 0 !important; background: #f6f7fb !important; border: 1px solid rgba(217,217,226,0.9) !important; border-radius: 10px !important;
+    padding: 9px 12px !important; font-size: 13px !important; font-family: 'Inter', sans-serif !important; outline: none !important; transition: color 0.15s cubic-bezier(.22,1,.36,1), background-color 0.15s cubic-bezier(.22,1,.36,1), border-color 0.15s cubic-bezier(.22,1,.36,1) !important;
+    box-shadow: none !important; pointer-events: auto !important; user-select: text !important; cursor: text !important; color: #1a1a24 !important;
+  }
+  .config-fila-agregar input:focus { border-color: #0047ab !important; background: #ffffff !important; }
+  .config-fila-agregar .config-btn-outline { flex-shrink: 0 !important; }
+  .config-nota-vinculo {
+    display: flex; align-items: center; gap: 7px; font-size: 12px; color: #8d909e;
+    background: #f6f7fb; border-radius: 10px; padding: 8px 12px; margin-bottom: 18px;
+  }
+  .config-nota-vinculo svg { flex-shrink: 0; color: #0047ab; }
+
+  /* ---- Footer de acciones ---- */
+  .config-footer {
+    margin-top: 24px; padding-top: 18px; border-top: 1px solid rgba(217,217,226,0.4);
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px;
+  }
+  .config-footer-audit { display: flex; align-items: center; gap: 7px; font-size: 12px; color: #8d909e; }
+  .config-footer-audit strong { color: #5c5c6b; font-weight: 600; }
+  .config-footer-botones { display: flex; align-items: center; gap: 10px; }
+
+  /* ---- Toast propio de esta página ---- */
+  .config-toast-host {
+    position: fixed; bottom: 20px; right: 20px; z-index: 300000;
+    display: flex; flex-direction: column; gap: 8px; pointer-events: none;
+  }
+  .config-toast {
+    background: #1a1a24; color: #ffffff; font-size: 13px; font-weight: 500;
+    padding: 11px 16px; border-radius: 10px; box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    max-width: 320px; opacity: 0; transform: translateY(8px); transition: color 0.2s cubic-bezier(.22,1,.36,1), background-color 0.2s cubic-bezier(.22,1,.36,1), border-color 0.2s cubic-bezier(.22,1,.36,1);
+  }
+  .config-toast.visible { opacity: 1; transform: translateY(0); }
+  .config-toast.error { background: #dc2626; }
+  .config-toast.info { background: #0047ab; }
+
+  /* ---- Modal "Invitar Usuario" ---- */
+  .config-modal-overlay {
+    position: fixed; inset: 0; background: rgba(26,26,36,0.45); backdrop-filter: blur(2px);
+    display: none; align-items: center; justify-content: center; z-index: 100000; padding: 20px;
+  }
+  .config-modal-overlay.activo { display: flex; }
+  .config-modal-overlay, .config-modal-overlay * { box-sizing: border-box; font-family: 'Inter', sans-serif; }
+  .config-modal-overlay button { font-family: 'Poppins', sans-serif; }
+  .config-modal {
+    background: #ffffff; border-radius: 18px; width: 100%; max-width: 440px;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.2); overflow: hidden;
+  }
+  .config-modal-header {
+    display: flex; align-items: flex-start; justify-content: space-between; gap: 12px;
+    padding: 20px 22px; border-bottom: 1px solid rgba(217,217,226,0.5);
+  }
+  .config-modal-titulo { font-size: 16px; font-weight: 600; color: #1a1a24; margin: 0 0 2px 0; }
+  .config-modal-sub { font-size: 12px; color: #5c5c6b; margin: 0; }
+  .config-modal-cerrar {
+    width: 32px !important; height: 32px !important; border-radius: 9999px !important; border: none !important;
+    background: #f3f3fc !important; color: #5c5c6b !important; display: flex !important; align-items: center !important;
+    justify-content: center !important; cursor: pointer !important; flex-shrink: 0 !important; transition: color .15s cubic-bezier(.22,1,.36,1), background-color .15s cubic-bezier(.22,1,.36,1), border-color .15s cubic-bezier(.22,1,.36,1) !important;
+    box-shadow: none !important; outline: none !important; padding: 0 !important;
+  }
+  .config-modal-cerrar:hover { background: #e9ebf5 !important; color: #1a1a24 !important; }
+  .config-modal-body { padding: 20px 22px; display: flex; flex-direction: column; gap: 16px; }
+  .config-modal-footer {
+    padding: 16px 22px; border-top: 1px solid rgba(217,217,226,0.5);
+    display: flex; align-items: center; justify-content: flex-end; gap: 10px;
+  }
+
+  /* ===================================================
+     RESPONSIVE — subnav colapsa a fila horizontal en móvil
+     =================================================== */
+  @media (max-width: 860px) {
+    /* La causa raíz real de todo el desborde en móvil de esta página:
+       .config-cuerpo tiene align-items:flex-start a nivel base (para que
+       el sidebar de escritorio no se estire a la altura del panel) — eso
+       nunca se resetea acá. Con flex-direction:column, align-items pasa
+       a controlar el ANCHO (eje cruzado) en vez de la altura, y
+       flex-start le dice a .config-panel "mídete a tu contenido" en vez
+       de estirarte al ancho disponible — por eso el panel (y todo lo de
+       adentro: tabla de Usuarios, tarjeta de Plan de Cuentas, etc.) se
+       ensanchaba a su tamaño natural sin importar cuántos min-width:0 se
+       agregaran más abajo en la cadena. stretch es el valor por defecto;
+       alcanza con dejar de pisarlo acá. */
+    .config-cuerpo { flex-direction: column; min-width: 0; align-items: stretch; }
+    .config-subnav {
+      width: 100%; min-width: 0; flex-direction: row; align-items: center; gap: 4px;
+    }
+    .config-subnav-scroll {
+      flex-direction: row; flex: 1 1 auto; min-width: 0; gap: 10px;
+      overflow-x: auto; overflow-y: hidden; padding: 2px 2px;
+      scrollbar-width: none; -ms-overflow-style: none;
+      scroll-behavior: smooth;
+    }
+    .config-subnav-scroll::-webkit-scrollbar { display: none; }
+    .config-subnav-grupo { flex-direction: row; flex-wrap: nowrap; flex: 0 0 auto; min-width: 0; }
+    .config-subnav-grupo-titulo { display: none; }
+    .config-subnav-item {
+      width: auto !important;
+      flex: 0 0 auto !important;
+      white-space: nowrap !important;
+      border-radius: 9999px !important;
+      padding: 9px 16px !important;
+    }
+    .config-subnav-item-left { gap: 7px; }
+
+    /* Flechitas: mismo patrón que las pestañas de Contabilidad / el
+       filtro de categorías del POS — solo aparecen cuando de verdad
+       hay hacia dónde deslizar (calculado por JS), invisibles si
+       todos los chips ya caben en pantalla. */
+    .config-subnav.tiene-desborde .config-subnav-flecha {
+      flex: 0 0 auto;
+      align-self: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 0;
+      height: 0;
+      overflow: hidden;
+      background: none !important;
+      border: none !important;
+      border-radius: 50%;
+      padding: 0;
+      cursor: pointer;
+      color: #9ca3af;
+      outline: none !important;
+      -webkit-tap-highlight-color: transparent;
+      transition: width 0.2s ease, height 0.2s ease, color 0.15s ease, background-color 0.15s ease;
+    }
+    .config-subnav.tiene-desborde .config-subnav-flecha.visible { width: 24px; height: 24px; }
+    .config-subnav.tiene-desborde .config-subnav-flecha:hover { color: #ffffff !important; background-color: #0047ab !important; }
+    .config-subnav.tiene-desborde .config-subnav-flecha:focus:not(:hover) { background-color: transparent !important; color: #9ca3af !important; }
+    .config-subnav-flecha svg { flex-shrink: 0; }
+  }
+  @media (max-width: 640px) {
+    .config-card-identidad { padding: 16px; }
+    .config-footer { flex-direction: column; align-items: flex-start; }
+  }
+
+
+}
+
+/* Teléfono: menos relleno anidado para aprovechar el ancho */
+@media (max-width: 767px) {
+  .nd-configuracion .config-panel { padding-left: 12px !important; padding-right: 12px !important; }
+  .nd-configuracion .config-vista-titulo, .nd-configuracion .config-vista-desc { padding-left: 2px !important; padding-right: 2px !important; }
+}
+
+/* Pulido: aire entre el encabezado del panel y su contenido */
+.nd-configuracion .config-vista-titulo { margin-top: 8px !important; }
+.nd-configuracion .config-vista-desc { margin-top: 4px !important; margin-bottom: 24px !important; }

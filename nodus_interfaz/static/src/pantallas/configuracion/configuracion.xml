@@ -1,0 +1,595 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="nodus_interfaz.Configuracion">
+        <div class="o_action nd-pant nd-configuracion" t-ref="raiz">
+            <div class="nd-pant-cuerpo">
+                <header class="nd-pant-cab">
+                    <h1 class="nd-pant-titulo">Configuración</h1>
+                    <p class="nd-pant-sub">Control transversal de negocio, accesos multi-rol y directivas operativas de sucursales</p>
+                </header>
+                <div class="nd-pant-app">
+<div id="config-app">
+
+  <div class="config-cuerpo">
+
+    <nav class="config-subnav">
+      <button id="config-subnav-scroll-izq" class="config-subnav-flecha" type="button" aria-label="Desplazar izquierda">
+        <svg width="18" height="18" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <div class="config-subnav-scroll" id="config-subnav-scroll">
+      <div class="config-subnav-grupo">
+        <p class="config-subnav-grupo-titulo">Configuración transversal</p>
+        <button class="config-subnav-item activo" data-config-vista="empresa" type="button">
+          <span class="config-subnav-item-left">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="9" y1="6" x2="15" y2="6"/><line x1="9" y1="10" x2="15" y2="10"/><line x1="9" y1="14" x2="15" y2="14"/></svg>
+            Empresa
+          </span>
+          <span class="config-subnav-dot"/>
+        </button>
+        <button class="config-subnav-item" data-config-vista="usuarios" type="button">
+          <span class="config-subnav-item-left">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            Usuarios
+          </span>
+          <span class="config-subnav-badge" id="config-badge-usuarios">4</span>
+        </button>
+        <button class="config-subnav-item" data-config-vista="facturacion" type="button">
+          <span class="config-subnav-item-left">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="5" width="20" height="14" rx="2"></rect><line x1="2" y1="10" x2="22" y2="10"></line><line x1="6" y1="15" x2="10" y2="15"></line></svg>
+            Facturación y pagos
+          </span>
+        </button>
+      </div>
+      <div class="config-subnav-grupo">
+        <p class="config-subnav-grupo-titulo">Por módulos</p>
+        <button class="config-subnav-item" data-config-vista="pos" type="button">
+          <span class="config-subnav-item-left">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="4" width="20" height="16" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+            Punto de Venta
+          </span>
+        </button>
+        <button class="config-subnav-item" data-config-vista="inventario" type="button">
+          <span class="config-subnav-item-left">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            Inventario
+          </span>
+        </button>
+        <button class="config-subnav-item" data-config-vista="contabilidad" type="button">
+          <span class="config-subnav-item-left">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+            Contabilidad
+          </span>
+        </button>
+        <button class="config-subnav-item" data-config-vista="comandas" type="button">
+          <span class="config-subnav-item-left">
+            <svg viewBox="0 0 12 14" fill="currentColor"><path d="M2 13.3333C1.44444 13.3333 0.972222 13.1389 0.583333 12.75C0.194444 12.3611 0 11.8889 0 11.3333V9.33333H2V0L3 1L4 0L5 1L6 0L7 1L8 0L9 1L10 0L11 1L12 0V11.3333C12 11.8889 11.8056 12.3611 11.4167 12.75C11.0278 13.1389 10.5556 13.3333 10 13.3333H2V13.3333M10 12C10.1889 12 10.3472 11.9361 10.475 11.8083C10.6028 11.6806 10.6667 11.5222 10.6667 11.3333V2H3.33333V9.33333H9.33333V11.3333C9.33333 11.5222 9.39722 11.6806 9.525 11.8083C9.65278 11.9361 9.81111 12 10 12V12M4 4.66667V3.33333H8V4.66667H4V4.66667M4 6.66667V5.33333H8V6.66667H4V6.66667M9.33333 4.66667C9.14444 4.66667 8.98611 4.60278 8.85833 4.475C8.73056 4.34722 8.66667 4.18889 8.66667 4C8.66667 3.81111 8.73056 3.65278 8.85833 3.525C8.98611 3.39722 9.14444 3.33333 9.33333 3.33333C9.52222 3.33333 9.68056 3.39722 9.80833 3.525C9.93611 3.65278 10 3.81111 10 4C10 4.18889 9.93611 4.34722 9.80833 4.475C9.68056 4.60278 9.52222 4.66667 9.33333 4.66667V4.66667M9.33333 6.66667C9.14444 6.66667 8.98611 6.60278 8.85833 6.475C8.73056 6.34722 8.66667 6.18889 8.66667 6C8.66667 5.81111 8.73056 5.65278 8.85833 5.525C8.98611 5.39722 9.14444 5.33333 9.33333 5.33333C9.52222 5.33333 9.68056 5.39722 9.80833 5.525C9.93611 5.65278 10 5.81111 10 6C10 6.18889 9.93611 6.34722 9.80833 6.475C9.68056 6.60278 9.52222 6.66667 9.33333 6.66667V6.66667M2 12H8V10.6667H1.33333V11.3333C1.33333 11.5222 1.39722 11.6806 1.525 11.8083C1.65278 11.9361 1.81111 12 2 12V12M1.33333 12C1.33333 12 1.33333 11.9361 1.33333 11.8083C1.33333 11.6806 1.33333 11.5222 1.33333 11.3333V10.6667V10.6667V12V12V12"/></svg>
+            Comandas
+          </span>
+        </button>
+      </div>
+      </div>
+      <button id="config-subnav-scroll-der" class="config-subnav-flecha" type="button" aria-label="Desplazar derecha">
+        <svg width="18" height="18" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+    </nav>
+
+    <div class="config-panel">
+
+      <!-- VISTA: EMPRESA -->
+      <div class="config-vista activa" id="config-vista-empresa">
+        <p class="config-breadcrumb">Configuración transversal <span>•</span> Perfil fiscal</p>
+        <h3 class="config-vista-titulo">Datos globales de la empresa</h3>
+        <p class="config-vista-desc">Esta información se refleja de inmediato en los encabezados de facturas, cotizaciones y comprobantes contables.</p>
+
+        <div class="config-card-identidad">
+          <div class="config-dropzone" id="config-dropzone-logo">
+            <div class="config-dropzone-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+            </div>
+            <div class="config-dropzone-titulo">Logo de la empresa</div>
+            <div class="config-dropzone-sub" id="config-empresa-logo-estado">Toca para subir tu logo</div>
+          </div>
+          <div class="config-identidad-texto">
+            <span class="config-chip-info">Vinculado al punto de venta</span>
+            <h3>Identidad gráfica y membrete</h3>
+            <p>El ticket de venta tiene un espacio reservado para el logo. Sube aquí una imagen (PNG o JPG, hasta 2 MB) y saldrá en tickets, facturas y documentos.</p>
+          </div>
+          <div class="config-ticket-preview">
+            <div class="config-ticket-preview-label">Vista previa del ticket</div>
+            <div class="config-ticket-logo-ph">LOGO</div>
+            <div class="config-ticket-preview-empresa" id="config-ticket-nombre">—</div>
+            <div class="config-ticket-preview-sub" id="config-ticket-rif">—</div>
+          </div>
+        </div>
+
+        <p class="config-form-seccion-titulo">Información fiscal y operativa</p>
+        <div class="config-form-grid">
+          <div class="config-campo">
+            <label>Razón social</label>
+            <input type="text" id="config-campo-nombre"/>
+            <span class="config-campo-help">Aparece en el encabezado legal de libros contables y reportes.</span>
+          </div>
+          <div class="config-campo">
+            <label>RIF</label>
+            <input type="text" id="config-campo-rif"/>
+            <span class="config-campo-help">Identificación tributaria obligatoria para facturación electrónica.</span>
+          </div>
+          <div class="config-campo">
+            <label>Teléfono principal</label>
+            <input type="text" id="config-campo-telefono"/>
+            <span class="config-campo-help">Impreso en el pie de página de facturas para atención al cliente.</span>
+          </div>
+          <div class="config-campo">
+            <label>Moneda principal</label>
+            <select id="config-campo-moneda">
+              <option value="usd">Dólar (USD)</option>
+              <option value="ves">Bolívar (VES)</option>
+              <option value="eur">Euro (EUR)</option>
+            </select>
+            <span class="config-campo-help">Define los balances del Libro Mayor y precios del POS. Se fija al crear la empresa; para cambiarla escribe a soporte.</span>
+          </div>
+        </div>
+        <div class="config-form-grid full">
+          <div class="config-campo">
+            <label>Dirección fiscal completa</label>
+            <input type="text" id="config-campo-direccion"/>
+            <span class="config-campo-help">Texto continuo obligatorio para las resoluciones del ente recaudador.</span>
+          </div>
+        </div>
+
+        <div class="config-footer">
+          <div class="config-footer-audit">
+            <svg xmlns="http://www.w3.org/2000/svg" width="11" height="14" viewBox="0 0 11 14" fill="none"><path d="M4.63333 9.03333L8.4 5.26667L7.45 4.31667L4.63333 7.13333L3.23333 5.73333L2.28333 6.68333L4.63333 9.03333ZM5.33333 13.3333C3.78889 12.9444 2.51389 12.0583 1.50833 10.675C0.502778 9.29167 0 7.75556 0 6.06667V2L5.33333 0L10.6667 2V6.06667C10.6667 7.75556 10.1639 9.29167 9.15833 10.675C8.15278 12.0583 6.87778 12.9444 5.33333 13.3333ZM5.33333 11.9333C6.48889 11.5667 7.44444 10.8333 8.2 9.73333C8.95555 8.63333 9.33333 7.41111 9.33333 6.06667V2.91667L5.33333 1.41667L1.33333 2.91667V6.06667C1.33333 7.41111 1.71111 8.63333 2.46667 9.73333C3.22222 10.8333 4.17778 11.5667 5.33333 11.9333Z" fill="currentColor"/></svg>
+            <span id="config-empresa-origen">Leído de NODUS</span>
+          </div>
+          <div class="config-footer-botones">
+            <button class="config-btn-primario" type="button" id="config-btn-guardar-empresa">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              Guardar empresa
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- VISTA: USUARIOS -->
+      <div class="config-vista" id="config-vista-usuarios">
+        <p class="config-breadcrumb">Configuración transversal <span>•</span> Seguridad y accesos</p>
+        <h3 class="config-vista-titulo">Usuarios y roles </h3>
+        <p class="config-vista-desc">Control de accesos por rol: Cajero, Supervisor, Contador o Administrador de la empresa.</p>
+
+        <div class="config-toolbar">
+          <div class="config-buscador">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" id="config-usuarios-buscar" placeholder="Buscar por nombre o correo..."/>
+          </div>
+          <div class="config-filtros" id="config-usuarios-filtros">
+            <span>Filtrar:</span>
+            <button class="config-filtro-pill activo" data-filtro="todos" type="button">Todos</button>
+            <button class="config-filtro-pill" data-filtro="activos" type="button">Activos</button>
+            <button class="config-filtro-pill" data-filtro="desactivados" type="button">Desactivados</button>
+          </div>
+          <span id="config-usuarios-cupo" class="config-campo-help" style="margin-left:auto;white-space:nowrap;"/>
+          <button class="config-btn-primario" type="button" id="config-btn-invitar-usuario">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="12" viewBox="0 0 17 12" fill="currentColor"><path d="M12.75 7.5V5.25H10.5V3.75H12.75V1.5H14.25V3.75H16.5V5.25H14.25V7.5H12.75ZM6 6C5.175 6 4.46875 5.70625 3.88125 5.11875C3.29375 4.53125 3 3.825 3 3C3 2.175 3.29375 1.46875 3.88125 0.88125C4.46875 0.29375 5.175 0 6 0C6.825 0 7.53125 0.29375 8.11875 0.88125C8.70625 1.46875 9 2.175 9 3C9 3.825 8.70625 4.53125 8.11875 5.11875C7.53125 5.70625 6.825 6 6 6ZM0 12V9.9C0 9.475 0.109375 9.08437 0.328125 8.72812C0.546875 8.37187 0.8375 8.1 1.2 7.9125C1.975 7.525 2.7625 7.23438 3.5625 7.04063C4.3625 6.84688 5.175 6.75 6 6.75C6.825 6.75 7.6375 6.84688 8.4375 7.04063C9.2375 7.23438 10.025 7.525 10.8 7.9125C11.1625 8.1 11.4531 8.37187 11.6719 8.72812C11.8906 9.08437 12 9.475 12 9.9V12H0ZM1.5 10.5H10.5V9.9C10.5 9.7625 10.4656 9.6375 10.3969 9.525C10.3281 9.4125 10.2375 9.325 10.125 9.2625C9.45 8.925 8.76875 8.67188 8.08125 8.50313C7.39375 8.33438 6.7 8.25 6 8.25C5.3 8.25 4.60625 8.33438 3.91875 8.50313C3.23125 8.67188 2.55 8.925 1.875 9.2625C1.7625 9.325 1.67188 9.4125 1.60312 9.525C1.53437 9.6375 1.5 9.7625 1.5 9.9V10.5ZM6 4.5C6.4125 4.5 6.76562 4.35312 7.05937 4.05937C7.35312 3.76562 7.5 3.4125 7.5 3C7.5 2.5875 7.35312 2.23438 7.05937 1.94062C6.76562 1.64687 6.4125 1.5 6 1.5C5.5875 1.5 5.23438 1.64687 4.94063 1.94062C4.64688 2.23438 4.5 2.5875 4.5 3C4.5 3.4125 4.64688 3.76562 4.94063 4.05937C5.23438 4.35312 5.5875 4.5 6 4.5Z"/></svg>
+            Invitar usuario
+          </button>
+        </div>
+
+        <div class="config-tabla-wrap">
+          <table class="config-tabla" id="config-tabla-usuarios">
+            <colgroup>
+              <col style="width:50%"/>
+              <col style="width:30%"/>
+              <col style="width:20%"/>
+            </colgroup>
+            <thead>
+              <tr>
+                <th>Usuario</th>
+                <th>Rol</th>
+                <th/>
+              </tr>
+            </thead>
+            <tbody/>
+          </table>
+        </div>
+
+        <div class="config-guia-roles">
+          <div class="config-guia-roles-titulo">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            Guía de roles
+          </div>
+          <div class="config-guia-grid">
+            <div class="config-guia-card">
+              <div class="config-guia-card-titulo">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+                Cajero
+              </div>
+              <p>Cobro y emisión de tickets en el Punto de Venta.</p></div><div class="config-guia-card"><div class="config-guia-card-titulo">Mesero</div><p>Abre mesas, toma pedidos, pone la propina y manda las comandas. No cobra ni da descuentos: la caja termina la venta.</p>
+            </div>
+            <div class="config-guia-card">
+              <div class="config-guia-card-titulo">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                Supervisor
+              </div>
+              <p>Todo lo de Cajero, más gestión de inventario y catálogo de productos.</p>
+            </div>
+            <div class="config-guia-card">
+              <div class="config-guia-card-titulo">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+                Contador
+              </div>
+              <p>Facturas y contabilidad. Es independiente de Supervisor — si necesita ambos, asígnale Administrador.</p>
+            </div>
+            <div class="config-guia-card">
+              <div class="config-guia-card-titulo">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                Administrador de la empresa
+              </div>
+              <p>Acceso completo: Cajero + Supervisor + Contador, más Configuración y gestión de usuarios.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- VISTA: FACTURACIÓN Y PAGOS -->
+      <div class="config-vista" id="config-vista-facturacion">
+        <p class="config-breadcrumb">Configuración transversal <span>•</span> Facturación y pagos</p>
+        <h3 class="config-vista-titulo">Facturación y pagos</h3>
+        <p class="config-vista-desc">Cómo cobra tu negocio: métodos de pago, impuestos, numeración de documentos e impresora fiscal.</p>
+
+        <p class="config-form-seccion-titulo">Métodos de pago</p>
+        <p class="config-vista-desc" style="margin-top:-12px;">Los que aparecen al cobrar en el Punto de Venta (Efectivo, Pago móvil, Zelle...). Cada uno entra a una cuenta de banco o caja.</p>
+        <div id="config-lista-pagos" class="config-lista-editable"></div>
+        <div class="config-fila-agregar">
+          <input type="text" id="config-nuevo-pago-nombre" placeholder="Nombre del método, ej. Pago móvil"/>
+          <select id="config-nuevo-pago-diario" class="nodus-select-cfg"></select>
+          <button class="config-btn-outline" id="config-btn-agregar-pago" type="button">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            Agregar método
+          </button>
+        </div>
+
+        <p class="config-form-seccion-titulo" style="margin-top:28px;">Impuestos</p>
+        <p class="config-vista-desc" style="margin-top:-12px;">Los porcentajes que se aplican al vender y al comprar (IVA, IGTF...). Cambia el porcentaje y se guarda al salir del campo.</p>
+        <div class="config-tabla-wrap">
+          <table class="config-tabla" id="config-tabla-impuestos">
+            <colgroup><col style="width:42%"/><col style="width:20%"/><col style="width:20%"/><col style="width:18%"/></colgroup>
+            <thead><tr><th>Impuesto</th><th>Aplica a</th><th>Porcentaje</th><th></th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+        <div class="config-fila-agregar">
+          <input type="text" id="config-nuevo-impuesto-nombre" placeholder="Nombre, ej. IVA 8%"/>
+          <select id="config-nuevo-impuesto-tipo" class="nodus-select-cfg"><option value="sale">Ventas</option><option value="purchase">Compras</option></select>
+          <input type="number" id="config-nuevo-impuesto-monto" min="0" max="100" step="0.01" placeholder="%" style="max-width:110px;"/>
+          <button class="config-btn-outline" id="config-btn-agregar-impuesto" type="button">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            Agregar impuesto
+          </button>
+        </div>
+
+        <p class="config-form-seccion-titulo" style="margin-top:28px;">Numeración de documentos</p>
+        <div class="config-nota-vinculo">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg>
+          Los números son correlativos y los asigna el sistema al emitir cada documento. Aquí ves el último emitido en cada libro.
+        </div>
+        <div id="config-lista-numeracion"></div>
+        <div class="config-fila-agregar">
+          <input type="text" id="config-nuevo-libro-nombre" placeholder="Libro nuevo, ej. Facturas Fiscales"/>
+          <input type="text" id="config-nuevo-libro-prefijo" maxlength="5" placeholder="Prefijo, ej. FISC" style="max-width:150px;"/>
+          <button class="config-btn-outline" id="config-btn-crear-libro" type="button">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            Crear libro de facturas
+          </button>
+        </div>
+
+        <p class="config-form-seccion-titulo" style="margin-top:28px;">Impresora fiscal</p>
+        <div id="config-hka"></div>
+      </div>
+
+      <!-- VISTA: PUNTO DE VENTA -->
+      <div class="config-vista" id="config-vista-pos">
+        <p class="config-breadcrumb">Por módulos <span>•</span> Punto de Venta</p>
+        <h3 class="config-vista-titulo">Parámetros del Punto de Venta</h3>
+        <p class="config-vista-desc">Estos interruptores controlan el comportamiento del flujo de venta en el Punto de Venta.</p>
+
+        <p class="config-form-seccion-titulo">Moneda en el Punto de Venta</p>
+        <div class="config-form-grid">
+          <div class="config-campo">
+            <label>¿En qué moneda se muestran los precios y el total al cajero/cliente?</label>
+            <select id="config-pos-moneda-mostrar">
+              <option value="usd">Solo Dólares ($)</option>
+              <option value="bs">Solo Bolívares (Bs.)</option>
+              <option value="ambos" selected="">Ambos — Dólares como principal, Bolívares de referencia</option>
+            </select>
+          </div>
+        </div>
+
+        <p class="config-form-seccion-titulo" style="margin-top:28px;">Comportamiento del flujo de venta</p>
+        <div>
+          <div class="config-toggle-row">
+            <div class="config-toggle-texto">
+              <h4>Usar propinas</h4>
+              <p>Muestra el bloque de propinas en la pantalla de Checkout, con los porcentajes de abajo.</p>
+            </div>
+            <label class="config-switch">
+              <input type="checkbox" id="config-flag-propina"/>
+              <span class="config-switch-track"/>
+            </label>
+          </div>
+          <div class="config-toggle-row" style="border-bottom:none;padding-bottom:0;">
+            <div class="config-toggle-texto" style="max-width:none;">
+              <h4 style="margin-bottom:10px;display:flex;align-items:center;gap:6px;"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2.91667 5.83333C2.11111 5.83333 1.42361 5.54861 0.854167 4.97917C0.284722 4.40972 0 3.72222 0 2.91667C0 2.11111 0.284722 1.42361 0.854167 0.854167C1.42361 0.284722 2.11111 0 2.91667 0C3.72222 0 4.40972 0.284722 4.97917 0.854167C5.54861 1.42361 5.83333 2.11111 5.83333 2.91667C5.83333 3.72222 5.54861 4.40972 4.97917 4.97917C4.40972 5.54861 3.72222 5.83333 2.91667 5.83333V5.83333M2.91667 4.16667C3.26389 4.16667 3.55903 4.04514 3.80208 3.80208C4.04514 3.55903 4.16667 3.26389 4.16667 2.91667C4.16667 2.56944 4.04514 2.27431 3.80208 2.03125C3.55903 1.78819 3.26389 1.66667 2.91667 1.66667C2.56944 1.66667 2.27431 1.78819 2.03125 2.03125C1.78819 2.27431 1.66667 2.56944 1.66667 2.91667C1.66667 3.26389 1.78819 3.55903 2.03125 3.80208C2.27431 4.04514 2.56944 4.16667 2.91667 4.16667V4.16667M10.4167 13.3333C9.61111 13.3333 8.92361 13.0486 8.35417 12.4792C7.78472 11.9097 7.5 11.2222 7.5 10.4167C7.5 9.61111 7.78472 8.92361 8.35417 8.35417C8.92361 7.78472 9.61111 7.5 10.4167 7.5C11.2222 7.5 11.9097 7.78472 12.4792 8.35417C13.0486 8.92361 13.3333 9.61111 13.3333 10.4167C13.3333 11.2222 13.0486 11.9097 12.4792 12.4792C11.9097 13.0486 11.2222 13.3333 10.4167 13.3333V13.3333M10.4167 11.6667C10.7639 11.6667 11.059 11.5451 11.3021 11.3021C11.5451 11.059 11.6667 10.7639 11.6667 10.4167C11.6667 10.0694 11.5451 9.77431 11.3021 9.53125C11.059 9.28819 10.7639 9.16667 10.4167 9.16667C10.0694 9.16667 9.77431 9.28819 9.53125 9.53125C9.28819 9.77431 9.16667 10.0694 9.16667 10.4167C9.16667 10.7639 9.28819 11.059 9.53125 11.3021C9.77431 11.5451 10.0694 11.6667 10.4167 11.6667V11.6667M1.16667 13.3333L0 12.1667L12.1667 0L13.3333 1.16667L1.16667 13.3333V13.3333" fill="currentColor"/></svg>Porcentajes de propina sugeridos</h4>
+              <div id="config-lista-propinas" class="config-lista-editable"/>
+              <div class="config-fila-agregar">
+                <input type="number" min="1" max="100" id="config-nueva-propina-valor" placeholder="Ej. 20"/>
+                <button class="config-btn-outline" id="config-btn-agregar-propina" type="button">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                  Agregar porcentaje
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="config-toggle-row">
+            <div class="config-toggle-texto">
+              <h4>Punto de venta único</h4>
+              <p>Si está activo, el POS salta directo al Carrito. Si está apagado, primero se muestra la Asignación de Servicio (elegir mesa o caja) antes del carrito.</p>
+            </div>
+            <label class="config-switch">
+              <input type="checkbox" id="config-flag-punto-unico"/>
+              <span class="config-switch-track"/>
+            </label>
+          </div>
+        </div>
+
+        <p class="config-form-seccion-titulo" style="margin-top:28px;">Mesas</p>
+        <div class="config-nota-vinculo">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+          Estas son las mesas que se ofrecen en el Punto de Venta al asignar el servicio. Cambia el nombre o elimina las que no uses.
+        </div>
+        <div id="config-lista-mesas" class="config-lista-editable"/>
+        <div class="config-fila-agregar">
+          <input type="text" id="config-nueva-mesa-nombre" placeholder="Nombre de la nueva mesa, ej. Mesa 9"/>
+          <button class="config-btn-outline" id="config-btn-agregar-mesa" type="button">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Agregar mesa
+          </button>
+        </div>
+
+        <div class="config-footer">
+          <div class="config-footer-audit">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+            <span id="config-pos-origen">Leído de NODUS</span>
+          </div>
+          <div class="config-footer-botones">
+            <button class="config-btn-primario" type="button" id="config-btn-guardar-pos">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              Guardar punto de venta
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- VISTA: INVENTARIO -->
+      <div class="config-vista" id="config-vista-inventario">
+        <p class="config-breadcrumb">Por módulos <span>•</span> Inventario</p>
+        <h3 class="config-vista-titulo">Parámetros de Inventario</h3>
+        <p class="config-vista-desc">Columnas de precio, umbral de alerta de stock y categorías — lo mismo que ves dentro del propio módulo de Inventario, administrado desde aquí.</p>
+
+        <div class="config-nota-vinculo">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+          Lo que cambies aquí y lo que se cree directo en Inventario es la misma información — ambas vistas leen y escriben los mismos datos de Nodus.
+        </div>
+
+        <p class="config-form-seccion-titulo">Columnas de precio</p>
+        <div id="config-lista-columnas-precio" class="config-lista-editable"/>
+        <div class="config-fila-agregar">
+          <input type="text" id="config-nueva-columna-nombre" placeholder="Nombre de la nueva columna, ej. Precio Mayorista"/>
+          <button class="config-btn-outline" id="config-btn-agregar-columna" type="button">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Agregar columna
+          </button>
+        </div>
+
+        <p class="config-form-seccion-titulo" style="margin-top:28px;">Umbral de alerta de stock</p>
+        <div class="config-toggle-row" style="align-items:center;">
+          <div class="config-toggle-texto">
+            <h4>Marcar como "Crítico" cuando el stock caiga a este % del mínimo</h4>
+            <p>Por debajo de este porcentaje el producto aparece en rojo en el modal de Alertas de Stock de Inventario; entre este valor y 100% del mínimo aparece como "Reponer Pronto".</p>
+          </div>
+          <div style="display:flex;align-items:center;gap:6px;flex-shrink:0;">
+            <input type="number" id="config-umbral-critico" min="1" max="99" value="70" style="width:64px;text-align:center;background:#f6f7fb;border:1px solid rgba(217,217,226,.9);border-radius:10px;padding:8px 6px;font-size:12.5px;font-family:'Inter',sans-serif;outline:none;"/>
+            <span style="font-size:12.5px;color:#5c5c6b;">%</span>
+          </div>
+        </div>
+
+        <p class="config-form-seccion-titulo" style="margin-top:28px;">Categorías de producto</p>
+        <p class="config-vista-desc" style="margin-top:-12px;">Para crear una categoría al vuelo mientras agregas un producto, usa el "+ Agregar categoría" dentro del propio Inventario — eso no cambia. Aquí se renombran o eliminan las que ya existen.</p>
+        <div class="config-tabla-wrap">
+          <table class="config-tabla" id="config-tabla-categorias">
+            <colgroup>
+              <col style="width:55%"/>
+              <col style="width:25%"/>
+              <col style="width:20%"/>
+            </colgroup>
+            <thead>
+              <tr>
+                <th>Categoría</th>
+                <th># Productos</th>
+                <th/>
+              </tr>
+            </thead>
+            <tbody/>
+          </table>
+        </div>
+
+        <div class="config-footer">
+          <div class="config-footer-audit">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+            <span>Leído de Inventario (Nodus)</span>
+          </div>
+          <div class="config-footer-botones">
+            <button class="config-btn-primario" type="button" id="config-btn-guardar-inventario">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              Guardar inventario
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- VISTA: CONTABILIDAD -->
+      <div class="config-vista" id="config-vista-contabilidad">
+        <p class="config-breadcrumb">Por módulos <span>•</span> Contabilidad</p>
+        <h3 class="config-vista-titulo">Parámetros de Contabilidad</h3>
+        <p class="config-vista-desc">Plan de cuentas, diarios, umbrales de cobranza y cierre fiscal.</p>
+
+        <p class="config-form-seccion-titulo">Plan de cuentas</p>
+        <div class="config-card-identidad" style="grid-template-columns: 180px 1fr;">
+          <div class="config-dropzone" id="config-dropzone-plan">
+            <div class="config-dropzone-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+            </div>
+            <div class="config-dropzone-titulo">Subir plan de cuentas</div>
+            <div class="config-dropzone-sub">Archivo CSV</div>
+          </div>
+          <div class="config-identidad-texto">
+            <span class="config-chip-info" id="config-plan-cuentas-estado">Plan de cuentas de la empresa</span>
+            <h3>Plan de Cuentas personalizado</h3>
+            <p>Cada país y tipo de negocio usa códigos distintos. Sube un archivo CSV con código, nombre y tipo para agregar o actualizar cuentas, o descarga la plantilla. Tipos válidos: Banco, Por cobrar, Por pagar, Activo corriente, Activo no corriente, Pasivo corriente, Pasivo no corriente, Patrimonio, Ingreso, Costo y Gasto.</p>
+            <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;">
+              <button class="config-btn-outline" type="button" id="config-btn-descargar-plantilla">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                Descargar plantilla CSV
+              </button>
+              
+            </div>
+          </div>
+        </div>
+
+        <p class="config-form-seccion-titulo" style="margin-top:28px;">Diarios contables</p>
+        <p class="config-vista-desc" style="margin-top:-12px;">Los diarios que aparecen al crear un Asiento Contable (Ventas, Compras, Banco...). Administrables igual que las columnas de precio de Inventario.</p>
+        <div id="config-lista-diarios" class="config-lista-editable"/>
+        <div class="config-fila-agregar">
+          <input type="text" id="config-nuevo-diario-nombre" placeholder="Nombre del nuevo diario, ej. Nómina"/>
+          <button class="config-btn-outline" id="config-btn-agregar-diario" type="button">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Agregar diario
+          </button>
+        </div>
+
+        <p class="config-form-seccion-titulo" style="margin-top:28px;">Umbral de antigüedad (CxC / CxP)</p>
+        <div class="config-toggle-row" style="align-items:center;">
+          <div class="config-toggle-texto">
+            <h4>Marcar como "Próximo a vencer" (amarillo) cuántos días antes del vencimiento</h4>
+            <p>Afecta Cuentas por Cobrar y Cuentas por Pagar — por debajo de este umbral la factura pasa de verde a amarillo en la vista de antigüedad.</p>
+          </div>
+          <div style="display:flex;align-items:center;gap:6px;flex-shrink:0;">
+            <input type="number" id="config-conta-umbral-dias" min="1" max="30" value="5" style="width:64px;text-align:center;background:#f6f7fb;border:1px solid rgba(217,217,226,.9);border-radius:10px;padding:8px 6px;font-size:12.5px;font-family:'Inter',sans-serif;outline:none;"/>
+            <span style="font-size:12.5px;color:#5c5c6b;">días</span>
+          </div>
+        </div>
+
+        <p class="config-form-seccion-titulo" style="margin-top:28px;">Cierre de período fiscal</p>
+        <div class="config-form-grid">
+          <div class="config-campo">
+            <label>Mes de inicio del año fiscal</label>
+            <select id="config-conta-mes-fiscal">
+              <option value="1" selected="">Enero</option>
+              <option value="2">Febrero</option>
+              <option value="3">Marzo</option>
+              <option value="4">Abril</option>
+              <option value="5">Mayo</option>
+              <option value="6">Junio</option>
+              <option value="7">Julio</option>
+              <option value="8">Agosto</option>
+              <option value="9">Septiembre</option>
+              <option value="10">Octubre</option>
+              <option value="11">Noviembre</option>
+              <option value="12">Diciembre</option>
+            </select>
+            <span class="config-campo-help">Define los períodos que usan el Libro Diario, el Balance de Comprobación y los filtros de año en todas las vistas de Contabilidad.</span>
+          </div>
+        </div>
+
+        <div class="config-footer">
+          <div class="config-footer-botones" style="margin-left:auto;">
+            <button class="config-btn-primario" type="button" id="config-btn-guardar-contabilidad">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              Guardar contabilidad
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- VISTA: COMANDAS -->
+      <div class="config-vista" id="config-vista-comandas">
+        <p class="config-breadcrumb">Por módulos <span>•</span> Comandas</p>
+        <h3 class="config-vista-titulo">Parámetros de Comandas</h3>
+        <p class="config-vista-desc">Estaciones de preparación (Cocina, Barra, Parrilla, etc.) — las mismas que aparecen como filtro dentro del propio módulo de Comandas.</p>
+
+        <div class="config-nota-vinculo">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+          Esto se refleja de inmediato en el filtro de Estación del módulo de Comandas.
+        </div>
+
+        <p class="config-form-seccion-titulo">Estaciones</p>
+        <div id="config-lista-estaciones" class="config-lista-editable"/>
+        <div class="config-fila-agregar">
+          <input type="text" id="config-nueva-estacion-nombre" placeholder="Nombre de la nueva estación, ej. Postres"/>
+          <button class="config-btn-outline" id="config-btn-agregar-estacion" type="button">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Agregar estación
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="config-modal-overlay" id="config-overlay-invitar">
+  <div class="config-modal">
+    <div class="config-modal-header">
+      <div>
+        <p class="config-modal-titulo">Invitar usuario</p>
+        <p class="config-modal-sub">Se le envía una invitación para unirse al negocio.</p>
+      </div>
+      <button class="config-modal-cerrar" type="button" id="config-invitar-cerrar">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="config-modal-body">
+      <div class="config-campo">
+        <label>Nombre completo <span class="req">*</span></label>
+        <input type="text" id="config-invitar-nombre" placeholder="Ej. María Pérez"/>
+      </div>
+      <div class="config-campo">
+        <label>Correo electrónico <span class="req">*</span></label>
+        <input type="email" id="config-invitar-email" placeholder="correo@ejemplo.com"/>
+      </div>
+      <div class="config-campo">
+        <label>Rol</label>
+        <select id="config-invitar-rol">
+          <option value="cajero">Cajero</option><option value="mesero">Mesero</option>
+          <option value="supervisor">Supervisor</option>
+          <option value="contador">Contador</option>
+          <option value="admin">Administrador de la empresa</option>
+        </select>
+      </div>
+    </div>
+    <div class="config-modal-footer">
+      <button class="config-btn-texto" type="button" id="config-invitar-cancelar">Cancelar</button>
+      <button class="config-btn-primario" type="button" id="config-btn-confirmar-invitar">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Enviar invitación
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="config-toast-host" id="config-toast-host"/>
+                </div>
+            </div>
+        </div>
+    </t>
+</templates>

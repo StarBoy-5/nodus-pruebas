@@ -95,8 +95,7 @@
     <!-- Configuración: lo que ve el cliente. Los Ajustes originales de Odoo quedan solo para soporte -->
     <record id="action_ui_configuracion" model="ir.actions.client">
         <field name="name">Configuración</field>
-        <field name="tag">nodus_pagina_ui</field>
-        <field name="params" eval="{'pagina': 'configuracion'}"/>
+        <field name="tag">nodus_configuracion</field>
         <field name="path">configuracion</field>
     </record>
     <menuitem id="menu_configuracion" name="Configuración" action="action_ui_configuracion"
