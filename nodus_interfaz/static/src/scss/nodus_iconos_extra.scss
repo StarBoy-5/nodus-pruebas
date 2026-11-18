@@ -54,10 +54,10 @@ body.o_web_client.o_nodus .settings_tab .tab {
         background-color: #0047AB !important;
     }
     &[data-key="general_settings"] { --nodus-icono: url("/nodus_interfaz/static/src/img/modulos/ajustes.svg"); }
-    &[data-key="sale_management"] { --nodus-icono: url("/nodus_interfaz/static/src/img/modulos/documento.svg"); }
+    &[data-key="sale_management"] { --nodus-icono: url("/nodus_interfaz/static/src/img/modulos/documento_dolar.svg"); }
     &[data-key="purchase"] { --nodus-icono: url("/nodus_interfaz/static/src/img/modulos/compras.svg"); }
     &[data-key="stock"] { --nodus-icono: url("/nodus_interfaz/static/src/img/modulos/inventario.svg"); }
-    &[data-key="account"] { --nodus-icono: url("/nodus_interfaz/static/src/img/modulos/documento.svg"); }
+    &[data-key="account"] { --nodus-icono: url("/nodus_interfaz/static/src/img/modulos/documento_lupa.svg"); }
     &[data-key="fleet"] { --nodus-icono: url("/nodus_interfaz/static/src/img/modulos/flotilla.svg"); }
     &[data-key="point_of_sale"] { --nodus-icono: url("/nodus_interfaz/static/src/img/modulos/pos.svg"); }
     &[data-key="auto_repair_workshop"] { --nodus-icono: url("/nodus_interfaz/static/src/img/modulos/taller.svg"); }
@@ -81,8 +81,8 @@ body.o_web_client.o_nodus img[src*="/static/description/icon"] {
     object-fit: contain;
 }
 body.o_web_client.o_nodus img[src^="/fleet/static/description/icon"] { content: url("/nodus_interfaz/static/src/img/modulos/flotilla.svg"); }
-body.o_web_client.o_nodus img[src^="/account/static/description/icon"] { content: url("/nodus_interfaz/static/src/img/modulos/documento.svg"); }
-body.o_web_client.o_nodus img[src^="/sale/static/description/icon"] { content: url("/nodus_interfaz/static/src/img/modulos/documento.svg"); }
+body.o_web_client.o_nodus img[src^="/account/static/description/icon"] { content: url("/nodus_interfaz/static/src/img/modulos/documento_lupa.svg"); }
+body.o_web_client.o_nodus img[src^="/sale/static/description/icon"] { content: url("/nodus_interfaz/static/src/img/modulos/documento_dolar.svg"); }
 body.o_web_client.o_nodus img[src^="/auto_repair_workshop/static/description/icon"] { content: url("/nodus_interfaz/static/src/img/modulos/taller.svg"); }
 body.o_web_client.o_nodus img[src^="/purchase/static/description/icon"] { content: url("/nodus_interfaz/static/src/img/modulos/compras.svg"); }
 body.o_web_client.o_nodus img[src^="/stock/static/description/icon"] { content: url("/nodus_interfaz/static/src/img/modulos/inventario.svg"); }

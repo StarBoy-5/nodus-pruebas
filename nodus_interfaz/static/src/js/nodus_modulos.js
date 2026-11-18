@@ -7,11 +7,11 @@ const IMG = "/nodus_interfaz/static/src/img/modulos/";
 
 export const MODULOS_NODUS = [
     { xmlid: "nodus_interfaz.menu_principal", nombre: "Menú Principal", icono: IMG + "inicio.svg" },
-    { xmlid: "account.menu_finance", nombre: "Contabilidad", icono: IMG + "documento.svg" },
+    { xmlid: "account.menu_finance", nombre: "Contabilidad", icono: IMG + "documento_lupa.svg" },
     { xmlid: "point_of_sale.menu_point_root", nombre: "Punto de Venta", icono: IMG + "pos.svg" },
     { xmlid: "stock.menu_stock_root", nombre: "Inventario", icono: IMG + "inventario.svg" },
     { xmlid: "nodus_interfaz.menu_ventas", nombre: "Resumen", icono: IMG + "ventas.svg" },
-    { xmlid: "sale.sale_menu_root", nombre: "Ventas", icono: IMG + "documento.svg" },
+    { xmlid: "sale.sale_menu_root", nombre: "Ventas", icono: IMG + "documento_dolar.svg" },
     { xmlid: "nodus_interfaz.menu_mensualidad", nombre: "Mensualidad", icono: IMG + "documento.svg" },
     { xmlid: "nodus_interfaz.menu_configuracion", nombre: "Configuración", icono: IMG + "configuracion.svg" },
     { xmlid: "nodus_interfaz.menu_comandas", nombre: "Comandas", icono: IMG + "comandas.svg" },

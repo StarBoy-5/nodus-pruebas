@@ -1368,21 +1368,44 @@
 .nd-pos #contenedor-carrito-pos .cart-nombre .pv-h,
 .nd-pos #contenedor-carrito-pos .cart-precio .pv-h { text-align: left !important; align-self: flex-start !important; }
 
-/* Órdenes abiertas: mesas con cuenta y órdenes de la caja, para retomarlas con un toque */
-.nd-pos #nodus-ordenes-abiertas { display: flex; flex-direction: column; gap: 8px; margin: 24px 10px 8px; }
-.nd-pos .nodus-ord-titulo { margin: 0 0 4px; text-align: left; font: 600 12px/12px 'Poppins', sans-serif; color: #5c5c6b; }
-.nd-pos .nodus-ord-vacio { margin: 0; font: 400 12px/16px 'Inter', sans-serif; color: #6b7280; }
-.nd-pos .nodus-ord-item {
-  display: flex; align-items: center; gap: 12px; width: 100%; min-height: 56px; padding: 8px 12px; box-sizing: border-box;
-  border: 1px solid #d9d9e2; border-radius: 16px; background: #fff; text-align: left; cursor: pointer;
-  transition: border-color .15s cubic-bezier(.22, 1, .36, 1), background-color .15s cubic-bezier(.22, 1, .36, 1);
+/* Tira de órdenes: cuadritos de 40 px (como el icono de la caja) a la derecha del panel de pasos, con su misma sombra */
+.nd-pos #nodus-tira-ordenes {
+  flex: 0 0 0; width: 0; min-width: 0; overflow: hidden; opacity: 0; align-self: stretch; box-sizing: border-box;
+  display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 0; margin: 0 0 0 -12px;
+  background: #fff; border-radius: 32px; box-shadow: rgba(0, 0, 0, 0.5) -10px 0 10px -12px; pointer-events: none;
+  transition: width .35s cubic-bezier(.22, 1, .36, 1), flex-basis .35s cubic-bezier(.22, 1, .36, 1), padding .35s cubic-bezier(.22, 1, .36, 1),
+    margin .35s cubic-bezier(.22, 1, .36, 1), opacity .25s ease;
 }
-.nd-pos .nodus-ord-item:hover { border-color: #0047ab; background: #f3f3fc; }
-.nd-pos .nodus-ord-marca {
-  flex: 0 0 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 12px;
-  background: #0047ab; color: #fff; font: 600 14px 'Poppins', sans-serif; font-variant-numeric: tabular-nums;
+.nd-pos #nodus-tira-ordenes.con-ordenes {
+  flex-basis: 72px; width: 72px; padding: 16px 0; margin: 0; opacity: 1; overflow-y: auto; pointer-events: auto;
 }
-.nd-pos .nodus-ord-caja .nodus-ord-marca { background: #eaf0fa; color: #0047ab; }
-.nd-pos .nodus-ord-txt { display: flex; flex-direction: column; min-width: 0; gap: 2px; }
-.nd-pos .nodus-ord-txt b { font: 600 14px/16px 'Poppins', sans-serif; color: #1a1a24; }
-.nd-pos .nodus-ord-txt span { font: 400 12px/16px 'Inter', sans-serif; color: #5c5c6b; }
+.nd-pos .nodus-tira-rotulo { font: 600 9px/10px 'Poppins', sans-serif; letter-spacing: .02em; color: #5c5c6b; }
+.nd-pos .nodus-orden-cuadro {
+  flex: 0 0 40px; width: 40px; height: 40px; padding: 0; border: 0; border-radius: 12px; cursor: pointer;
+  background: #eaf0fa; color: #0047ab; font: 600 14px 'Poppins', sans-serif; font-variant-numeric: tabular-nums;
+  transition: background-color .15s cubic-bezier(.22, 1, .36, 1), color .15s cubic-bezier(.22, 1, .36, 1);
+}
+.nd-pos .nodus-orden-cuadro:hover { background: #d6e3f7; }
+.nd-pos .nodus-orden-cuadro.activa { background: #0047ab; color: #fff; box-shadow: 0 4px 12px rgba(0, 71, 171, .3); }
+.nd-pos .nodus-orden-nueva { background: transparent; border: 2px dashed #b9c3e4; font-size: 22px; line-height: 1; }
+.nd-pos .nodus-orden-nueva:hover { background: #f3f3fc; }
+/* Teléfono y tablet: la tira es una fila de cuadritos arriba del panel de pasos */
+.nd-pos #nodus-tira-ordenes.nodus-tira-horizontal {
+  width: auto; flex: 0 0 auto; flex-direction: row; justify-content: flex-start; padding: 0; margin: 0 0 8px; height: 0;
+  background: transparent; box-shadow: none; border-radius: 0; overflow-x: auto; overflow-y: hidden;
+}
+.nd-pos #nodus-tira-ordenes.nodus-tira-horizontal.con-ordenes { width: auto; height: 48px; padding: 4px 0; flex-basis: auto; }
+.nd-pos #nodus-tira-ordenes.nodus-tira-horizontal .nodus-tira-rotulo { display: none; }
+
+/* Cabecera del panel de pasos: con la tira al lado el panel es más angosto; la etiqueta se acorta en vez de pisar el título */
+.nd-pos #vista-carrito-pos > .pv-e8460b2 { flex-wrap: nowrap; gap: 8px; }
+.nd-pos #vista-carrito-pos > .pv-e8460b2 > .pv-0e9672d { flex: 0 1 auto; width: auto !important; min-width: 0; }
+.nd-pos #etiqueta-mesa-actual { flex: 0 1 auto; min-width: 0; margin-left: auto; }
+.nd-pos #etiqueta-mesa-actual .pv-wc { min-width: 0; }
+/* Fila de teléfono/tablet: se desplaza en horizontal, cada cuadro se ajusta al deslizar y la barra no se ve */
+.nd-pos #nodus-tira-ordenes.nodus-tira-horizontal { scroll-snap-type: x proximity; scrollbar-width: none; -webkit-overflow-scrolling: touch; overscroll-behavior-x: contain; }
+.nd-pos #nodus-tira-ordenes.nodus-tira-horizontal::-webkit-scrollbar { display: none; }
+.nd-pos #nodus-tira-ordenes.nodus-tira-horizontal .nodus-orden-cuadro { scroll-snap-align: start; }
+/* El panel de pasos conserva su ancho (348 px) y es el catálogo el que cede espacio a la tira */
+.nd-pos:not(.nodus-bandeja) #pos-catalogo-y-sidebar > #hadeon-pos-sidebar { flex: 0 0 348px; }
+.nd-pos #pos-catalogo-y-sidebar > .pv-8e60904 { min-width: 0; }

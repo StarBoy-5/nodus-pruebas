@@ -1011,7 +1011,9 @@ document.addEventListener("DOMContentLoaded", function () {
       mesaIdActual = idsServicio && idsServicio.mesaId != null ? idsServicio.mesaId : null;
       if (etiquetaMesa) {
         const textoTag = etiquetaMesa.querySelector('.pv-h') || etiquetaMesa;
-        textoTag.innerText = servicioActual;
+        // "Caja Principal · Orden 2" se muestra "Orden 2": la caja ya se sabe y así cabe junto al título
+        textoTag.innerText = servicioActual.replace(/^.* · (Orden \d+)$/, '$1');
+        etiquetaMesa.setAttribute('title', servicioActual + ' · cambiar a quién se cobra');
       }
       renderizarCarrito();
     }
@@ -1029,7 +1031,7 @@ document.addEventListener("DOMContentLoaded", function () {
       vistaDestino.classList.add("vista-animada");
     }
 
-    if (vistaDestino === vista1 && typeof renderizarOrdenesAbiertas === 'function') renderizarOrdenesAbiertas();
+    if (typeof renderizarOrdenesAbiertas === 'function') renderizarOrdenesAbiertas();
 
     // 👉 Bloqueo/difuminado del catálogo fuera de Vista 2 (Carrito)
     if (gridProductos) {
@@ -1374,58 +1376,63 @@ document.addEventListener("DOMContentLoaded", function () {
     if (cajaDeMesa && !cajaDeMesa.abierta) { abrirModalCaja(cajaDeMesa); return; }
     abrirCuentaMesa(mesa, cajaActualId || cajaDeRespaldo);
   }
+  // Tira de órdenes: un cuadrito (#1, #2…) por cada orden de la caja, a la derecha del panel de pasos.
+  // Solo existe con la caja abierta y al menos una orden; el panel de pasos se corre a la izquierda para dejarle sitio.
   function renderizarOrdenesAbiertas() {
-    const vistaMesas = document.getElementById('vista-mesas-pos');
-    if (!vistaMesas) return;
-    let panel = document.getElementById('nodus-ordenes-abiertas');
-    if (!panel) {
-      panel = document.createElement('section');
-      panel.id = 'nodus-ordenes-abiertas';
-      const rotuloMesas = Array.from(vistaMesas.querySelectorAll('.pv-h')).find(h => /mesas disponibles/i.test(h.textContent));
-      const ancla = rotuloMesas && rotuloMesas.closest('.pv-w');
-      if (ancla) ancla.parentNode.insertBefore(panel, ancla); else vistaMesas.appendChild(panel);
+    const fila = document.getElementById('pos-catalogo-y-sidebar');
+    const lateral = document.getElementById('hadeon-pos-sidebar');
+    if (!fila || !lateral) return;
+    let tira = document.getElementById('nodus-tira-ordenes');
+    if (!tira) {
+      tira = document.createElement('div');
+      tira.id = 'nodus-tira-ordenes';
+      tira.setAttribute('aria-label', 'Órdenes abiertas');
     }
+    // Con el panel de pasos como bandeja (teléfono/tablet) la tira va dentro, arriba; en escritorio, a su derecha.
+    const estrecho = window.innerWidth <= 1024;
+    if (estrecho) { if (tira.parentNode !== lateral || lateral.firstChild !== tira) lateral.insertBefore(tira, lateral.firstChild); }
+    else if (tira.previousElementSibling !== lateral) lateral.insertAdjacentElement('afterend', tira);
+    tira.classList.toggle('nodus-tira-horizontal', estrecho);
+
     const items = [];
     cajasNodus.filter(c => c.abierta).forEach(caja => {
-      ordenesDeCaja(caja).forEach(o => items.push({
-        tipo: 'caja', titulo: 'Orden ' + o.n, etiqueta: caja.nombre,
-        detalle: (n => n + (n === 1 ? ' producto' : ' productos'))(o.carrito.reduce((a, i) => a + i.cantidad, 0)) + ' \u00b7 $' + totalDeCarrito(o.carrito).toFixed(2),
-        activar: () => irAVista(vista2, o.clave, { cajaId: caja.id, mesaId: null }),
-      }));
+      const ordenes = ordenesDeCaja(caja);
+      const actual = !mesaIdActual && servicioActual && cajaIdActual === caja.id
+        && servicioActual.indexOf(caja.nombre + PREFIJO_ORDEN) === 0 && !ordenes.some(o => o.clave === servicioActual);
+      if (actual) ordenes.push({ clave: servicioActual, n: numeroDeOrden(caja, servicioActual), carrito: [] });
+      ordenes.sort((x, y) => x.n - y.n).forEach(o => items.push({ caja, o }));
     });
-    mesasNodus.filter(m => m.ocupada).forEach(m => items.push({
-      tipo: 'mesa', titulo: m.nombre, etiqueta: 'Mesa', detalle: String(m.estado || '').replace(/^Ocupada \u00b7 /, ''),
-      activar: () => entrarAMesa(m),
-    }));
-    panel.textContent = '';
-    const cab = document.createElement('h3');
-    cab.className = 'nodus-ord-titulo';
-    cab.textContent = 'Órdenes abiertas';
-    panel.appendChild(cab);
-    if (!items.length) {
-      const vacio = document.createElement('p');
-      vacio.className = 'nodus-ord-vacio';
-      vacio.textContent = 'No hay órdenes abiertas. Toca la caja o una mesa para empezar una.';
-      panel.appendChild(vacio);
-      return;
-    }
-    items.forEach(it => {
+    const hay = items.length > 0;
+    tira.classList.toggle('con-ordenes', hay);
+    fila.classList.toggle('nodus-hay-ordenes', hay);
+    tira.textContent = '';
+    if (!hay) return;
+    const rotulo = document.createElement('span');
+    rotulo.className = 'nodus-tira-rotulo';
+    rotulo.textContent = 'ÓRDENES';
+    tira.appendChild(rotulo);
+    items.forEach(({ caja, o }) => {
       const b = document.createElement('button');
       b.type = 'button';
-      b.className = 'nodus-ord-item nodus-ord-' + it.tipo;
-      const marca = document.createElement('span');
-      marca.className = 'nodus-ord-marca';
-      marca.textContent = it.tipo === 'mesa' ? it.titulo.replace(/^\D+/, '') || it.titulo.slice(0, 2) : '#' + it.titulo.replace(/^\D+/, '');
-      const txt = document.createElement('span');
-      txt.className = 'nodus-ord-txt';
-      const t1 = document.createElement('b'); t1.textContent = it.tipo === 'mesa' ? it.titulo : it.titulo + ' \u00b7 ' + it.etiqueta;
-      const t2 = document.createElement('span'); t2.textContent = it.detalle;
-      txt.appendChild(t1); txt.appendChild(t2);
-      b.appendChild(marca); b.appendChild(txt);
-      b.addEventListener('click', e => { e.preventDefault(); it.activar(); });
-      panel.appendChild(b);
+      b.className = 'nodus-orden-cuadro' + (o.clave === servicioActual ? ' activa' : '');
+      b.textContent = '#' + o.n;
+      const unidades = o.carrito.reduce((a, i) => a + i.cantidad, 0);
+      b.title = o.clave + ' · ' + unidades + (unidades === 1 ? ' producto' : ' productos') + ' · $' + totalDeCarrito(o.carrito).toFixed(2);
+      b.addEventListener('click', e => { e.preventDefault(); irAVista(vista2, o.clave, { cajaId: caja.id, mesaId: null }); });
+      tira.appendChild(b);
     });
+    const abierta = items.find(x => x.caja.id === cajaIdActual) || items[0];
+    const mas = document.createElement('button');
+    mas.type = 'button';
+    mas.className = 'nodus-orden-cuadro nodus-orden-nueva';
+    mas.textContent = '+';
+    mas.title = 'Nueva orden';
+    mas.addEventListener('click', e => { e.preventDefault(); irAVista(vista2, nuevaOrdenDeCaja(abierta.caja), { cajaId: abierta.caja.id, mesaId: null }); });
+    tira.appendChild(mas);
+    const activa = tira.querySelector('.activa');
+    if (activa && estrecho) tira.scrollLeft = Math.max(0, activa.offsetLeft - 12);
   }
+  window.addEventListener('resize', () => renderizarOrdenesAbiertas());
 
   function renderizarMesasYCajas() {
     if (!contenedorMesas) return;
@@ -1565,6 +1572,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (mesaIdActual) programarGuardadoCuenta();
 
     const carrito = obtenerCarritoActual();
+    if (typeof renderizarOrdenesAbiertas === 'function') renderizarOrdenesAbiertas();
 
     Array.from(contenedorCarrito.children).forEach(child => {
       if (child.id !== 'plantilla-item-carrito') child.remove();
