@@ -335,7 +335,7 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   // Degradado dinámico (sustituye al fijo que traía antes el Custom
-  // CSS de el diseño anterior) — coexiste con las flechas sin pisarse: cada uno
+  // CSS del diseño anterior) — coexiste con las flechas sin pisarse: cada uno
   // escucha el mismo 'scroll' por su lado.
   const actualizarDegradadoCategorias = typeof hadeonActivarDegradadoScroll === 'function'
     ? hadeonActivarDegradadoScroll(contenedor)
@@ -568,7 +568,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // =========================================================
   // ALTURA EXACTA DEL GRID (solo escritorio/tablet) — medida
   // en vivo con JS. En móvil no toca nada: ahí manda el 45vh
-  // fijo del Custom CSS de el diseño anterior.
+  // fijo del CSS personalizado del diseño anterior.
   // =========================================================
   function ajustarAlturaGridPOS() {
     const grid = document.getElementById('contenedor-productos-pos');
@@ -609,7 +609,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 document.addEventListener("DOMContentLoaded", function () {
   // =========================================================
-  // FIX REAL: el diseño anterior le pone flex-grow:1 por defecto a TODOS
+  // FIX REAL: el diseño anterior le ponía flex-grow:1 por defecto a TODOS
   // los hijos de un contenedor flex — eso hacía que los 4
   // hermanos (títulos, buscador/filtros, grid, widget del motor)
   // se repartieran el espacio sobrante por igual, creando huecos
@@ -836,7 +836,7 @@ function aplicarMascara(el, gradientes) {
   const valor = validos.length === 0 ? 'none' : validos.join(', ');
   // setProperty(..., 'important'): algunos contenedores de esta página
   // (p.ej. el grid de productos) ya traen su propio mask-image fijo con
-  // !important desde el Custom CSS de el diseño anterior — un !important puesto
+  // !important desde el CSS personalizado del diseño anterior — un !important puesto
   // por JS en el propio elemento le sigue ganando a eso.
   el.style.setProperty('mask-image', valor, 'important');
   el.style.setProperty('-webkit-mask-image', valor, 'important');
@@ -2052,7 +2052,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // SCROLL DE LA LISTA DEL CARRITO — sin estirar el panel
   // =========================================================
   // Misma técnica que ya usamos para el grid del catálogo (medir
-  // con JS en vez de depender del CSS de el diseño anterior, que ya sabemos
+  // con JS en vez de depender del CSS del diseño anterior, que ya sabemos
   // que puede perder peleas de especificidad). La diferencia: aquí
   // hay contenido DESPUÉS de la lista dentro del mismo panel
   // (subtotal/impuestos/total, botones de Comanda/Nota de Pedido,

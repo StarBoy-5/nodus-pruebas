@@ -21,7 +21,7 @@
 }
 .nodus-ayuda:hover::after, .nodus-ayuda:focus::after, .nodus-ayuda.forzar::after { opacity: 1; transform: translateX(-50%) translateY(0); }
 
-/* Las ventanas heredan text-align:center de un widget de el diseño anterior: deben ir a la izquierda */
+/* Las ventanas heredan text-align:center del diseño anterior: deben ir a la izquierda */
 .contactos-overlay { text-align: left; }
 .contactos-campo label, .contactos-detalle-campo label { text-align: left; }
 .contactos-campo { min-width: 0; }

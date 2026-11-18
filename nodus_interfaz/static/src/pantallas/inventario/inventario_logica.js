@@ -48,7 +48,7 @@ export function montar(raiz) {
 document.addEventListener("DOMContentLoaded", function () {
   // En teléfono, "Lista de Precios" debe calzar con el borde izquierdo
   // de la tarjeta blanca de abajo (el buscador/filtros) — el título no
-  // tiene ese problema (el diseño anterior lo deja sin padding propio), pero el
+  // tiene ese problema (el diseño anterior lo dejaba sin padding propio), pero el
   // botón sí queda con un corrimiento que no se pudo rastrear a una
   // sola propiedad CSS puntual. En vez de adivinar un valor fijo en px
   // (frágil si algo de arriba cambia), se mide la diferencia real entre
@@ -1232,7 +1232,7 @@ document.addEventListener("DOMContentLoaded", function () {
   let proveedorFiltro = 'Todos';
 
   // 2. Función auxiliar para inyectar texto — usa ID (así está configurado
-  //    en el diseño anterior: campo "ID CSS", no "Clases CSS") en vez de clase.
+  //    por id, no por clase) en vez de clase.
   //    Nota: los clones de fila comparten el mismo id entre sí (técnicamente
   //    no es válido HTML5 tener ids duplicados en la página), pero como
   //    aquí SIEMPRE se busca "dentro de esta fila específica" (fila.querySelector),

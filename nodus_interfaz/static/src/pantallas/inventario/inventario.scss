@@ -3,7 +3,7 @@
 
 
 
-/* ===== Nodus: las ventanas heredan text-align:center de un widget de el diseño anterior; deben ir a la izquierda ===== */
+/* ===== Nodus: las ventanas heredan text-align:center del diseño anterior; deben ir a la izquierda ===== */
 #modal-agregar-overlay, #modal-alertas-overlay, #modal-precios-overlay, #modal-compra-overlay, .modal-categoria-overlay { text-align: left; }
 /* Barra de herramientas: si no cabe en una línea, baja a la siguiente en vez de montarse */
 .inv-barra { flex-wrap: wrap !important; row-gap: 10px !important; column-gap: 14px !important; max-width: 100% !important; box-sizing: border-box !important; }
@@ -359,7 +359,7 @@ html.nodus-con-dock #modal-compra-tarjeta { max-height: calc(100vh - 130px) !imp
     transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
   .modal-categoria-overlay.abierto .modal-categoria-tarjeta { transform: scale(1); }
-  /* el diseño anterior le mete su reset global de <button> (lo pone rosado y
+  /* el diseño anterior le metía su reset global de <button> (lo pone rosado y
      cuadrado) a este botón nuevo — bloqueado con !important, igual
      que se hizo antes con el botón Eliminar. */
   #modal-categoria-cerrar {
@@ -893,7 +893,7 @@ html.nodus-con-dock #modal-compra-tarjeta { max-height: calc(100vh - 130px) !imp
     flex-shrink: 0;
   }
   .modal-precios-header h3 { font-size: 18px; font-weight: 600; color: #111827; margin: 0; }
-  /* Botones custom (no son widgets de el diseño anterior) — su reset global de
+  /* Botones custom (no vienen del diseño anterior) — su reset global de
      <button> los pinta rosado y cuadrado si no se bloquea con
      !important, igual que #modal-categoria-cerrar. */
   #modal-precios-cerrar-x {
@@ -1131,7 +1131,7 @@ html.nodus-con-dock #modal-compra-tarjeta { max-height: calc(100vh - 130px) !imp
        columna de ecd2d43 — no cambia el orden real del HTML). */
     #Btn-alerta { order: 1 !important; }
   }
-  /* Teléfono (<=767px): el contenedor vuelve a fila y el diseño anterior manda
+  /* Teléfono (<=767px): el contenedor vuelve a fila y mandaba el diseño anterior
      "Agregar" al inicio con order:-99999. Este botón no tiene order
      propio (queda en 0, igual que Alertas), así que por orden de
      aparición en el HTML cae naturalmente entre los dos — exactamente
@@ -1197,7 +1197,7 @@ html.nodus-con-dock #modal-compra-tarjeta { max-height: calc(100vh - 130px) !imp
      =================================================== */
   @media (max-width: 1024px) {
     /* El encabezado de columnas se oculta en móvil desde el propio
-       el diseño anterior (Avanzado → Responsive → Ocultar en teléfono), no por CSS */
+       marcado, no por CSS */
 
     /* Cada fila (plantilla y clones) pasa de "columnas rígidas" a
        "tarjeta apilada" — usamos el ancho real de columna en desktop,
@@ -1296,7 +1296,7 @@ html.nodus-con-dock #modal-compra-tarjeta { max-height: calc(100vh - 130px) !imp
 
 }
 
-/* ===== Piezas que antes eran de el diseño anterior, ahora propias (medidas del diseño) ===== */
+/* ===== Piezas rehechas con marcado propio (medidas del diseño) ===== */
 .nd-inventario {
   .inv-cab { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
   .inv-titulo-2 { font: 600 20px/20px 'Poppins', sans-serif; color: #0047AB; }
