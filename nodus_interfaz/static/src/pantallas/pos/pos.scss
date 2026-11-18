@@ -1442,7 +1442,7 @@
 .nodus-confirma-volver { border: 1px solid #d9d9e2; background: #fff; color: #0047ab; }
 .nodus-confirma-si { border: 0; background: #c0362c; color: #fff; }
 .nodus-confirma-si:disabled { opacity: .6; }
-.nd-pos.nodus-bandeja #vista-carrito-pos > .pv-e8460b2 > #nodus-cancelar-orden { margin-left: auto !important; flex: 0 0 34px !important; width: 34px !important; }
+.nd-pos.nodus-bandeja #vista-carrito-pos > .pv-e8460b2 > #nodus-cancelar-orden { margin-left: auto !important; flex: 0 0 32px !important; width: 32px !important; height: 32px !important; }
 .nd-pos.nodus-bandeja #vista-carrito-pos > .pv-e8460b2 > #nodus-cancelar-orden + #etiqueta-mesa-actual { margin-left: 4px !important; }
 /* Papelera con la forma de los cuadros de órdenes: blanca con borde gris, como los demás botones */
 .nd-pos #vista-carrito-pos #nodus-cancelar-orden {
@@ -1451,3 +1451,10 @@
 }
 .nd-pos #vista-carrito-pos #nodus-cancelar-orden:hover,
 .nd-pos #vista-carrito-pos #nodus-cancelar-orden:focus-visible { border-color: #c0362c !important; background: #fdecec !important; color: #c0362c !important; }
+/* Papelera cuadrada del mismo alto que la etiqueta gris de la orden (32 px en PC, tablet y teléfono) */
+.nd-pos #vista-carrito-pos #nodus-cancelar-orden { flex: 0 0 32px !important; width: 32px !important; height: 32px !important; border-radius: 10px !important; }
+.nd-pos #vista-carrito-pos #nodus-cancelar-orden svg { width: 15px; height: 15px; }
+.nd-pos #etiqueta-mesa-actual { align-self: center !important; }
+.nd-pos #etiqueta-mesa-actual .pv-wc { height: 32px !important; min-height: 32px !important; box-sizing: border-box !important; display: flex !important; align-items: center !important; }
+.nd-pos.nodus-bandeja #etiqueta-mesa-actual .pv-wc { padding: 0 !important; }
+.nd-pos.nodus-bandeja #etiqueta-mesa-actual h2 { padding: 0 12px !important; line-height: 32px !important; }
