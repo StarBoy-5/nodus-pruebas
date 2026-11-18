@@ -95,11 +95,29 @@ class WorkshopOrder(models.Model):
         productos = self.env["product.product"].search(
             [("sale_ok", "=", True), ("type", "=", "service")], order="categ_id, name", limit=200
         )
+        # Con los precios en USD de Hadeon (price_usd) ese es el precio de venta; si no, el de lista
+        usd = "price_usd" in productos._fields
         return [
-            {"id": p.id, "nombre": p.name, "precio": p.lst_price, "categoria": p.categ_id.name or "",
-             "descripcion": p.description_sale or ""}
+            {"id": p.id, "nombre": p.name, "precio": p.price_usd if usd else p.lst_price,
+             "categoria": p.categ_id.name or "", "descripcion": p.description_sale or ""}
             for p in productos
         ]
+
+    @api.model
+    def _nodus_cargar_precios_detallado(self, precios):
+        """Precios iniciales (en USD) de los servicios de detallado, una sola vez por base."""
+        param = self.env["ir.config_parameter"].sudo()
+        if param.get_param("nodus_taller.precios_detallado"):
+            return
+        for xmlid, precio in precios.items():
+            producto = self.env.ref("nodus_taller." + xmlid, raise_if_not_found=False)
+            if not producto:
+                continue
+            if "price_usd" in producto._fields:
+                producto.product_tmpl_id.price_usd = precio
+            else:
+                producto.list_price = precio
+        param.set_param("nodus_taller.precios_detallado", "1")
 
     def nodus_taller_orden(self):
         self.ensure_one()
@@ -222,13 +240,9 @@ class WorkshopOrder(models.Model):
         })
         cot = self._create_quotation()
         cot.order_line.filtered("display_type").unlink()
-        # El precio de la línea es el que el asesor vio al elegir el servicio (el del producto, en la
-        # moneda de la cotización), sin pasar por la conversión de la lista de precios.
-        servicios = self.env["product.product"].browse([int(pid) for pid in servicio_ids])
-        cot.write({"order_line": [Command.create({"product_id": s.id, "product_uom_qty": 1})
-                                  for s in servicios]})
-        for linea in cot.order_line.filtered(lambda l: not l.display_type):
-            linea.price_unit = linea.product_id.lst_price
+        # El precio lo pone la lista de precios de la cotización (con Hadeon, el price_usd del servicio)
+        cot.write({"order_line": [Command.create({"product_id": int(pid), "product_uom_qty": 1})
+                                  for pid in servicio_ids]})
         return self.nodus_taller_orden()
 
     def nodus_taller_aprobar(self):

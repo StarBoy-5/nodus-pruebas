@@ -4,7 +4,7 @@
     "name": "Nodus - Taller",
     "summary": "Pantalla del Taller con el diseño Nodus: cola de órdenes arriba y un paso por vista "
     "(placa, recepción, fotos, diagnóstico, cotización, reparación, listo y entrega)",
-    "version": "19.0.1.0.0",
+    "version": "19.0.1.0.1",
     "category": "Hidden",
     "author": "Hadeon",
     "license": "LGPL-3",

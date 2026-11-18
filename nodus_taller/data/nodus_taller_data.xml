@@ -103,4 +103,8 @@
             <field name="purchase_ok" eval="False"/>
         </record>
     </data>
+    <!-- Precios en USD de los servicios de detallado (una sola vez; luego se editan en Productos) -->
+    <function model="workshop.order" name="_nodus_cargar_precios_detallado">
+        <value eval="{'srv_lavado_exterior': 10, 'srv_lavado_completo': 25, 'srv_pulido': 120, 'srv_encerado': 40, 'srv_ceramico': 350, 'srv_tapiceria': 60, 'srv_descontaminacion': 45, 'srv_motor': 30, 'srv_faros': 35, 'srv_ppf': 150}"/>
+    </function>
 </odoo>
