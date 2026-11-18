@@ -37,7 +37,7 @@
 .nodus-doc { display: grid; grid-template-columns: 74px minmax(0, 1fr); gap: 8px; }
 .nodus-error-form { min-height: 18px; margin: 10px 0 0; color: #dc2626; font: 500 13px 'Inter', sans-serif; }
 /* ===== Nodus: aprovechar el ancho (PC y tablet). Antes: marco 32 + contenedor 10 + panel 24 por lado ===== */
-@media (min-width: 768px) {
+@container nd-pant (min-width: 768px) {
   .contactos-panel { padding: 16px !important; }
   .contactos-tabla thead th { padding-left: 6px !important; padding-right: 6px !important; }
   .contactos-tabla tbody td { padding-left: 6px !important; padding-right: 6px !important; }
@@ -265,7 +265,7 @@
      junto con Email/ID Fiscal/Facturas/Total, igual que el resto de
      columnas. Necesita su propio background (no hereda el de la fila)
      porque position:sticky la saca del flujo normal de pintado. */
-  @media (max-width: 767px) {
+  @container nd-pant (max-width: 767px) {
     .contactos-tabla th:last-child, .contactos-tabla td:last-child:not([colspan]) {
       position: sticky !important; right: 0 !important; z-index: 2 !important;
       background: #ffffff !important;
@@ -361,7 +361,7 @@
      detrás. Se acorta solo en este breakpoint, dejando aire de sobra; el
      body del modal ya hace scroll interno (overflow-y:auto), así que
      ningún campo deja de verse, solo cabe menos por pantalla a la vez. */
-  @media (max-width: 767px) {
+  @container nd-pant (max-width: 767px) {
     /* align-items:center (el valor de escritorio) reparte el espacio que
        se libera mitad arriba, mitad abajo — la mitad de arriba se
        desperdicia porque ahí no hay ningún dock que evitar. flex-start
@@ -405,7 +405,7 @@
   .contactos-modal-vista-interna.activa { display: block; }
 
   .contactos-detalle-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 20px; margin-bottom: 4px; }
-  @media (max-width: 480px) { .contactos-detalle-grid { grid-template-columns: 1fr; } }
+  @container nd-pant (max-width: 480px) { .contactos-detalle-grid { grid-template-columns: 1fr; } }
   .contactos-detalle-campo label { display: block; font-size: 12px; font-weight: 600; text-transform: none; letter-spacing: 0; color: #8d909e; margin-bottom: 4px; }
   .contactos-detalle-campo p { font-size: 13px; color: #1a1a24; margin: 0; font-weight: 500; }
 
@@ -440,7 +440,7 @@
 
   /* Formulario alta/edición */
   .contactos-form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px 20px; }
-  @media (max-width: 480px) { .contactos-form-grid { grid-template-columns: 1fr; } }
+  @container nd-pant (max-width: 480px) { .contactos-form-grid { grid-template-columns: 1fr; } }
   .contactos-form-grid.full { grid-template-columns: 1fr; margin-top: 16px; }
   .contactos-campo label { display: block; font-size: 12px; font-weight: 600; color: #1a1a24; margin-bottom: 5px; }
   .contactos-campo label .req { color: #e1493f; }
@@ -455,7 +455,7 @@
     background: #ffffff !important; border-color: #0047ab !important; box-shadow: 0 0 0 3px rgba(0,71,171,0.08) !important;
   }
 
-  @media (max-width: 767px) {
+  @container nd-pant (max-width: 767px) {
     .contactos-header { flex-direction: column; align-items: flex-start; }
     .contactos-btn-primario { margin-left: 0; width: 100%; justify-content: center; }
     .contactos-toolbar { flex-direction: column; align-items: stretch; }
@@ -467,7 +467,7 @@
 }
 
 /* Teléfono: menos relleno anidado para aprovechar el ancho */
-@media (max-width: 767px) {
+@container nd-pant (max-width: 767px) {
   .nd-contactos #contactos-app > div { padding-left: 12px !important; padding-right: 12px !important; }
 }
 

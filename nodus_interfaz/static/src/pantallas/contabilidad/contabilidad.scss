@@ -29,7 +29,7 @@
 /* Día / Mes / Año siempre a la derecha */
 #conta-filtro-fecha { margin-left: auto !important; }
 .conta-fila-superior-derecha { flex-wrap: wrap !important; row-gap: 8px !important; }
-@media (max-width: 600px) {
+@container nd-pant (max-width: 600px) {
   .conta-fila-superior-derecha { justify-content: space-between !important; }
   .conta-fila-superior-derecha #conta-filtro-fecha { margin-left: auto !important; }
   /* Encabezado de cada asiento: número, fecha y estado ya no se pisan */
@@ -41,7 +41,7 @@
   .ct-asiento-header > .ct-badge { flex: 0 0 auto !important; }
 }
 /* Teléfono: el formulario del asiento se acomoda en filas en vez de columnas cortadas */
-@media (max-width: 600px) {
+@container nd-pant (max-width: 600px) {
   .ct-form-grid-header { grid-template-columns: 1fr !important; }
   .ct-form-lineas-header { display: none !important; }
   .ct-form-linea { display: grid !important; grid-template-columns: 1fr 1fr 40px !important; gap: 6px !important; padding: 10px 0 !important; border-bottom: 1px solid #ececf3 !important; }
@@ -121,7 +121,7 @@
   /* ==========================================
      2. TABLET (Apilados uno debajo de otro)
      ========================================== */
-  @media (max-width: 1024px) {
+  @container nd-pant (max-width: 1024px) {
     .botones-wrapper {
       height: auto; /* Permite que el contenedor crezca a lo alto */
     }
@@ -136,7 +136,7 @@
   /* ==========================================
      3. TELÉFONO MÓVIL (Largo arriba, cortos abajo)
      ========================================== */
-  @media (max-width: 767px) {
+  @container nd-pant (max-width: 767px) {
     #conta-botones-superiores-app {
       flex-direction: row; /* Vuelven a alinearse en fila */
       flex-wrap: wrap; /* Se les permite saltar de línea */
@@ -501,7 +501,7 @@
   .conta-cal-anio-btn:hover { background: #f3f3fc; }
   .conta-cal-anio-btn.seleccionado { background: #0047ab; color: #ffffff; }
 
-  @media (max-width: 640px) {
+  @container nd-pant (max-width: 640px) {
     .conta-fila-superior { flex-direction: column; align-items: stretch; }
     .conta-buscador-wrapper { max-width: 100%; flex: 1 1 auto; height: 40px; }
     .conta-fila-superior-derecha { justify-content: space-between; }
@@ -580,7 +580,7 @@
   .conta-kpi-item.color-error .conta-kpi-label,
   .conta-kpi-item.color-error .conta-kpi-valor { color: #ba1a1a !important; }
 
-  @media (max-width: 767px) {
+  @container nd-pant (max-width: 767px) {
     #conta-kpis-contenedor { flex-wrap: wrap !important; }
     .conta-kpi-item {
       flex: 1 1 50% !important;
@@ -676,7 +676,7 @@
      Solo aparece si la tabla realmente necesita scroll
      horizontal (se calcula por JS).
      ===================================================== */
-  @media (max-width: 1024px) {
+  @container nd-pant (max-width: 1024px) {
     .ct-tabla-scroll {
       scrollbar-width: none !important;
     }
@@ -693,7 +693,7 @@
     padding: 0 2px !important;
     width: 100% !important;
   }
-  @media (max-width: 1024px) {
+  @container nd-pant (max-width: 1024px) {
     .ct-scroll-personalizado.necesario { display: flex !important; }
   }
   .ct-scroll-track {
@@ -1117,8 +1117,8 @@
 .nd-contabilidad .nd-conta-cab { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
 .nd-contabilidad .nd-conta-cab .nd-pant-cab { padding: 0; }
 .nd-contabilidad .nd-pant-app { margin-top: 24px; }
-@media (max-width: 767.98px) { .nd-contabilidad .nd-pant-cuerpo { padding-top: 36px; } }
+@container nd-pant (max-width: 767.98px) { .nd-contabilidad .nd-pant-cuerpo { padding-top: 36px; } }
 
 .nd-contabilidad .nd-conta-cab .nd-pant-cab { flex: 1 1 auto; min-width: 0; }
 .nd-contabilidad .nd-conta-cab .botones-wrapper { flex: 0 0 auto; width: auto !important; margin: 0 !important; }
-@media (max-width: 1024px) { .nd-contabilidad .nd-conta-cab .botones-wrapper { flex-basis: 100%; } }
+@container nd-pant (max-width: 1024px) { .nd-contabilidad .nd-conta-cab .botones-wrapper { flex-basis: 100%; } }

@@ -1354,3 +1354,31 @@
     }}
 @container nd-pos (max-width: 1024px) and (orientation: portrait) {
 }
+
+/* Visor de la factura de Odoo (formato Nodus) sobre la pantalla del POS */
+.nd-pos #nd-factura-visor {
+  position: fixed; inset: 0; z-index: 99999; display: flex; align-items: center; justify-content: center; padding: 16px;
+  background: rgba(17, 24, 39, 0.4); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+}
+.nd-pos #nd-factura-visor .nd-factura-caja {
+  width: 100%; max-width: 880px; height: 100%; display: flex; flex-direction: column; overflow: hidden;
+  background: #fff; border-radius: 20px; box-shadow: 0 24px 60px rgba(0, 0, 0, .2);
+}
+.nd-pos #nd-factura-visor header {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 16px 12px 24px; border-bottom: 1px solid #ececf3;
+}
+.nd-pos #nd-factura-visor h3 { margin: 0; font: 600 18px 'Poppins', sans-serif; color: #1a1a24; }
+.nd-pos #nd-factura-visor header > div { display: flex; align-items: center; gap: 8px; }
+.nd-pos #nd-factura-visor .nd-factura-btn {
+  height: 40px; padding: 0 20px; border: 0; border-radius: 10px; background: #0047ab; color: #fff; cursor: pointer;
+  font: 500 14px 'Poppins', sans-serif;
+}
+.nd-pos #nd-factura-visor .nd-factura-btn:hover { background: #003a8c; }
+.nd-pos #nd-factura-visor .nd-factura-x {
+  width: 40px; height: 40px; border: 0; border-radius: 10px; background: transparent; color: #6b7280; cursor: pointer; font-size: 16px;
+}
+.nd-pos #nd-factura-visor .nd-factura-x:hover { background: #f3f3fc; }
+.nd-pos #nd-factura-visor .nd-factura-caja { position: relative; }
+.nd-pos #nd-factura-visor .nd-factura-cargando { position: absolute; left: 0; right: 0; top: 50%; margin: 0; text-align: center; font: 500 14px 'Inter', sans-serif; color: #6b7280; }
+.nd-pos #nd-factura-visor iframe { position: relative; flex: 1 1 auto; width: 100%; border: 0; background: #fff; opacity: 0; transition: opacity .2s cubic-bezier(.22, 1, .36, 1); }
+.nd-pos #nd-factura-visor iframe.cargado { opacity: 1; }

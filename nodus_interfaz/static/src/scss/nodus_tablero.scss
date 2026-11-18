@@ -2,7 +2,7 @@
 // (tarjetas de 33 px, borde #E2E2EB, sombra 0 2px 12px, títulos Poppins, valores Inter 32/700).
 
 // .o_action de Odoo trae display:flex y overflow:hidden: aquí el contenido debe desplazarse
-.o_action.o_nodus_tablero {
+.o_web_client .o_action_manager > .o_action.o_nodus_tablero {
     display: block;
     height: 100%;
     overflow-x: hidden;

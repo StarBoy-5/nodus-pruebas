@@ -51,6 +51,7 @@
             # Pantallas propias de Nodus (componentes OWL, sin iframe)
             "nodus_interfaz/static/src/pantallas/comun.scss",
             "nodus_interfaz/static/src/pantallas/comun.js",
+            "nodus_interfaz/static/src/pantallas/entorno.js",
             "nodus_interfaz/static/src/pantallas/comandas/comandas.scss",
             "nodus_interfaz/static/src/pantallas/comandas/comandas.js",
             "nodus_interfaz/static/src/pantallas/comandas/comandas.xml",

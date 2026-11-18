@@ -1,7 +1,10 @@
 // Base de las pantallas propias de Nodus (Comandas, Inventario, ...): contenedor que se desplaza,
 // encabezado con título y subtítulo, letras y barras de desplazamiento.
 
-.o_action.nd-pant {
+// Odoo fija .o_action { overflow: hidden; display: flex } con tres clases: hay que igualar su especificidad para que la pantalla se desplace
+.o_web_client .o_action_manager > .o_action.nd-pant {
+    display: block;
+    container: nd-pant / inline-size; // las reglas responsive miran la tarjeta, como cuando vivía en su propio iframe
     height: 100%;
     overflow-x: hidden;
     overflow-y: auto;
@@ -43,10 +46,10 @@
     color: #6B7280;
 }
 
-@media (max-width: 1024px) {
+@container nd-pant (max-width: 1024px) {
     .nd-pant-cuerpo { padding: 36px 26px 32px; }
 }
-@media (max-width: 767.98px) {
+@container nd-pant (max-width: 767.98px) {
     .nd-pant-cuerpo { padding: 36px 26px 120px; }
     .nd-pant-sub { line-height: 14px; }
 }
@@ -68,4 +71,4 @@
 
 // Bloque de la app debajo del encabezado
 .nd-pant-app { margin-top: 40px; }
-@media (max-width: 767.98px) { .nd-pant-app { margin-top: 32px; } }
+@container nd-pant (max-width: 767.98px) { .nd-pant-app { margin-top: 32px; } }

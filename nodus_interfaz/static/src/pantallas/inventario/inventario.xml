@@ -227,6 +227,57 @@
 
 
 
+<div id="modal-precios-overlay">
+  <div id="modal-precios-tarjeta">
+    <div class="modal-precios-header">
+      <h3>Lista de precios</h3>
+      <button id="modal-precios-cerrar-x" type="button" aria-label="Cerrar">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+
+    <div id="modal-precios-filas"/>
+
+    <div class="hadeon-scroll-personalizado" id="modal-precios-scroll-control">
+      <button class="hadeon-scroll-flecha" type="button" data-dir="-1" aria-label="Desplazar a la izquierda">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <div class="hadeon-scroll-track">
+        <div class="hadeon-scroll-thumb"/>
+      </div>
+      <button class="hadeon-scroll-flecha" type="button" data-dir="1" aria-label="Desplazar a la derecha">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+    </div>
+
+    <div class="modal-precios-footer">
+      <button class="modal-agregar-btn cancelar" id="modal-precios-cancelar" type="button">Cancelar</button>
+      <button class="modal-agregar-btn guardar" id="modal-precios-guardar" type="button">Guardar Cambios</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-precios-columna-overlay" id="modal-precios-columna-overlay">
+  <div class="modal-categoria-tarjeta">
+    <div class="modal-agregar-header">
+      <h3>Nueva columna de Precio</h3>
+      <button id="modal-precios-columna-cerrar" type="button" aria-label="Cerrar">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="modal-agregar-body">
+      <div class="modal-agregar-campo full">
+        <label for="nueva-columna-precio-nombre">Nombre de la columna</label>
+        <input type="text" id="nueva-columna-precio-nombre" placeholder="Ej. Precio Mayorista..."/>
+      </div>
+    </div>
+    <div class="modal-agregar-footer">
+      <button class="modal-agregar-btn cancelar" id="modal-precios-columna-cancelar" type="button">Cancelar</button>
+      <button class="modal-agregar-btn guardar" id="modal-precios-columna-guardar" type="button">Guardar</button>
+    </div>
+  </div>
+</div>
+
 <div id="modal-alertas-overlay">
   <div id="modal-alertas-tarjeta">
     <div class="modal-alertas-header">

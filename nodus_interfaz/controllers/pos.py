@@ -533,7 +533,7 @@ class NodusPosAPI(http.Controller):
         base_usd = round(self._a_usd(base, moneda), 2)
         return ok({
             "id": pedido.id,
-            "factura": {"numero": factura.name or pedido.pos_reference or pedido.name, "control": None, "fecha": fields.Datetime.to_string(pedido.date_order)},
+            "factura": {"id": factura.id or False, "numero": factura.name or pedido.pos_reference or pedido.name, "control": None, "fecha": fields.Datetime.to_string(pedido.date_order)},
             "cliente": {"nombre": partner.name or (d.get("cliente") or {}).get("nombre", ""), "rif": partner.vat or ""},
             "totales": {"subtotal": base_usd, "baseImponible": base_usd, "iva": round(self._a_usd(total_con_iva - base, moneda), 2),
                         "propina": round(self._a_usd(propina, moneda), 2), "total": total_usd, "total_bs": round(total_usd * tasa, 2)},

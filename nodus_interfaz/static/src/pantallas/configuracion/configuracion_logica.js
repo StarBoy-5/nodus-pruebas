@@ -2,46 +2,10 @@
 // Lógica de la pantalla Configuración (código de Nodus). Se monta al abrir la pantalla y se limpia al salir:
 // los escuchas de window/document y los temporizadores quedan registrados para quitarlos.
 
+import { crearEntorno } from "../entorno";
+
 export function montar(raiz) {
-    const limpiar = [];
-    const realDoc = globalThis.document;
-    const realWin = globalThis.window;
-    const pendientes = [];
-    const registrar = (obj, tipo, fn, opc) => {
-        if (tipo === "DOMContentLoaded" || tipo === "load") {
-            pendientes.push(fn);
-            return;
-        }
-        obj.addEventListener(tipo, fn, opc);
-        limpiar.push(() => obj.removeEventListener(tipo, fn, opc));
-    };
-    const envolver = (real) => new Proxy(real, {
-        get(obj, prop) {
-            if (prop === "addEventListener") return (t, f, o) => registrar(obj, t, f, o);
-            // Las ventanas que la pantalla agrega "al body" quedan dentro de ella: con sus estilos y se van al salir
-            if (prop === "body" && obj === realDoc) return raiz;
-            if (prop === "setInterval") return setInterval;
-            if (prop === "setTimeout") return setTimeout;
-            const v = Reflect.get(obj, prop);
-            return typeof v === "function" && !/^[A-Z]/.test(String(prop)) ? v.bind(obj) : v;
-        },
-        set(obj, prop, valor) {
-            obj[prop] = valor;
-            return true;
-        },
-    });
-    const setInterval = (fn, ms, ...a) => {
-        const id = realWin.setInterval(fn, ms, ...a);
-        limpiar.push(() => realWin.clearInterval(id));
-        return id;
-    };
-    const setTimeout = (fn, ms, ...a) => {
-        const id = realWin.setTimeout(fn, ms, ...a);
-        limpiar.push(() => realWin.clearTimeout(id));
-        return id;
-    };
-    const document = envolver(realDoc);
-    const window = envolver(realWin);
+    const { document, window, matchMedia, setInterval, setTimeout, arrancar, detener } = crearEntorno(raiz);
 
 
 
@@ -1645,6 +1609,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-    pendientes.forEach((fn) => fn.call(realDoc, new Event("DOMContentLoaded")));
-    return () => limpiar.forEach((f) => f());
+    arrancar();
+    return detener;
 }

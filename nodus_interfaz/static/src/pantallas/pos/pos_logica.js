@@ -3,75 +3,10 @@
 // El POS vivía en un iframe: aquí "la ventana" es la tarjeta (ancho, alto y media queries miran la tarjeta),
 // y lo que se agrega "al body" queda dentro de la pantalla.
 
+import { crearEntorno } from "../entorno";
+
 export function montar(raiz) {
-    const limpiar = [];
-    const realDoc = globalThis.document;
-    const realWin = globalThis.window;
-    const pendientes = [];
-    const registrar = (obj, tipo, fn, opc) => {
-        if (tipo === "DOMContentLoaded" || tipo === "load") {
-            pendientes.push(fn);
-            return;
-        }
-        obj.addEventListener(tipo, fn, opc);
-        limpiar.push(() => obj.removeEventListener(tipo, fn, opc));
-    };
-    // media queries contra el ancho de la tarjeta
-    const consulta = (q) => {
-        const reglas = [...q.matchAll(/\((max|min)-width:\s*(\d+(?:\.\d+)?)px\)/g)];
-        const evalua = () => reglas.every(([, t, v]) => (t === "max" ? raiz.clientWidth <= +v : raiz.clientWidth >= +v));
-        const oyentes = new Set();
-        let antes = evalua();
-        const ro = new ResizeObserver(() => {
-            const ahora = evalua();
-            if (ahora !== antes) {
-                antes = ahora;
-                oyentes.forEach((f) => f({ matches: ahora, media: q }));
-            }
-        });
-        ro.observe(raiz);
-        limpiar.push(() => ro.disconnect());
-        return {
-            media: q,
-            get matches() { return evalua(); },
-            addEventListener: (t, f) => t === "change" && oyentes.add(f),
-            removeEventListener: (t, f) => oyentes.delete(f),
-            addListener: (f) => oyentes.add(f),
-            removeListener: (f) => oyentes.delete(f),
-        };
-    };
-    const envolver = (real) => new Proxy(real, {
-        get(obj, prop) {
-            if (prop === "addEventListener") return (t, f, o) => registrar(obj, t, f, o);
-            if ((prop === "body" || prop === "documentElement") && obj === realDoc) return raiz;
-            if (obj === realWin) {
-                if (prop === "innerWidth") return raiz.clientWidth;
-                if (prop === "innerHeight") return raiz.clientHeight;
-                if (prop === "matchMedia") return consulta;
-                if (prop === "setInterval") return setInterval;
-                if (prop === "setTimeout") return setTimeout;
-            }
-            const v = Reflect.get(obj, prop);
-            return typeof v === "function" && !/^[A-Z]/.test(String(prop)) ? v.bind(obj) : v;
-        },
-        set(obj, prop, valor) {
-            obj[prop] = valor;
-            return true;
-        },
-    });
-    const setInterval = (fn, ms, ...a) => {
-        const id = realWin.setInterval(fn, ms, ...a);
-        limpiar.push(() => realWin.clearInterval(id));
-        return id;
-    };
-    const setTimeout = (fn, ms, ...a) => {
-        const id = realWin.setTimeout(fn, ms, ...a);
-        limpiar.push(() => realWin.clearTimeout(id));
-        return id;
-    };
-    const document = envolver(realDoc);
-    const window = envolver(realWin);
-    const matchMedia = consulta;
+    const { document, window, matchMedia, setInterval, setTimeout, arrancar, detener } = crearEntorno(raiz);
 
 
 
@@ -1831,6 +1766,8 @@ document.addEventListener("DOMContentLoaded", function () {
         }
       }
 
+      facturaIdActual = (data && data.factura && data.factura.id) || null;
+      if (facturaIdActual) abrirVisorFactura(data.factura.numero);
       irAVista(vista4);
   }
 
@@ -1843,6 +1780,33 @@ document.addEventListener("DOMContentLoaded", function () {
   // ==========================================
   // 10. VISTA 4: ACCIONES DEL TICKET
   // ==========================================
+  // La factura es la de Odoo con el formato Nodus (reporte HTML del módulo): se ve en un visor y se imprime desde ahí.
+  let facturaIdActual = null;
+  function abrirVisorFactura(numero, imprimir) {
+    cerrarVisorFactura();
+    const visor = document.createElement('div');
+    visor.id = 'nd-factura-visor';
+    visor.innerHTML =
+      '<div class="nd-factura-caja" role="dialog" aria-modal="true" aria-label="Factura">' +
+      '<header><h3>Factura ' + (numero || '') + '</h3><div>' +
+      '<button type="button" id="nd-factura-imprimir" class="nd-factura-btn">Imprimir</button>' +
+      '<button type="button" id="nd-factura-cerrar" class="nd-factura-x" aria-label="Cerrar">\u2715</button></div></header>' +
+      '<p class="nd-factura-cargando">Cargando factura…</p>' +
+      '<iframe title="Factura" src="/report/html/account.report_invoice_with_payments/' + facturaIdActual + '"></iframe></div>';
+    document.body.appendChild(visor);
+    const marco = visor.querySelector('iframe');
+    marco.addEventListener('load', () => marco.classList.add('cargado'), { once: true });
+    const imprimirMarco = () => { marco.contentWindow.focus(); marco.contentWindow.print(); };
+    visor.querySelector('#nd-factura-imprimir').addEventListener('click', imprimirMarco);
+    visor.querySelector('#nd-factura-cerrar').addEventListener('click', cerrarVisorFactura);
+    visor.addEventListener('click', (e) => { if (e.target === visor) cerrarVisorFactura(); });
+    if (imprimir) marco.addEventListener('load', imprimirMarco, { once: true });
+  }
+  function cerrarVisorFactura() {
+    const v = document.getElementById('nd-factura-visor');
+    if (v) v.remove();
+  }
+
   const btnImprimir = document.getElementById("btn-imprimir-factura");
   if (btnImprimir) {
     btnImprimir.addEventListener("click", function (e) {
@@ -1852,6 +1816,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function prepararEImprimirTicket() {
+    if (facturaIdActual) { abrirVisorFactura(document.getElementById('factura-nro')?.innerText, true); return; }
     const ticket = document.getElementById('ticket-imprimible');
     if (!ticket) {
       setTimeout(() => window.print(), 150);
@@ -1885,6 +1850,8 @@ document.addEventListener("DOMContentLoaded", function () {
   if (btnNuevaVenta) {
     btnNuevaVenta.addEventListener("click", function (e) {
       e.preventDefault();
+      cerrarVisorFactura();
+      facturaIdActual = null;
       const inputNombre = document.getElementById("pos-cliente-nombre");
       const inputRnc = document.getElementById("pos-cliente-rnc");
       if (inputNombre) inputNombre.value = "";
@@ -2580,6 +2547,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-    pendientes.forEach((fn) => fn.call(realDoc, new Event("DOMContentLoaded")));
-    return () => limpiar.forEach((f) => f());
+    arrancar();
+    return detener;
 }

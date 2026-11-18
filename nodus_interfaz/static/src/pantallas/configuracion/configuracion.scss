@@ -21,7 +21,7 @@
 .config-dropzone { cursor: pointer !important; }
 .config-dropzone:hover { border-color: #0047AB !important; }
 .config-ticket-logo-ph img { max-width: 100% !important; max-height: 100% !important; object-fit: contain !important; }
-@media (max-width: 700px) { .config-fila-agregar { flex-wrap: wrap !important; } .config-fila-agregar .nodus-select-cfg { flex: 1 1 100% !important; } }
+@container nd-pant (max-width: 700px) { .config-fila-agregar { flex-wrap: wrap !important; } .config-fila-agregar .nodus-select-cfg { flex: 1 1 100% !important; } }
 
 
 
@@ -230,7 +230,7 @@
     gap: 20px;
     align-items: center;
   }
-  @media (max-width: 860px) {
+  @container nd-pant (max-width: 860px) {
     /* !important: la tarjeta de "Plan de Cuentas" en Contabilidad trae un
        style="grid-template-columns: 180px 1fr" inline en el HTML (para su
        distribución particular de 2 columnas en escritorio) — un inline
@@ -286,7 +286,7 @@
   .config-form-grid {
     display: grid; grid-template-columns: 1fr 1fr; gap: 16px 20px;
   }
-  @media (max-width: 640px) { .config-form-grid { grid-template-columns: 1fr; } }
+  @container nd-pant (max-width: 640px) { .config-form-grid { grid-template-columns: 1fr; } }
   .config-form-grid.full { grid-template-columns: 1fr; margin-top: 16px; }
   /* Por defecto, un item de grid no se achica más allá del ancho mínimo de
      su contenido (min-width:auto implícito) — con un <select> que tiene una
@@ -436,7 +436,7 @@
      que necesita (table-layout:auto + un ancho mínimo razonable) y que
      sea la tarjeta (.config-tabla-wrap, ya con overflow:auto) la que
      deslice horizontal — mismo patrón que las tablas de Facturación. */
-  @media (max-width: 640px) {
+  @container nd-pant (max-width: 640px) {
     table.config-tabla { table-layout: auto !important; min-width: 560px !important; }
   }
   .config-tabla thead th, .config-tabla tbody td { overflow: hidden !important; text-overflow: ellipsis !important; }
@@ -475,7 +475,7 @@
   .config-guia-roles-titulo { display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 600;
     text-transform: none; color: #1a1a24; margin-bottom: 14px; }
   .config-guia-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; }
-  @media (max-width: 760px) { .config-guia-grid { grid-template-columns: 1fr; } }
+  @container nd-pant (max-width: 760px) { .config-guia-grid { grid-template-columns: 1fr; } }
   .config-guia-card { background: #ffffff; border: 1px solid rgba(217,217,226,0.5); border-radius: 12px; padding: 13px; }
   .config-guia-card-titulo { display: flex; align-items: center; gap: 7px; font-size: 12px; font-weight: 600; color: #1a1a24; margin-bottom: 6px; }
   .config-guia-card p { font-size: 12px; color: #5c5c6b; line-height: 1.6; margin: 0; }
@@ -584,7 +584,7 @@
   /* ===================================================
      RESPONSIVE — subnav colapsa a fila horizontal en móvil
      =================================================== */
-  @media (max-width: 860px) {
+  @container nd-pant (max-width: 860px) {
     /* La causa raíz real de todo el desborde en móvil de esta página:
        .config-cuerpo tiene align-items:flex-start a nivel base (para que
        el sidebar de escritorio no se estire a la altura del panel) — eso
@@ -646,7 +646,7 @@
     .config-subnav.tiene-desborde .config-subnav-flecha:focus:not(:hover) { background-color: transparent !important; color: #9ca3af !important; }
     .config-subnav-flecha svg { flex-shrink: 0; }
   }
-  @media (max-width: 640px) {
+  @container nd-pant (max-width: 640px) {
     .config-card-identidad { padding: 16px; }
     .config-footer { flex-direction: column; align-items: flex-start; }
   }
@@ -655,7 +655,7 @@
 }
 
 /* Teléfono: menos relleno anidado para aprovechar el ancho */
-@media (max-width: 767px) {
+@container nd-pant (max-width: 767px) {
   .nd-configuracion .config-panel { padding-left: 12px !important; padding-right: 12px !important; }
   .nd-configuracion .config-vista-titulo, .nd-configuracion .config-vista-desc { padding-left: 2px !important; padding-right: 2px !important; }
 }
