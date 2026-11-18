@@ -68,8 +68,7 @@
 
     <record id="action_ui_pos" model="ir.actions.client">
         <field name="name">Punto de Venta</field>
-        <field name="tag">nodus_pagina_ui</field>
-        <field name="params" eval="{'pagina': 'punto-de-venta'}"/>
+        <field name="tag">nodus_pos</field>
         <field name="path">punto-de-venta</field>
     </record>
     <menuitem id="menu_ui_pos" name="Punto de Venta" parent="point_of_sale.menu_point_root"
