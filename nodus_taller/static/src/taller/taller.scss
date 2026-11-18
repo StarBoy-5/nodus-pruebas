@@ -8,14 +8,14 @@
   .tl-cola-caja { background: #fff; border-radius: 32px; padding: 16px 20px 10px; box-shadow: rgba(0, 0, 0, 0.05) 0 1px 2px 0, rgba(217, 217, 226, 0.3) 0 0 0 1px; }
   .tl-cola-tit { display: flex; justify-content: space-between; align-items: center; margin: 0 4px 10px; font: 600 14px 'Poppins', sans-serif; color: #1a1a24; }
   .tl-cola-tit span { font: 600 11px 'Poppins', sans-serif; color: #5c5c6b; background: #ececf4; padding: 3px 10px; border-radius: 99px; }
-  .tl-cola { display: flex; gap: 12px; overflow-x: auto; overflow-y: hidden; padding: 4px 4px 12px; scroll-snap-type: x proximity; overscroll-behavior-x: contain; cursor: grab; }
+  .tl-cola { display: flex; gap: 12px; overflow-x: auto; overflow-y: hidden; margin: 0 -8px; padding: 6px 8px 14px; scroll-padding-inline: 8px; scroll-snap-type: x proximity; overscroll-behavior-x: contain; cursor: grab; }
   .tl-cola.arrastrando { cursor: grabbing; scroll-snap-type: none; }
   .tl-cola::-webkit-scrollbar { height: 8px; }
   .tl-cola::-webkit-scrollbar-thumb { background: #C3C6D5; border-radius: 8px; }
   .tl-cola::-webkit-scrollbar-thumb:hover { background: #A9AEC2; }
   .tl-cola::-webkit-scrollbar-track { background: transparent; margin: 0 24px; }
   .tl-ficha {
-    flex: 0 0 auto; display: flex; align-items: center; gap: 12px; min-width: 210px; padding: 10px 14px; border: 1px solid #d9d9e2;
+    flex: 0 0 auto; box-sizing: border-box; display: flex; align-items: center; gap: 12px; min-width: 210px; padding: 10px 14px; border: 1px solid #d9d9e2;
     border-radius: 16px; background: #fff; text-align: left; cursor: pointer; scroll-snap-align: start;
     transition: border-color .15s cubic-bezier(.22, 1, .36, 1), box-shadow .15s cubic-bezier(.22, 1, .36, 1);
   }

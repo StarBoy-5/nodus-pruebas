@@ -1407,5 +1407,7 @@
 .nd-pos #nodus-tira-ordenes.nodus-tira-horizontal::-webkit-scrollbar { display: none; }
 .nd-pos #nodus-tira-ordenes.nodus-tira-horizontal .nodus-orden-cuadro { scroll-snap-align: start; }
 /* El panel de pasos conserva su ancho (348 px) y es el catálogo el que cede espacio a la tira */
+@container nd-pos (min-width: 1025px) {
 .nd-pos:not(.nodus-bandeja) #pos-catalogo-y-sidebar > #hadeon-pos-sidebar { flex: 0 0 348px; }
+}
 .nd-pos #pos-catalogo-y-sidebar > .pv-8e60904 { min-width: 0; }
