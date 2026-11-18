@@ -1394,7 +1394,9 @@
   width: auto; flex: 0 0 auto; flex-direction: row; justify-content: flex-start; padding: 0; margin: 0 0 8px; height: 0;
   background: transparent; box-shadow: none; border-radius: 0; overflow-x: auto; overflow-y: hidden;
 }
-.nd-pos #nodus-tira-ordenes.nodus-tira-horizontal.con-ordenes { width: auto; height: 48px; padding: 4px 0; flex-basis: auto; }
+.nd-pos #nodus-tira-ordenes.nodus-tira-horizontal.con-ordenes { width: auto; height: 56px; padding: 8px 0; margin: 0; flex-basis: auto; align-items: center; }
+/* Fuera de la bandeja (asignación de servicio) la fila respira igual arriba y abajo */
+.nd-pos:not(.nodus-bandeja) #nodus-tira-ordenes.nodus-tira-horizontal.con-ordenes { margin: 20px 24px 0; }
 .nd-pos #nodus-tira-ordenes.nodus-tira-horizontal .nodus-tira-rotulo { display: none; }
 
 /* Cabecera del panel de pasos: con la tira al lado el panel es más angosto; la etiqueta se acorta en vez de pisar el título */

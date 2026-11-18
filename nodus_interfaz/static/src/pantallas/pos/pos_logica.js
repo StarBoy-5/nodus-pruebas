@@ -142,7 +142,9 @@ document.addEventListener('DOMContentLoaded', function () {
   const grid = document.getElementById('contenedor-productos-pos');
   if (!sb || !vista || !grid) return;
   const mq = window.matchMedia('(max-width: 767px)');
-  const PEEK = 80;
+  const PEEK_BASE = 80;
+  // Bandeja cerrada: el asa y, si hay órdenes de la caja, también su fila de cuadritos (debajo del asa)
+  const PEEK_F = () => { const t = document.querySelector('#nodus-tira-ordenes.con-ordenes'); return PEEK_BASE + (t && sb.contains(t) ? t.offsetHeight + 16 : 0); };
   let ABAJO = 92;
   const dock = () => document.documentElement.classList.contains('nodus-con-dock');
   let abierta = false, arrastrando = false;
@@ -155,7 +157,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const botonAsa = asa.querySelector('.nodus-asa-btn');
   const rotular = () => { botonAsa.textContent = abierta ? 'Ver productos' : 'Ver carrito'; };
 
-  const maximo = () => Math.max(window.innerHeight - ABAJO - 60, PEEK + 80);
+  const maximo = () => Math.max(window.innerHeight - ABAJO - 60, PEEK_F() + 80);
   // La bandeja va cuando la pantalla de venta (catálogo + pedido) está abierta. NO se mira la cuadrícula:
   // sin bandeja nuestra propia regla oculta el catálogo, y Safari (a diferencia de Chrome) la da por oculta,
   // así que la bandeja nunca se activaba en iPhone y el catálogo no aparecía.
@@ -167,7 +169,7 @@ document.addEventListener('DOMContentLoaded', function () {
     if (!activo()) return;
     ABAJO = dock() ? 92 : 14;
     const arriba = grid.getBoundingClientRect().top;
-    const disponible = Math.max(window.innerHeight - arriba - PEEK - ABAJO - 6, 240);
+    const disponible = Math.max(window.innerHeight - arriba - PEEK_F() - ABAJO - 6, 240);
     const fila = Math.max(Math.floor((disponible - 20 - 8) / 3), 96);
     grid.style.setProperty('max-height', disponible + 'px', 'important');
     // Teléfono: un producto por fila, del alto de su contenido
@@ -178,7 +180,7 @@ document.addEventListener('DOMContentLoaded', function () {
     ABAJO = dock() ? 92 : 14;
     const a = activo();
     document.body.classList.toggle('nodus-bandeja', a);
-    if (a) { poner(abierta ? maximo() : PEEK); ajustarGrid(); }
+    if (a) { poner(abierta ? maximo() : PEEK_F()); ajustarGrid(); }
     else { sb.style.removeProperty('height'); grid.style.removeProperty('grid-auto-rows'); abierta = false; }
     asa.classList.toggle('abierta', abierta);
     rotular();
@@ -187,7 +189,7 @@ document.addEventListener('DOMContentLoaded', function () {
   function fijar(abrir) {
     abierta = abrir;
     sb.classList.add('nodus-anima');
-    poner(abierta ? maximo() : PEEK);
+    poner(abierta ? maximo() : PEEK_F());
     asa.classList.toggle('abierta', abierta);
     rotular();
     setTimeout(() => sb.classList.remove('nodus-anima'), 320);
@@ -203,13 +205,13 @@ document.addEventListener('DOMContentLoaded', function () {
   asa.addEventListener('pointermove', function (e) {
     if (!arrastrando) return;
     if (Math.abs(e.clientY - y0) > 4) movio = true;
-    poner(Math.min(Math.max(h0 + (y0 - e.clientY), PEEK), maximo()));
+    poner(Math.min(Math.max(h0 + (y0 - e.clientY), PEEK_F()), maximo()));
   });
   function soltar() {
     if (!arrastrando) return;
     arrastrando = false;
     const h = sb.getBoundingClientRect().height;
-    fijar(movio ? h > (PEEK + maximo()) / 2 : !abierta);
+    fijar(movio ? h > (PEEK_F() + maximo()) / 2 : !abierta);
   }
   asa.addEventListener('pointerup', soltar);
   asa.addEventListener('pointercancel', soltar);
@@ -231,7 +233,12 @@ document.addEventListener('DOMContentLoaded', function () {
   setInterval(function () {
     actualizarResumen();
     const a = activo();
-    if (a !== document.body.classList.contains('nodus-bandeja')) aplicar(); else if (a) ajustarGrid();
+    if (a !== document.body.classList.contains('nodus-bandeja')) aplicar();
+    else if (a) {
+      // Con la bandeja cerrada, su alto sigue a la fila de órdenes (aparece o se va una orden)
+      if (!abierta && !arrastrando && Math.round(sb.getBoundingClientRect().height) !== PEEK_F()) poner(PEEK_F());
+      ajustarGrid();
+    }
   }, 400);
   window.addEventListener('resize', aplicar);
   aplicar();
@@ -1390,7 +1397,11 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     // Con el panel de pasos como bandeja (teléfono/tablet) la tira va dentro, arriba; en escritorio, a su derecha.
     const estrecho = window.innerWidth <= 1024;
-    if (estrecho) { if (tira.parentNode !== lateral || lateral.firstChild !== tira) lateral.insertBefore(tira, lateral.firstChild); }
+    const asaBandeja = lateral.querySelector(':scope > .nodus-asa');
+    if (estrecho) {
+      const ref = asaBandeja ? asaBandeja.nextSibling : lateral.firstChild;
+      if (tira.parentNode !== lateral || tira.previousSibling !== (asaBandeja || null)) lateral.insertBefore(tira, ref);
+    }
     else if (tira.previousElementSibling !== lateral) lateral.insertAdjacentElement('afterend', tira);
     tira.classList.toggle('nodus-tira-horizontal', estrecho);
 
