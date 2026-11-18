@@ -617,3 +617,96 @@
 @media (max-width: 767px) {
     .o_action.o_nodus_tablero { padding-bottom: 120px !important; }
 }
+
+
+// ---------- Ventana «Ver todas las transacciones» (sale desde el botón) ----------
+.o_nodus_mov_velo {
+    position: fixed;
+    inset: 0;
+    z-index: 1100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 16px;
+    background: rgba(17, 24, 39, 0.4);
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+    box-sizing: border-box;
+}
+.o_nodus_mov_caja {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 520px;
+    height: 85vh;
+    overflow: hidden;
+    background: #fff;
+    border: 1px solid #E2E2EB;
+    border-radius: 33px;
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.05);
+    font-family: 'Inter', sans-serif;
+    transform-origin: center center;
+}
+.o_nodus_mov_cab {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+    padding: 18px 20px 18px 24px;
+    border-bottom: 1px solid #f3f4f6;
+    h3 {
+        margin: 0;
+        font: 600 18px/1.2 'Poppins', sans-serif;
+        color: #111827;
+    }
+}
+.o_nodus_mov_x {
+    display: flex;
+    padding: 6px;
+    border: 0;
+    border-radius: 999px;
+    background: none;
+    color: #9ca3af;
+    cursor: pointer;
+    &:hover { background: #f3f3fc; color: #434653; }
+}
+.o_nodus_mov_filtros {
+    display: flex;
+    flex-shrink: 0;
+    gap: 4px;
+    margin: 12px 20px 0;
+    padding: 4px;
+    border-radius: 8px;
+    background: #ededf6;
+    button {
+        flex: 1;
+        padding: 8px 4px;
+        border: 0;
+        border-radius: 6px;
+        background: transparent;
+        color: #434653;
+        font: 500 12px 'Inter', sans-serif;
+        cursor: pointer;
+        &.activo {
+            background: #fff;
+            color: #191b22;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
+        }
+    }
+}
+.o_nodus_mov_lista {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    gap: 4px;
+    min-height: 0;
+    overflow-y: auto;
+    padding: 12px 20px 20px;
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0, black 24px, black calc(100% - 56px), transparent calc(100% - 16px));
+    mask-image: linear-gradient(to bottom, transparent 0, black 24px, black calc(100% - 56px), transparent calc(100% - 16px));
+    scrollbar-width: thin;
+    scrollbar-color: #0047ab transparent;
+    &::-webkit-scrollbar { width: 6px; }
+    &::-webkit-scrollbar-track { background: transparent; }
+    &::-webkit-scrollbar-thumb { background: #0047ab; border-radius: 10px; }
+}

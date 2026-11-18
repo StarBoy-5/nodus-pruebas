@@ -143,16 +143,17 @@ class NodusTablero(models.AbstractModel):
         }
 
     @api.model
-    def _nodus_actividad(self, a_usd, limite=5):
-        """Últimos movimientos: ventas del POS y facturas de cliente o proveedor."""
+    def _nodus_actividad(self, a_usd, limite=5, desde=None):
+        """Últimos movimientos (desde una fecha, si se pide): ventas del POS y facturas de cliente o proveedor."""
         eventos = []
-        for p in self._nodus_leer("pos.order", [("state", "in", ESTADOS_POS)], ["name", "partner_id", "date_order", "amount_total", "state"],
+        for p in self._nodus_leer("pos.order", [("state", "in", ESTADOS_POS)] + ([("date_order", ">=", desde)] if desde else []), ["name", "partner_id", "date_order", "amount_total", "state"],
                                   order="date_order desc", limit=limite):
             eventos.append({"tipo": "ingreso", "titulo": p["partner_id"][1] if p["partner_id"] else p["name"],
                             "fecha": fields.Datetime.to_string(p["date_order"]) if not isinstance(p["date_order"], str) else p["date_order"],
                             "monto": round(a_usd(p["amount_total"]), 2), "estado": _("Cobrado"),
                             "modelo": "pos.order", "id": p["id"]})
-        for m in self._nodus_leer("account.move", [("state", "=", "posted"), ("move_type", "in", ("out_invoice", "in_invoice"))],
+        for m in self._nodus_leer("account.move", [("state", "=", "posted"), ("move_type", "in", ("out_invoice", "in_invoice"))] + ([("create_date", ">=", desde)] if desde else [])
+                                  + ([("pos_order_ids", "=", False)] if "pos_order_ids" in self.env["account.move"]._fields else []),  # una venta del POS facturada ya cuenta como cobro
                                   ["name", "partner_id", "create_date", "amount_total_signed", "move_type", "payment_state"],
                                   order="create_date desc", limit=limite):
             ingreso = m["move_type"] == "out_invoice"
@@ -164,3 +165,13 @@ class NodusTablero(models.AbstractModel):
                             "modelo": "account.move", "id": m["id"]})
         eventos.sort(key=lambda e: e["fecha"], reverse=True)
         return eventos[:limite]
+
+    @api.model
+    def actividad_completa(self, periodo="dia"):
+        """Todos los movimientos del día, la semana o el mes (ventana «Ver todas las transacciones»)."""
+        hoy = fields.Date.context_today(self)
+        dias = {"dia": 0, "semana": 6, "mes": 29}.get(periodo, 0)
+        desde = fields.Datetime.to_string(datetime.combine(hoy - timedelta(days=dias), time.min))
+        tasa, _ayer = self._nodus_tasa_bcv()
+        a_usd = (lambda monto: monto / tasa) if tasa else (lambda monto: monto)
+        return self._nodus_actividad(a_usd, limite=200, desde=desde)

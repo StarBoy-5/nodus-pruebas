@@ -112,6 +112,44 @@
                     </div>
                     <button type="button" class="o_nodus_ver_todas" t-on-click="verTodas">Ver Todas las Transacciones</button>
                 </section>
+
+                <div t-if="todas.abierta" class="o_nodus_mov_velo" t-ref="veloTodas" t-on-click="(ev) => ev.target === ev.currentTarget and this.cerrarTodas()">
+                    <div class="o_nodus_mov_caja" t-ref="cajaTodas" role="dialog" aria-modal="true" aria-label="Actividad reciente">
+                        <header class="o_nodus_mov_cab">
+                            <h3>Actividad reciente</h3>
+                            <button type="button" class="o_nodus_mov_x" aria-label="Cerrar" t-on-click="cerrarTodas">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                            </button>
+                        </header>
+                        <div class="o_nodus_mov_filtros">
+                            <t t-foreach="filtros" t-as="f" t-key="f.clave">
+                                <button type="button" t-att-class="todas.periodo === f.clave ? 'activo' : ''" t-on-click="() => this.filtrarTodas(f.clave)" t-esc="f.nombre"/>
+                            </t>
+                        </div>
+                        <div class="o_nodus_mov_lista">
+                            <t t-foreach="todas.lista" t-as="e" t-key="e.modelo + e.id">
+                                <button type="button" class="o_nodus_act_fila" t-on-click="() => this.abrirDesdeTodas(e)">
+                                    <span t-att-class="'o_nodus_act_icono o_nodus_act_' + e.tipo">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                            <t t-if="e.tipo === 'ingreso'"><path d="M12 5v14"/><path d="M19 12l-7 7-7-7"/></t>
+                                            <t t-else=""><path d="M12 19V5"/><path d="M5 12l7-7 7 7"/></t>
+                                        </svg>
+                                    </span>
+                                    <span class="o_nodus_act_txt">
+                                        <span class="o_nodus_act_nom" t-esc="e.titulo"/>
+                                        <span class="o_nodus_act_fecha" t-esc="fecha(e.fecha)"/>
+                                    </span>
+                                    <span class="o_nodus_act_monto">
+                                        <span t-att-class="'o_nodus_act_val o_nodus_act_val_' + e.tipo"><t t-esc="e.tipo === 'ingreso' ? '+' : '-'"/><t t-esc="dinero(e.monto)"/></span>
+                                        <span class="o_nodus_act_estado" t-esc="e.estado"/>
+                                    </span>
+                                </button>
+                            </t>
+                            <p class="o_nodus_act_vacio" t-if="!todas.lista.length and !todas.cargando">No hay movimientos en este periodo.</p>
+                            <p class="o_nodus_act_vacio" t-if="todas.cargando">Cargando…</p>
+                        </div>
+                    </div>
+                </div>
             </div>
             <p class="o_nodus_nota" t-if="d and !d.con_tasa">Sin tasa BCV del día: los montos se muestran en <t t-esc="d.moneda_empresa"/>.</p>
         </div>
