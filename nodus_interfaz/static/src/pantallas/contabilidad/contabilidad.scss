@@ -1,0 +1,1124 @@
+// Contabilidad (estilos de Nodus). Todo va dentro de .nd-contabilidad para no tocar el resto de Odoo.
+.nd-contabilidad {
+
+
+
+
+.nodus-modal-fondo { position: fixed !important; inset: 0 !important; z-index: 100000 !important; display: flex !important; align-items: center !important; justify-content: center !important; padding: 16px !important; background: rgba(25,27,34,.4) !important; backdrop-filter: blur(6px) !important; -webkit-backdrop-filter: blur(6px) !important; }
+.nodus-modal { width: 100% !important; max-width: 460px !important; max-height: 92vh !important; overflow-y: auto !important; background: #fff !important; border-radius: 20px !important; padding: 24px !important; box-shadow: 0 24px 60px rgba(0,0,0,.2) !important; font-family: 'Inter', sans-serif !important; text-align: left !important; box-sizing: border-box !important; }
+.nodus-modal h3 { margin: 0 0 4px !important; font: 600 18px 'Poppins', sans-serif !important; color: #191b22 !important; }
+.nodus-modal-sub { margin: 0 0 14px !important; font: 500 13px 'Inter', sans-serif !important; color: #6b7280 !important; }
+.nodus-modal label { display: block !important; margin: 12px 0 4px !important; font: 600 12px 'Inter', sans-serif !important; color: #424654 !important; text-align: left !important; }
+.nodus-modal input[type=text], .nodus-modal input[type=number], .nodus-modal input[type=date], .nodus-modal select { width: 100% !important; box-sizing: border-box !important; height: 40px !important; padding: 0 12px !important; border: 1px solid #d9d9e2 !important; border-radius: 10px !important; background: #f3f3fc !important; font: 500 14px 'Inter', sans-serif !important; color: #191b22 !important; }
+.nodus-modal input:focus, .nodus-modal select:focus { outline: none !important; border-color: #0047AB !important; box-shadow: 0 0 0 3px rgba(0,71,171,.12) !important; }
+.nodus-modal .nodus-check { display: flex !important; align-items: center !important; gap: 8px !important; margin-top: 14px !important; font: 600 13px 'Inter', sans-serif !important; color: #191b22 !important; }
+.nodus-modal .nodus-check input { width: 16px !important; height: 16px !important; margin: 0 !important; }
+.nodus-error-form { min-height: 18px !important; margin: 10px 0 0 !important; color: #dc2626 !important; font: 500 13px 'Inter', sans-serif !important; }
+.nodus-modal-pie { display: flex !important; justify-content: flex-end !important; gap: 10px !important; margin-top: 12px !important; }
+.nodus-btn-pri, .nodus-btn-sec { height: 40px !important; padding: 0 18px !important; border-radius: 10px !important; font: 600 14px 'Inter', sans-serif !important; cursor: pointer !important; border: 1px solid transparent !important; }
+.nodus-btn-pri { background: #0047AB !important; color: #fff !important; }
+.nodus-btn-pri:hover { background: #003a8c !important; }
+.nodus-btn-pri:disabled { opacity: .5 !important; cursor: not-allowed !important; }
+.nodus-btn-sec { background: #fff !important; color: #424654 !important; border-color: #d9d9e2 !important; }
+.nodus-btn-sec:hover { background: #f3f3fc !important; }
+.ct-btn-accion-fila { height: 28px !important; padding: 0 12px !important; border-radius: 8px !important; border: 1px solid #0047AB !important; background: #fff !important; color: #0047AB !important; font: 600 12px 'Inter', sans-serif !important; cursor: pointer !important; }
+.ct-btn-accion-fila:hover { background: #0047AB !important; color: #fff !important; }
+.ct-barra-acciones { display: flex !important; gap: 10px !important; flex-wrap: wrap !important; margin-bottom: 12px !important; }
+/* Con muchos asientos la lista scrollea: las tarjetas no deben aplastarse */
+.ct-asiento { flex-shrink: 0 !important; }
+/* Día / Mes / Año siempre a la derecha */
+#conta-filtro-fecha { margin-left: auto !important; }
+.conta-fila-superior-derecha { flex-wrap: wrap !important; row-gap: 8px !important; }
+@media (max-width: 600px) {
+  .conta-fila-superior-derecha { justify-content: space-between !important; }
+  .conta-fila-superior-derecha #conta-filtro-fecha { margin-left: auto !important; }
+  /* Encabezado de cada asiento: número, fecha y estado ya no se pisan */
+  .ct-asiento-header { flex-wrap: wrap !important; gap: 6px 10px !important; align-items: flex-start !important; }
+  .ct-asiento-izq { flex-wrap: wrap !important; flex: 1 1 0 !important; min-width: 0 !important; gap: 2px 8px !important; }
+  .ct-asiento-num { white-space: normal !important; word-break: break-all !important; }
+  .ct-asiento-izq .ct-subtexto { white-space: normal !important; flex-basis: 100% !important; }
+  .ct-asiento-concepto { flex-basis: 100% !important; white-space: normal !important; text-align: left !important; }
+  .ct-asiento-header > .ct-badge { flex: 0 0 auto !important; }
+}
+/* Teléfono: el formulario del asiento se acomoda en filas en vez de columnas cortadas */
+@media (max-width: 600px) {
+  .ct-form-grid-header { grid-template-columns: 1fr !important; }
+  .ct-form-lineas-header { display: none !important; }
+  .ct-form-linea { display: grid !important; grid-template-columns: 1fr 1fr 40px !important; gap: 6px !important; padding: 10px 0 !important; border-bottom: 1px solid #ececf3 !important; }
+  .ct-form-linea > .ct-cuenta-buscar-wrapper, .ct-form-linea > .ct-linea-glosa { grid-column: 1 / -1 !important; }
+  .ct-form-linea > * { min-width: 0 !important; }
+  .ct-form-acciones { flex-wrap: wrap !important; }
+  .ct-form-acciones > button { flex: 1 1 auto !important; }
+}
+.nodus-contabilidad-error { margin: 0 0 10px !important; color: #dc2626 !important; font: 500 13px 'Inter', sans-serif !important; }
+/* Nodus: relleno de abajo igual al de los lados; el panel no reserva 400 px vacíos al final */
+.conta-panel { min-height: 0 !important; }
+.ct-paginacion { padding-bottom: 0 !important; }
+
+
+
+
+
+
+  
+
+  /* ==========================================
+     1. ESCRITORIO (PC) - Diseño Flotante Original
+     ========================================== */
+  .botones-wrapper {
+    position: relative;
+    width: 100%;
+    height: 35px;
+    display: flex;
+    align-items: center;
+  }
+
+  #conta-botones-superiores-app {
+    position: absolute;
+    right: 0; 
+    top: 0;
+    display: flex;
+    gap: 8px;
+    flex-wrap: nowrap;
+    font-family: 'Poppins', sans-serif;
+    width: max-content !important; 
+    z-index: 999; 
+  }
+
+  .conta-btn-superior {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border-radius: 9999px;
+    border: 1px solid rgba(0, 71, 171, 0.25) !important;
+    background: #ffffff !important;
+    color: #0047ab !important;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: color 0.15s cubic-bezier(.22,1,.36,1), background-color 0.15s cubic-bezier(.22,1,.36,1), border-color 0.15s cubic-bezier(.22,1,.36,1);
+    white-space: nowrap;
+    outline: none !important;
+    flex-shrink: 0; 
+  }
+  
+  .conta-btn-superior svg { flex-shrink: 0; }
+
+  .conta-btn-superior:hover:not(.activo),
+  .conta-btn-superior:focus:not(.activo) {
+    background: rgba(0, 71, 171, 0.06) !important;
+    color: #0047ab !important;
+    border-color: rgba(0, 71, 171, 0.25) !important;
+  }
+
+  .conta-btn-superior.activo {
+    background: #0047ab !important;
+    color: #ffffff !important;
+    border-color: #0047ab !important;
+  }
+
+  /* ==========================================
+     2. TABLET (Apilados uno debajo de otro)
+     ========================================== */
+  @media (max-width: 1024px) {
+    .botones-wrapper {
+      height: auto; /* Permite que el contenedor crezca a lo alto */
+    }
+    #conta-botones-superiores-app {
+      position: relative; /* Deja de flotar para no tapar el contenido de abajo */
+      flex-direction: column; /* Los apila en vertical */
+      align-items: flex-end; /* Los mantiene pegados a la derecha */
+      width: 100% !important;
+    }
+  }
+
+  /* ==========================================
+     3. TELÉFONO MÓVIL (Largo arriba, cortos abajo)
+     ========================================== */
+  @media (max-width: 767px) {
+    #conta-botones-superiores-app {
+      flex-direction: row; /* Vuelven a alinearse en fila */
+      flex-wrap: wrap; /* Se les permite saltar de línea */
+      justify-content: space-between; /* Distribuye el espacio */
+    }
+
+    .conta-btn-superior {
+      justify-content: center; /* Centra el texto y el ícono dentro de cada botón */
+    }
+
+    /* El botón más largo va de primero y ocupa toda la línea */
+    .conta-btn-superior[data-vista="balance-comprobacion"] {
+      order: 1; /* Lo forzamos a ser el primero */
+      width: 100%; 
+    }
+
+    /* Los dos botones cortos van de segundo y tercero compartiendo mitad y mitad */
+    .conta-btn-superior[data-vista="asientos-contables"] {
+      order: 2;
+      width: calc(50% - 4px); /* 50% menos la mitad del gap (8px) */
+    }
+
+    .conta-btn-superior[data-vista="libro-diario"] {
+      order: 3;
+      width: calc(50% - 4px); /* 50% menos la mitad del gap (8px) */
+    }
+  }
+
+
+
+
+
+
+  
+
+  #conta-filtros-app {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    font-family: 'Poppins', sans-serif;
+    width: 100%;
+  }
+  #conta-filtros-app * { box-sizing: border-box; }
+
+  /* ===================================================
+     FILA 1 — Buscador + Exportar
+     =================================================== */
+  .conta-fila-superior {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .conta-buscador-wrapper {
+    display: flex !important;
+    align-items: center !important;
+    max-width: 320px;
+    width: 100%;
+    flex: 1 1 240px;
+    height: 40px;
+    background-color: rgba(217, 217, 226, 0.4) !important;
+    border-radius: 9999px !important;
+    padding: 0 16px !important;
+    box-sizing: border-box !important;
+    gap: 10px;
+  }
+  .conta-buscador-wrapper:focus-within {
+    box-shadow: 0 0 0 2px rgba(0, 71, 171, 0.5);
+  }
+  .conta-buscador-icono {
+    flex: 0 0 auto !important;
+    color: #9ca3af;
+    pointer-events: none;
+    width: 15px !important;
+    height: 15px !important;
+    margin: 0 !important;
+    display: block !important;
+  }
+  .conta-buscador-input {
+    flex: 1 1 auto;
+    width: 100%;
+    height: 100%;
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    font-size: 13px;
+    outline: none;
+    color: #1a1a24;
+    font-family: 'Poppins', sans-serif;
+    box-sizing: border-box !important;
+    appearance: none !important;
+    -webkit-appearance: none !important;
+  }
+
+  .conta-fila-superior-derecha {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 0 0 auto;
+    flex-wrap: wrap;
+  }
+
+  .conta-btn-exportar {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    border-radius: 8px;
+    border: 1px solid rgba(195, 198, 213, 0.6) !important;
+    background: #ffffff !important;
+    color: #5c5c6b !important;
+    font-family: 'Poppins', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: color 0.15s cubic-bezier(.22,1,.36,1), background-color 0.15s cubic-bezier(.22,1,.36,1), border-color 0.15s cubic-bezier(.22,1,.36,1);
+    flex: 0 0 auto;
+    outline: none !important;
+  }
+  .conta-btn-exportar:hover,
+  .conta-btn-exportar:focus,
+  .conta-btn-exportar:focus-visible {
+    background: rgba(0, 71, 171, 0.06) !important;
+    color: #0047ab !important;
+    border-color: rgba(0, 71, 171, 0.25) !important;
+  }
+  .conta-btn-exportar:hover svg,
+  .conta-btn-exportar:focus svg {
+    color: #0047ab !important;
+    stroke: #0047ab !important;
+  }
+
+  /* ===================================================
+     FILA 2 — Pestañas + Día/Mes/Año
+     =================================================== */
+  .conta-fila-inferior {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    width: 100%;
+  }
+
+  .conta-tabs-wrapper {
+    display: flex;
+    align-items: center;
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .conta-tabs {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+  .conta-tabs::-webkit-scrollbar { display: none; }
+
+  .conta-tabs-flecha { display: none; }
+
+  /* Solo cuando de verdad se corta algún botón (calculado por JS,
+     sin importar el tamaño de pantalla): degradado + flechas,
+     mismo patrón que las categorías del POS */
+  .conta-tabs-wrapper.tiene-desborde .conta-tabs {
+    padding-left: 28px;
+    padding-right: 28px;
+    scroll-behavior: smooth;
+  }
+  .conta-tabs-wrapper.tiene-desborde .conta-tabs-flecha {
+    flex: 0 0 auto;
+    align-self: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+    background: none !important;
+    border: none !important;
+    border-radius: 50%;
+    padding: 0;
+    cursor: pointer;
+    color: #9ca3af;
+    outline: none !important;
+    -webkit-tap-highlight-color: transparent;
+    transition: width 0.2s ease, height 0.2s ease, color 0.15s ease, background-color 0.15s ease;
+  }
+  .conta-tabs-wrapper.tiene-desborde .conta-tabs-flecha.visible { width: 24px; height: 24px; }
+  .conta-tabs-wrapper.tiene-desborde .conta-tabs-flecha:hover { color: #ffffff !important; background-color: #0047ab !important; }
+  .conta-tabs-wrapper.tiene-desborde .conta-tabs-flecha:focus:not(:hover) { background-color: transparent !important; color: #9ca3af !important; }
+  .conta-tabs-flecha svg { flex-shrink: 0; }
+
+  .conta-tab-btn {
+    padding: 10px 20px;
+    border-radius: 9999px;
+    border: none;
+    background: rgba(217, 217, 226, 0.4) !important;
+    color: #1a1a24 !important;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: color 0.2s cubic-bezier(.22,1,.36,1), background-color 0.2s cubic-bezier(.22,1,.36,1), border-color 0.2s cubic-bezier(.22,1,.36,1);
+    flex: 0 0 auto;
+    outline: none !important;
+  }
+  .conta-tab-btn:hover:not(.activo),
+  .conta-tab-btn:focus:not(.activo),
+  .conta-tab-btn:focus-visible:not(.activo) {
+    background: rgba(217, 217, 226, 0.6) !important;
+    color: #0047ab !important;
+  }
+  .conta-tab-btn.activo,
+  .conta-tab-btn.activo:hover,
+  .conta-tab-btn.activo:focus {
+    background: #0047ab !important;
+    color: #ffffff !important;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+  }
+
+  .conta-filtro-fecha {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    background: #ffffff;
+    border-radius: 10px;
+    padding: 4px;
+    flex: 0 0 auto;
+  }
+  .conta-filtro-fecha button {
+    min-width: 46px;
+    text-align: center;
+    padding: 7px 14px;
+    border-radius: 8px;
+    border: none;
+    background: transparent;
+    color: #5c5c6b;
+    font-family: 'Poppins', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.15s ease, color 0.15s ease;
+    white-space: nowrap;
+    box-sizing: border-box;
+  }
+  .conta-filtro-fecha button.activo {
+    background: #f3f3fc;
+    color: #0047ab;
+    font-weight: 600;
+  }
+
+  /* ===================================================
+     CALENDARIO FLOTANTE — se abre justo debajo del
+     grupo Día/Mes/Año al hacer clic en cualquiera de
+     los tres; se cierra al clickear afuera o al elegir
+     =================================================== */
+  .conta-fecha-popover {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    z-index: 50;
+    background: #ffffff;
+    border: 1px solid rgba(217, 217, 226, 0.6);
+    border-radius: 16px;
+    box-shadow: 0 12px 32px rgba(0,0,0,0.12);
+    padding: 14px !important;
+    width: 280px !important;
+    max-width: 280px !important;
+    box-sizing: border-box !important;
+    font-family: 'Poppins', sans-serif;
+    transform-origin: top right;
+    transform: scale(0.92);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.15s ease;
+  }
+  .conta-fecha-popover * { box-sizing: border-box !important; }
+  .conta-fecha-popover.abierto {
+    transform: scale(1);
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .conta-fecha-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+  }
+  .conta-fecha-nav-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #1a1a24;
+    text-transform: capitalize;
+  }
+  .conta-fecha-nav-btn {
+    width: 26px; height: 26px;
+    display: flex; align-items: center; justify-content: center;
+    border: none; background: #f3f3fc; border-radius: 8px;
+    color: #5c5c6b; cursor: pointer;
+  }
+  .conta-fecha-nav-btn:hover { background: #e5e5f0; color: #0047ab; }
+
+  /* Cuadrícula de días */
+  .conta-cal-diassemana {
+    display: grid !important; grid-template-columns: repeat(7, 1fr) !important;
+    width: 100% !important;
+    margin-bottom: 4px;
+  }
+  .conta-cal-diassemana span {
+    text-align: center; font-size: 12px; font-weight: 600;
+    color: #9ca3af; text-transform: none;
+  }
+  .conta-cal-dias {
+    display: grid !important; grid-template-columns: repeat(7, 1fr) !important;
+    width: 100% !important;
+    gap: 2px;
+  }
+  .conta-cal-dia {
+    width: 100% !important;
+    min-width: 0 !important;
+    aspect-ratio: 1; display: flex; align-items: center; justify-content: center;
+    border: none; background: transparent; border-radius: 8px;
+    font-size: 12px; font-weight: 500; color: #1a1a24; cursor: pointer;
+  }
+  .conta-cal-dia:hover:not(.vacio) { background: #f3f3fc; }
+  .conta-cal-dia.otro-mes { color: #d1d5db; }
+  .conta-cal-dia.hoy { color: #0047ab; font-weight: 600; }
+  .conta-cal-dia.seleccionado { background: #0047ab !important; color: #ffffff !important; font-weight: 600; }
+  .conta-cal-dia.vacio { cursor: default; }
+
+  /* Cuadrícula de meses */
+  .conta-cal-meses {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px;
+  }
+  .conta-cal-mes-btn {
+    padding: 12px 4px; border: none; background: #f9fafb; border-radius: 10px;
+    font-family: 'Poppins', sans-serif; font-size: 12px; font-weight: 600; color: #1a1a24;
+    cursor: pointer; text-transform: capitalize;
+  }
+  .conta-cal-mes-btn:hover { background: #f3f3fc; }
+  .conta-cal-mes-btn.seleccionado { background: #0047ab; color: #ffffff; }
+
+  /* Cuadrícula de años */
+  .conta-cal-anios {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px;
+  }
+  .conta-cal-anio-btn {
+    padding: 14px 4px; border: none; background: #f9fafb; border-radius: 10px;
+    font-family: 'Poppins', sans-serif; font-size: 13px; font-weight: 600; color: #1a1a24;
+    cursor: pointer;
+  }
+  .conta-cal-anio-btn:hover { background: #f3f3fc; }
+  .conta-cal-anio-btn.seleccionado { background: #0047ab; color: #ffffff; }
+
+  @media (max-width: 640px) {
+    .conta-fila-superior { flex-direction: column; align-items: stretch; }
+    .conta-buscador-wrapper { max-width: 100%; flex: 1 1 auto; height: 40px; }
+    .conta-fila-superior-derecha { justify-content: space-between; }
+  }
+
+
+
+
+
+
+  
+
+  #conta-kpis-contenedor {
+    display: flex !important;
+    align-items: stretch !important;
+    background: #f3f3fc !important;
+    border-radius: 16px !important;
+    border: 1px solid rgba(217, 217, 226, 0.4) !important;
+    overflow: hidden !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    gap: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .conta-kpi-item {
+    flex: 1 1 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    gap: 4px !important;
+    padding: 18px 20px !important;
+    margin: 0 !important;
+    border: none !important;
+    border-right: 1px solid rgba(217, 217, 226, 0.6) !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    min-width: 0 !important;
+  }
+  .conta-kpi-item:last-child {
+    border-right: none !important;
+  }
+
+  .conta-kpi-label {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    letter-spacing: 0 !important;
+    text-transform: none !important;
+    color: #8d909e !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    margin: 0 !important;
+  }
+
+  .conta-kpi-valor {
+    font-family: 'Poppins', sans-serif !important;
+    font-size: 20px !important;
+    font-weight: 600 !important;
+    color: #1a1a24 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    margin: 0 !important;
+  }
+
+  .conta-kpi-item.destacado .conta-kpi-label,
+  .conta-kpi-item.destacado .conta-kpi-valor { color: #0047ab !important; }
+  .conta-kpi-item.color-exito .conta-kpi-label,
+  .conta-kpi-item.color-exito .conta-kpi-valor { color: #16a34a !important; }
+  .conta-kpi-item.color-alerta .conta-kpi-label,
+  .conta-kpi-item.color-alerta .conta-kpi-valor { color: #ea580c !important; }
+  .conta-kpi-item.color-error .conta-kpi-label,
+  .conta-kpi-item.color-error .conta-kpi-valor { color: #ba1a1a !important; }
+
+  @media (max-width: 767px) {
+    #conta-kpis-contenedor { flex-wrap: wrap !important; }
+    .conta-kpi-item {
+      flex: 1 1 50% !important;
+      border-right: 1px solid rgba(217, 217, 226, 0.6) !important;
+      border-bottom: 1px solid rgba(217, 217, 226, 0.6) !important;
+    }
+  }
+
+
+
+
+
+
+  
+
+  #contabilidad-vistas-app { font-family: 'Poppins', sans-serif; height: 100%; box-sizing: border-box; }
+  #contabilidad-vistas-app * { box-sizing: border-box; }
+
+  .conta-panel {
+    background: transparent !important;
+    padding: 0;
+    min-height: 400px;
+  }
+
+  /* ===================================================
+     CARRIL PROPIO DE SCROLL VERTICAL — solo en el panel
+     expandido. Azul, integrado como parte del panel (no
+     flotando encima como la barra nativa).
+     ===================================================== */
+  .conta-panel-scroll-track {
+    display: none;
+    position: absolute;
+    top: 40px; bottom: 20px; right: 10px;
+    width: 5px;
+    background: rgba(0, 71, 171, 0.08);
+    border-radius: 9999px;
+    z-index: 3;
+  }
+  .conta-panel.expandiendo .conta-panel-scroll-track.necesario { display: block; }
+  .conta-panel-scroll-thumb {
+    position: absolute;
+    top: 0; left: 0;
+    width: 5px;
+    min-height: 40px;
+    background: #0047ab;
+    border-radius: 9999px;
+    cursor: grab;
+  }
+  .conta-panel-scroll-thumb:active { cursor: grabbing; background: #003a8c; }
+
+  .conta-vista { display: none; flex-direction: column; gap: 20px; }
+  .conta-vista.activa { display: flex; }
+
+  .conta-placeholder {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; padding: 64px 24px; color: #8d909e; gap: 8px;
+  }
+  .conta-placeholder svg { margin-bottom: 8px; opacity: 0.5; }
+  .conta-placeholder h3 { font-family: 'Poppins', sans-serif; font-size: 16px; font-weight: 600; color: #5c5c6b; margin: 0; }
+  .conta-placeholder p { font-family: 'Inter', sans-serif; font-size: 13px; margin: 0; max-width: 320px; }
+
+  /* ===================================================
+     TABLA REUTILIZABLE (Libro Mayor, CxC, CxP, Balance
+     de Comprobación, Libro Diario)
+     Dos capas separadas a propósito:
+     - .ct-tabla-frame  → SOLO el marco (borde + esquinas
+       redondas + overflow:hidden). Nunca scrollea, nunca
+       cambia de tamaño. Esto es "el cuadro".
+     - .ct-tabla-scroll → SOLO el scroll (max-height +
+       overflow-y:auto). Sin borde ni radio propios, así
+       nunca compite visualmente con el marco.
+     ===================================================== */
+  .ct-tabla-frame {
+    border: 1px solid rgba(217, 217, 226, 0.5) !important;
+    border-radius: 16px !important;
+    overflow: hidden !important;
+    background: #ffffff !important;
+  }
+  .ct-tabla-scroll {
+    max-height: 440px;
+    overflow-y: auto;
+    overflow-x: auto;
+  }
+  .ct-tabla-scroll::-webkit-scrollbar { width: 6px; height: 6px; }
+  .ct-tabla-scroll::-webkit-scrollbar-track { background: transparent; }
+  .ct-tabla-scroll::-webkit-scrollbar-thumb { background: #c3c6d5; border-radius: 10px; }
+  .ct-tabla-scroll { scrollbar-width: auto;  }
+
+  /* ===================================================
+     SCROLL HORIZONTAL PERSONALIZADO — reemplaza la barra
+     nativa del navegador en tablet/móvil por una propia,
+     con el estilo del sistema. Va DEBAJO de cada cuadro.
+     Solo aparece si la tabla realmente necesita scroll
+     horizontal (se calcula por JS).
+     ===================================================== */
+  @media (max-width: 1024px) {
+    .ct-tabla-scroll {
+      scrollbar-width: none !important;
+    }
+    .ct-tabla-scroll::-webkit-scrollbar {
+      display: none !important;
+    }
+  }
+
+  .ct-scroll-personalizado {
+    display: none;
+    align-items: center !important;
+    gap: 8px !important;
+    margin-top: 8px !important;
+    padding: 0 2px !important;
+    width: 100% !important;
+  }
+  @media (max-width: 1024px) {
+    .ct-scroll-personalizado.necesario { display: flex !important; }
+  }
+  .ct-scroll-track {
+    position: relative !important;
+    flex: 1 1 auto !important;
+    height: 6px !important;
+    background: #e5e5f0 !important;
+    border-radius: 9999px !important;
+    cursor: pointer !important;
+    margin: 0 !important;
+  }
+  .ct-scroll-thumb {
+    position: absolute !important;
+    top: 0; left: 0;
+    height: 6px !important;
+    min-width: 32px !important;
+    background: #0047ab !important;
+    border-radius: 9999px !important;
+    cursor: grab !important;
+    transition: background-color 0.15s ease;
+    margin: 0 !important;
+  }
+  .ct-scroll-thumb:active { cursor: grabbing; background: #003a8c; }
+
+  @keyframes ct-scroll-sugerencia {
+    0%, 100% { transform: translateX(0); }
+    35% { transform: translateX(18px); }
+    65% { transform: translateX(-6px); }
+    85% { transform: translateX(4px); }
+  }
+  .ct-scroll-thumb.sugerencia {
+    animation: ct-scroll-sugerencia 1.1s ease-in-out 0.3s 1;
+  }
+  .ct-scroll-flecha {
+    flex: 0 0 auto !important;
+    width: 22px !important; height: 22px !important;
+    min-width: 22px !important; min-height: 22px !important;
+    display: flex !important; align-items: center !important; justify-content: center !important;
+    background: #f3f3fc !important; border-radius: 9999px !important; border: none !important;
+    color: #5c5c6b !important; cursor: pointer !important;
+    padding: 0 !important; margin: 0 !important;
+    outline: none !important;
+  }
+  .ct-scroll-flecha:hover,
+  .ct-scroll-flecha:focus { background: #e5e5f0 !important; color: #0047ab !important; }
+  .ct-scroll-flecha:focus:not(:hover) { background: #f3f3fc !important; color: #5c5c6b !important; }
+  .ct-scroll-flecha svg { flex-shrink: 0 !important; pointer-events: none; }
+
+  .ct-tabla { width: 100% !important; border-collapse: collapse !important; margin: 0 !important; }
+
+  .ct-tabla th {
+    text-align: left !important;
+    font-family: 'Inter', sans-serif !important;
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    letter-spacing: 0 !important;
+    text-transform: none !important;
+    color: #8d909e !important;
+    padding: 10px 12px !important;
+    box-shadow: inset 0 -1px 0 rgba(217, 217, 226, 0.6), inset -1px 0 0 rgba(217, 217, 226, 0.4) !important;
+    border: none !important;
+    white-space: nowrap !important;
+    background: #f9fafb !important;
+  }
+  .ct-tabla th:last-child {
+    box-shadow: inset 0 -1px 0 rgba(217, 217, 226, 0.6) !important;
+  }
+  .ct-tabla th.der, .ct-tabla td.der { text-align: right !important; }
+  .ct-tabla th.centro, .ct-tabla td.centro { text-align: center !important; }
+
+  .ct-tabla td {
+    padding: 12px !important;
+    font-family: 'Inter', sans-serif !important;
+    font-size: 13px !important;
+    color: #434653 !important;
+    box-shadow: inset 0 -1px 0 rgba(217, 217, 226, 0.35), inset -1px 0 0 rgba(217, 217, 226, 0.3) !important;
+    border: none !important;
+    white-space: nowrap !important;
+    background: #ffffff !important;
+  }
+  .ct-tabla td:last-child {
+    box-shadow: inset 0 -1px 0 rgba(217, 217, 226, 0.35) !important;
+  }
+  .ct-tabla tbody tr:hover td { background: rgba(243, 243, 252, 0.5) !important; }
+  .ct-tabla tbody tr:last-child td {
+    box-shadow: inset -1px 0 0 rgba(217, 217, 226, 0.3) !important;
+  }
+  .ct-tabla tbody tr:last-child td:last-child {
+    box-shadow: none !important;
+  }
+  .ct-tabla tfoot td {
+    padding: 14px 12px !important;
+    background: #f9fafb !important;
+    box-shadow: inset 0 1px 0 rgba(217, 217, 226, 0.8), inset -1px 0 0 rgba(217, 217, 226, 0.5) !important;
+    border: none !important;
+    font-family: 'Poppins', sans-serif !important;
+    font-weight: 600 !important;
+    font-size: 13px !important;
+  }
+  .ct-tabla tfoot td:last-child {
+    box-shadow: inset 0 1px 0 rgba(217, 217, 226, 0.8) !important;
+  }
+
+  .ct-nombre-principal { font-family: 'Poppins', sans-serif !important; font-size: 13px !important; font-weight: 600 !important; color: #1a1a24 !important; }
+  .ct-subtexto { font-size: 12px !important; color: #9ca3af !important; }
+  .ct-codigo { background: #e5e7eb !important; color: #4b5563 !important; font-family: 'Inter', monospace !important; font-size: 12px !important; font-weight: 600 !important; padding: 2px 6px !important; border-radius: 5px !important; }
+  .ct-fila-cuenta { display: inline-flex !important; align-items: center !important; gap: 6px !important; }
+
+  .ct-debito, .ct-verde { color: #16a34a !important; font-weight: 600 !important; }
+  .ct-credito, .ct-rojo { color: #ba1a1a !important; font-weight: 600 !important; }
+  .ct-guion { color: #d1d5db !important; }
+  .ct-saldo-linea { font-weight: 600 !important; color: #1a1a24 !important; }
+  .ct-azul { color: #0047ab !important; }
+  .ct-naranja { color: #ea580c !important; font-weight: 600 !important; }
+
+  /* Badge de estado (CxC/CxP) */
+  .ct-badge {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 4px 10px; border-radius: 9999px;
+    font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 600;
+  }
+  .ct-badge::before { content: ''; width: 6px; height: 6px; border-radius: 50%; }
+  .ct-badge.verde { background: rgba(22, 163, 74, 0.1); color: #16a34a; }
+  .ct-badge.verde::before { background: #16a34a; }
+  .ct-badge.amarillo { background: rgba(234, 179, 8, 0.12); color: #b45309; }
+  .ct-badge.amarillo::before { background: #eab308; }
+  .ct-badge.rojo { background: rgba(186, 26, 26, 0.1); color: #ba1a1a; }
+  .ct-badge.rojo::before { background: #ba1a1a; }
+  .ct-badge.naranja { background: rgba(234, 88, 12, 0.1); color: #ea580c; }
+  .ct-badge.naranja::before { background: #ea580c; }
+  .ct-badge.azul { background: rgba(0, 71, 171, 0.1); color: #0047ab; }
+  .ct-badge.azul::before { background: #0047ab; }
+
+  /* ===================================================
+     BARRA DE ANTIGÜEDAD (CxC/CxP) — punto 1 del informe
+     ===================================================== */
+  .ct-antig-barra {
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+    gap: 12px; margin-bottom: 4px;
+  }
+  .ct-antig-botones { display: flex; flex-wrap: wrap; gap: 6px; }
+  .ct-antig-btn {
+    padding: 6px 12px !important; border-radius: 9999px !important; border: none !important;
+    background: rgba(217,217,226,0.4) !important; color: #1a1a24 !important;
+    font-family: 'Poppins', sans-serif; font-size: 12px; font-weight: 500; cursor: pointer;
+    outline: none !important; transition: background-color 0.15s ease, color 0.15s ease;
+  }
+  .ct-antig-btn:hover:not(.activo) { background: rgba(217,217,226,0.6) !important; }
+  .ct-antig-btn.activo { background: #0047ab !important; color: #ffffff !important; }
+
+  /* Paginación reutilizable */
+  .ct-paginacion {
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+    gap: 12px; padding: 4px; font-family: 'Inter', sans-serif; font-size: 12px; color: #8d909e;
+  }
+  .ct-paginacion strong { color: #5c5c6b; font-weight: 600; }
+  .ct-paginacion-botones { display: flex; align-items: center; gap: 6px; }
+  .ct-pag-btn {
+    padding: 6px 14px;
+    border-radius: 8px;
+    border: 1px solid rgba(217, 217, 226, 0.6) !important;
+    background: #ffffff !important;
+    color: #5c5c6b !important;
+    font-family: 'Poppins', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    outline: none !important;
+    transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+  }
+  .ct-pag-btn:hover:not(:disabled),
+  .ct-pag-btn:focus:not(:disabled) {
+    background: rgba(0, 71, 171, 0.06) !important;
+    color: #0047ab !important;
+    border-color: rgba(0, 71, 171, 0.25) !important;
+  }
+  .ct-pag-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+  .ct-pag-num {
+    width: 30px; height: 30px; border-radius: 8px; border: none;
+    background: #0047ab !important; color: #ffffff !important;
+    font-family: 'Poppins', sans-serif; font-size: 12px; font-weight: 600;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  /* Scroll para listas que no son tabla (Asientos, árbol de Balance General) */
+  .ct-lista-scroll {
+    max-height: 440px;
+    overflow-y: auto;
+  }
+  .ct-lista-scroll::-webkit-scrollbar { width: 6px; }
+  .ct-lista-scroll::-webkit-scrollbar-track { background: transparent; }
+  .ct-lista-scroll::-webkit-scrollbar-thumb { background: #c3c6d5; border-radius: 10px; }
+  .ct-lista-scroll { scrollbar-width: auto;  }
+
+  /* Subtítulo de sección dentro de una vista */
+  .ct-seccion-titulo { font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 600; color: #1a1a24; margin: 0 0 4px 0; }
+
+  /* ===================================================
+     BALANCE GENERAL — árbol jerárquico
+     ===================================================== */
+  .ct-arbol { display: flex; flex-direction: column; gap: 2px; }
+  .ct-nodo-header {
+    display: flex; align-items: center; justify-content: space-between; gap: 10px;
+    padding: 10px 12px; border-radius: 10px; cursor: pointer; user-select: none;
+  }
+  .ct-nodo-header:hover { background: #f9fafb; }
+  .ct-nodo-izq { display: flex; align-items: center; gap: 8px; min-width: 0; }
+  .ct-chevron { color: #9ca3af; flex-shrink: 0; transition: transform 0.2s ease; }
+  .ct-nodo.abierto > .ct-nodo-header .ct-chevron { transform: rotate(90deg); }
+  .ct-nodo-body { display: none; padding-left: 22px; }
+  .ct-nodo.abierto > .ct-nodo-body { display: block; }
+
+  .ct-nivel-1 > .ct-nodo-header .ct-nombre-principal { font-size: 15px !important; font-weight: 600 !important; color: #1a1a24 !important; }
+  .ct-nivel-2 > .ct-nodo-header .ct-nombre-principal { font-size: 13px !important; font-weight: 600 !important; color: #1a1a24 !important; }
+  .ct-nivel-3 .ct-nombre-principal { font-size: 13px !important; font-weight: 500 !important; color: #1a1a24 !important; }
+  .ct-nivel-3 { display: flex; align-items: center; justify-content: space-between; padding: 8px 12px 8px 30px; color: #1a1a24 !important; font-weight: 600 !important; font-size: 13px !important; font-family: 'Inter', sans-serif !important; }
+
+  .ct-total-general {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 16px; border-radius: 12px; background: #f3f3fc; margin-top: 8px;
+  }
+
+  /* ===================================================
+     ESTADO DE GANANCIAS Y PÉRDIDAS — cascada
+     ===================================================== */
+  .ct-cascada { display: flex; flex-direction: column; gap: 0; }
+  .ct-cascada-fila {
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    padding: 12px 4px; border-bottom: 1px solid rgba(217, 217, 226, 0.35);
+  }
+  .ct-cascada-fila.subtotal { background: #f9fafb; margin: 4px 0; border-radius: 10px; padding: 12px 12px; border-bottom: none; }
+  .ct-cascada-fila.total-final { background: #0047ab; border-radius: 12px; padding: 16px; margin-top: 8px; border-bottom: none; }
+  .ct-cascada-fila.total-final .ct-cascada-label,
+  .ct-cascada-fila.total-final .ct-cascada-valor { color: #ffffff !important; }
+  .ct-cascada-label { font-family: 'Inter', sans-serif; font-size: 13px; color: #434653; }
+  .ct-cascada-fila.subtotal .ct-cascada-label { font-family: 'Poppins', sans-serif; font-weight: 600; color: #1a1a24; }
+  .ct-cascada-valor { font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 600; color: #1a1a24; display: flex; align-items: center; gap: 8px; }
+  .ct-cascada-pct { font-family: 'Inter', sans-serif; font-size: 12px; color: #9ca3af; font-weight: 500; }
+  .ct-cascada-fila.total-final .ct-cascada-pct { color: rgba(255,255,255,0.75); }
+
+  /* ===================================================
+     ASIENTOS CONTABLES — lista expandible
+     ===================================================== */
+  .ct-asiento {
+    border: 1px solid rgba(217, 217, 226, 0.5); border-radius: 12px; overflow: hidden;
+  }
+  .ct-asiento-header {
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    padding: 14px 16px; background: #f9fafb; cursor: pointer;
+  }
+  .ct-asiento-izq { display: flex; align-items: center; gap: 12px; min-width: 0; }
+  .ct-asiento-num { font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 13px; color: #0047ab; flex-shrink: 0; }
+  .ct-asiento-concepto { font-family: 'Inter', sans-serif; font-size: 13px; color: #434653; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .ct-asiento-body { display: none; }
+  .ct-asiento.abierto .ct-asiento-body { display: block; }
+  .ct-btn-nuevo-asiento {
+    align-self: flex-start; display: flex; align-items: center; gap: 6px;
+    padding: 10px 18px; border-radius: 9999px !important; border: none !important;
+    background: #0047ab !important; color: #ffffff !important;
+    font-family: 'Poppins', sans-serif; font-size: 13px; font-weight: 600; cursor: pointer;
+    outline: none !important;
+  }
+  .ct-btn-nuevo-asiento:hover,
+  .ct-btn-nuevo-asiento:focus {
+    background: #003a8c !important; color: #ffffff !important;
+  }
+
+  /* ===================================================
+     FORMULARIO — Nuevo Asiento
+     ===================================================== */
+  .ct-form-grupo { display: flex; flex-direction: column; gap: 6px; }
+  .ct-form-label { font-family: 'Poppins', sans-serif; font-size: 12px; font-weight: 600; color: #5c5c6b; }
+  .ct-form-input,
+  .ct-form-select {
+    height: 40px; border-radius: 10px !important; border: none !important;
+    background: rgba(217, 217, 226, 0.4) !important; color: #1a1a24 !important;
+    font-family: 'Poppins', sans-serif; font-size: 13px; padding: 0 14px !important;
+    outline: none !important; width: 100%; box-sizing: border-box;
+    transition: box-shadow 0.15s ease, background-color 0.15s ease;
+  }
+  .ct-form-input::placeholder { color: #9ca3af; }
+  .ct-form-input:focus,
+  .ct-form-select:focus {
+    background: #ffffff !important;
+    box-shadow: 0 0 0 2px rgba(0,71,171,0.5) !important;
+  }
+  .ct-form-grid-header {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 14px;
+  }
+  .ct-form-lineas-header {
+    display: grid; grid-template-columns: 2fr 2fr 1fr 1fr 32px; gap: 10px;
+    font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 600; text-transform: none;
+    letter-spacing: 0; color: #8d909e; padding: 0 4px;
+  }
+  .ct-form-linea {
+    display: grid; grid-template-columns: 2fr 2fr 1fr 1fr 32px; gap: 10px; align-items: center;
+  }
+  .ct-cuenta-buscar-wrapper { position: relative; min-width: 0; }
+  .ct-linea-cuenta-buscar { width: 100%; }
+  .ct-cuenta-sugerencias {
+    display: none; position: absolute; top: calc(100% + 4px); left: 0; right: 0; z-index: 40;
+    background: #ffffff; border: 1px solid rgba(217,217,226,0.6); border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.12); max-height: 220px; overflow-y: auto;
+    padding: 6px; font-family: 'Poppins', sans-serif;
+  }
+  .ct-cuenta-sugerencias { scrollbar-width: auto;  }
+  .ct-cuenta-sugerencias::-webkit-scrollbar { width: 6px; height: 6px; }
+  .ct-cuenta-sugerencias::-webkit-scrollbar-track { background: transparent; }
+  .ct-cuenta-sugerencias::-webkit-scrollbar-thumb { background: #0047ab; border-radius: 10px; }
+  .ct-cuenta-sugerencias.abierto { display: block; }
+  .ct-cuenta-opcion {
+    display: flex; align-items: center; gap: 8px; padding: 8px 10px; border-radius: 8px;
+    cursor: pointer; font-size: 13px;
+  }
+  .ct-cuenta-opcion:hover, .ct-cuenta-opcion.resaltada { background: #f3f3fc; }
+  .ct-cuenta-opcion-vacio { padding: 10px; font-size: 12px; color: #9ca3af; text-align: center; }
+  .ct-form-quitar-linea {
+    width: 28px !important; height: 28px !important; min-width: 28px !important; min-height: 28px !important;
+    border-radius: 8px !important; border: none !important;
+    background: rgba(186,26,26,0.08) !important; color: #ba1a1a !important;
+    display: flex !important; align-items: center !important; justify-content: center !important;
+    cursor: pointer; padding: 0 !important; margin: 0 !important;
+    outline: none !important;
+  }
+  .ct-form-quitar-linea:hover { background: rgba(186,26,26,0.15) !important; }
+  .ct-form-quitar-linea svg { width: 14px !important; height: 14px !important; flex-shrink: 0 !important; pointer-events: none; display: block !important; }
+  .ct-btn-agregar-linea {
+    align-self: flex-start; display: flex; align-items: center; gap: 6px;
+    padding: 8px 14px; border-radius: 9999px; border: 1px dashed rgba(0,71,171,0.35) !important;
+    background: transparent !important; color: #0047ab !important;
+    font-family: 'Poppins', sans-serif; font-size: 12px; font-weight: 600; cursor: pointer;
+    outline: none !important;
+  }
+  .ct-btn-agregar-linea:hover { background: rgba(0,71,171,0.06) !important; }
+  .ct-form-balance {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 16px; border-radius: 12px;
+    background: rgba(0, 71, 171, 0.06); color: #0047ab;
+    font-family: 'Poppins', sans-serif; font-size: 13px; font-weight: 600;
+  }
+  .ct-form-balance.cuadrado { background: rgba(22,163,74,0.08); color: #16a34a; }
+  .ct-form-balance.descuadrado { background: rgba(186,26,26,0.08); color: #ba1a1a; }
+  .ct-form-acciones {
+    display: flex; gap: 10px; justify-content: flex-end; flex-wrap: wrap;
+  }
+  .ct-btn-secundario {
+    padding: 10px 18px; border-radius: 9999px; border: 1px solid rgba(195,198,213,0.7) !important;
+    background: #ffffff !important; color: #5c5c6b !important;
+    font-family: 'Poppins', sans-serif; font-size: 13px; font-weight: 600; cursor: pointer;
+    outline: none !important;
+  }
+  .ct-btn-secundario:hover { background: #f9fafb !important; }
+  .ct-btn-primario {
+    padding: 10px 18px; border-radius: 9999px; border: none !important;
+    background: #0047ab !important; color: #ffffff !important;
+    font-family: 'Poppins', sans-serif; font-size: 13px; font-weight: 600; cursor: pointer;
+    outline: none !important;
+  }
+  .ct-btn-primario:hover:not(:disabled) { background: #003a8c !important; }
+  .ct-btn-primario:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  /* ===================================================
+     SELECTOR DE FECHA ESTILO CALENDARIO (solo día) —
+     mismo aspecto visual que el calendario de los filtros,
+     pero sin el toggle Día/Mes/Año: aquí solo hace falta
+     elegir un día puntual para el asiento.
+     ===================================================== */
+  .ct-form-fecha-wrapper { position: relative; }
+  .ct-form-fecha-trigger {
+    height: 40px; width: 100%; box-sizing: border-box;
+    display: flex; align-items: center; gap: 8px;
+    border-radius: 10px !important; border: none !important;
+    background: rgba(217, 217, 226, 0.4) !important; color: #1a1a24 !important;
+    font-family: 'Poppins', sans-serif; font-size: 13px; font-weight: 500;
+    padding: 0 14px !important; cursor: pointer; outline: none !important;
+    transition: box-shadow 0.15s ease, background-color 0.15s ease;
+  }
+  .ct-form-fecha-trigger.vacio { color: #9ca3af !important; }
+  .ct-form-fecha-trigger:hover,
+  .ct-form-fecha-trigger.abierto { background: #ffffff !important; box-shadow: 0 0 0 2px rgba(0,71,171,0.5) !important; }
+  .ct-form-fecha-trigger svg { flex-shrink: 0; color: #8d909e; }
+
+  .ct-form-fecha-popover {
+    position: absolute; top: calc(100% + 8px); left: 0; z-index: 60;
+    background: #ffffff; border: 1px solid rgba(217, 217, 226, 0.6);
+    border-radius: 16px; box-shadow: 0 12px 32px rgba(0,0,0,0.12);
+    padding: 14px; width: 280px; font-family: 'Poppins', sans-serif;
+    transform-origin: top left; transform: scale(0.92); opacity: 0;
+    pointer-events: none; transition: transform 0.18s cubic-bezier(0.34,1.56,0.64,1), opacity 0.15s ease;
+  }
+  .ct-form-fecha-popover.abierto { transform: scale(1); opacity: 1; pointer-events: auto; }
+
+  .ct-form-cal-nav { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+  .ct-form-cal-nav-label { font-size: 13px; font-weight: 600; color: #1a1a24; text-transform: capitalize; }
+  .ct-form-cal-nav-btn {
+    width: 26px; height: 26px; display: flex; align-items: center; justify-content: center;
+    border: none !important; background: #f3f3fc !important; border-radius: 8px !important;
+    color: #5c5c6b !important; cursor: pointer; outline: none !important;
+  }
+  .ct-form-cal-nav-btn:hover { background: #e5e5f0 !important; color: #0047ab !important; }
+
+  .ct-form-cal-diassemana { display: grid; grid-template-columns: repeat(7, 1fr); margin-bottom: 4px; }
+  .ct-form-cal-diassemana span { text-align: center; font-size: 12px; font-weight: 600; color: #9ca3af; text-transform: none; }
+  .ct-form-cal-dias { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; }
+  .ct-form-cal-dia {
+    aspect-ratio: 1; display: flex; align-items: center; justify-content: center;
+    border: none !important; background: transparent !important; border-radius: 8px !important;
+    font-size: 12px; font-weight: 500; color: #1a1a24 !important; cursor: pointer; outline: none !important;
+  }
+  .ct-form-cal-dia:hover:not(.vacio) { background: #f3f3fc !important; }
+  .ct-form-cal-dia.otro-mes { color: #d1d5db !important; }
+  .ct-form-cal-dia.hoy { color: #0047ab !important; font-weight: 600; }
+  .ct-form-cal-dia.seleccionado { background: #0047ab !important; color: #ffffff !important; font-weight: 600; }
+  .ct-form-cal-dia.vacio { cursor: default; }
+
+
+}
+
+/* Encabezado: título a la izquierda y los libros a la derecha, en la misma fila */
+.nd-contabilidad .nd-pant-cuerpo { padding-top: 42px; }
+.nd-contabilidad .nd-conta-cab { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+.nd-contabilidad .nd-conta-cab .nd-pant-cab { padding: 0; }
+.nd-contabilidad .nd-pant-app { margin-top: 24px; }
+@media (max-width: 767.98px) { .nd-contabilidad .nd-pant-cuerpo { padding-top: 36px; } }
+
+.nd-contabilidad .nd-conta-cab .nd-pant-cab { flex: 1 1 auto; min-width: 0; }
+.nd-contabilidad .nd-conta-cab .botones-wrapper { flex: 0 0 auto; width: auto !important; margin: 0 !important; }
+@media (max-width: 1024px) { .nd-contabilidad .nd-conta-cab .botones-wrapper { flex-basis: 100%; } }

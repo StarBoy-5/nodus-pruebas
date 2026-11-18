@@ -61,8 +61,7 @@
 
     <record id="action_ui_contabilidad" model="ir.actions.client">
         <field name="name">Contabilidad</field>
-        <field name="tag">nodus_pagina_ui</field>
-        <field name="params" eval="{'pagina': 'contabilidad'}"/>
+        <field name="tag">nodus_contabilidad</field>
         <field name="path">contabilidad</field>
     </record>
     <menuitem id="menu_ui_contabilidad" name="Contabilidad" parent="account.menu_finance"

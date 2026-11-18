@@ -18,6 +18,8 @@ export function montar(raiz) {
     const envolver = (real) => new Proxy(real, {
         get(obj, prop) {
             if (prop === "addEventListener") return (t, f, o) => registrar(obj, t, f, o);
+            // Las ventanas que la pantalla agrega "al body" quedan dentro de ella: con sus estilos y se van al salir
+            if (prop === "body" && obj === realDoc) return raiz;
             if (prop === "setInterval") return setInterval;
             if (prop === "setTimeout") return setTimeout;
             const v = Reflect.get(obj, prop);
