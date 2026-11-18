@@ -1766,8 +1766,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
       }
 
-      facturaIdActual = (data && data.factura && data.factura.id) || null;
-      if (facturaIdActual) abrirVisorFactura(data.factura.numero);
       irAVista(vista4);
   }
 
@@ -1780,33 +1778,6 @@ document.addEventListener("DOMContentLoaded", function () {
   // ==========================================
   // 10. VISTA 4: ACCIONES DEL TICKET
   // ==========================================
-  // La factura es la de Odoo con el formato Nodus (reporte HTML del módulo): se ve en un visor y se imprime desde ahí.
-  let facturaIdActual = null;
-  function abrirVisorFactura(numero, imprimir) {
-    cerrarVisorFactura();
-    const visor = document.createElement('div');
-    visor.id = 'nd-factura-visor';
-    visor.innerHTML =
-      '<div class="nd-factura-caja" role="dialog" aria-modal="true" aria-label="Factura">' +
-      '<header><h3>Factura ' + (numero || '') + '</h3><div>' +
-      '<button type="button" id="nd-factura-imprimir" class="nd-factura-btn">Imprimir</button>' +
-      '<button type="button" id="nd-factura-cerrar" class="nd-factura-x" aria-label="Cerrar">\u2715</button></div></header>' +
-      '<p class="nd-factura-cargando">Cargando factura…</p>' +
-      '<iframe title="Factura" src="/report/html/account.report_invoice_with_payments/' + facturaIdActual + '"></iframe></div>';
-    document.body.appendChild(visor);
-    const marco = visor.querySelector('iframe');
-    marco.addEventListener('load', () => marco.classList.add('cargado'), { once: true });
-    const imprimirMarco = () => { marco.contentWindow.focus(); marco.contentWindow.print(); };
-    visor.querySelector('#nd-factura-imprimir').addEventListener('click', imprimirMarco);
-    visor.querySelector('#nd-factura-cerrar').addEventListener('click', cerrarVisorFactura);
-    visor.addEventListener('click', (e) => { if (e.target === visor) cerrarVisorFactura(); });
-    if (imprimir) marco.addEventListener('load', imprimirMarco, { once: true });
-  }
-  function cerrarVisorFactura() {
-    const v = document.getElementById('nd-factura-visor');
-    if (v) v.remove();
-  }
-
   const btnImprimir = document.getElementById("btn-imprimir-factura");
   if (btnImprimir) {
     btnImprimir.addEventListener("click", function (e) {
@@ -1816,7 +1787,6 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function prepararEImprimirTicket() {
-    if (facturaIdActual) { abrirVisorFactura(document.getElementById('factura-nro')?.innerText, true); return; }
     const ticket = document.getElementById('ticket-imprimible');
     if (!ticket) {
       setTimeout(() => window.print(), 150);
@@ -1850,8 +1820,6 @@ document.addEventListener("DOMContentLoaded", function () {
   if (btnNuevaVenta) {
     btnNuevaVenta.addEventListener("click", function (e) {
       e.preventDefault();
-      cerrarVisorFactura();
-      facturaIdActual = null;
       const inputNombre = document.getElementById("pos-cliente-nombre");
       const inputRnc = document.getElementById("pos-cliente-rnc");
       if (inputNombre) inputNombre.value = "";

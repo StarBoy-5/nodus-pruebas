@@ -663,3 +663,6 @@
 /* Pulido: aire entre el encabezado del panel y su contenido */
 .nd-configuracion .config-vista-titulo { margin-top: 8px !important; }
 .nd-configuracion .config-vista-desc { margin-top: 4px !important; margin-bottom: 24px !important; }
+
+/* Pulido: aire entre el rótulo de cada sección del formulario y su primer campo */
+.nd-configuracion .config-form-seccion-titulo { margin: 24px 0 12px !important; }
